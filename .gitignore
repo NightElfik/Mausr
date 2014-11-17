@@ -1,0 +1,20 @@
+
+# .NET rubbish
+*.suo
+*.vsmdi
+
+bin/
+obj/
+
+/src/Mausr.Web/App_Data/*.mdf
+/src/Mausr.Web/App_Data/*.ldf
+/src/Mausr.Web/App_Data/*.zip
+/src/Mausr.Web/App_Data/*.7z
+
+/Publish
+
+/src/TestResults
+
+# Windows rubbish 
+Thumbs.db
+ehthumbs.db
