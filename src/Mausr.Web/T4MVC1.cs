@@ -27,7 +27,9 @@ public static partial class MVC
 {
     public static Mausr.Web.Controllers.AccountController Account = new Mausr.Web.Controllers.T4MVC_AccountController();
     public static Mausr.Web.Controllers.HomeController Home = new Mausr.Web.Controllers.T4MVC_HomeController();
+    public static Mausr.Web.Controllers.LearnController Learn = new Mausr.Web.Controllers.T4MVC_LearnController();
     public static Mausr.Web.Controllers.ManageController Manage = new Mausr.Web.Controllers.T4MVC_ManageController();
+    public static Mausr.Web.Controllers.SymbolsController Symbols = new Mausr.Web.Controllers.T4MVC_SymbolsController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
 
@@ -81,6 +83,8 @@ namespace Links
         public static readonly string jquery_validate_min_js = Url("jquery.validate.min.js");
         public static readonly string jquery_validate_unobtrusive_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery.validate.unobtrusive.min.js") ? Url("jquery.validate.unobtrusive.min.js") : Url("jquery.validate.unobtrusive.js");
         public static readonly string jquery_validate_unobtrusive_min_js = Url("jquery.validate.unobtrusive.min.js");
+        public static readonly string Mausr_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.min.js") ? Url("Mausr.min.js") : Url("Mausr.js");
+        public static readonly string Mausr_painter_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.painter.min.js") ? Url("Mausr.painter.min.js") : Url("Mausr.painter.js");
         public static readonly string npm_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/npm.min.js") ? Url("npm.min.js") : Url("npm.js");
         public static readonly string respond_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.min.js") ? Url("respond.min.js") : Url("respond.js");
         public static readonly string respond_matchmedia_addListener_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.matchmedia.addListener.min.js") ? Url("respond.matchmedia.addListener.min.js") : Url("respond.matchmedia.addListener.js");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Mausr.Web.DataContexts;
 using Mausr.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -30,7 +31,7 @@ namespace Mausr.Web {
 		}
 
 		public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) {
-			var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+			var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<IdentityDb>()));
 			// Configure validation logic for usernames
 			manager.UserValidator = new UserValidator<ApplicationUser>(manager) {
 				AllowOnlyAlphanumericUserNames = false,

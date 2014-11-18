@@ -1,0 +1,34 @@
+﻿@model LearnViewModel
+
+@{
+	ViewBag.Title = "Learn";
+	
+}
+
+<h2>Learn</h2>
+
+<select id="symbol">
+	@foreach (var symbol in Model.Symbols) {
+		<option value="@symbol.SymbolId">@symbol.SymbolStr (@symbol.Name)</option>
+	}
+</select>
+
+
+<input id="clearCanvasBtn" type="button" value="Clear" />
+<input id="replayBtn" type="button" value="Replay" />
+<input id="saveBtn" type="button" value="Save" />
+<br />
+
+
+<canvas id="mainCanvas" width="400" height="400" style="border: 2px solid #000;"></canvas>
+
+<canvas id="replayCanvas" width="400" height="400" style="border: 2px solid #00F;"></canvas>
+
+@section scripts {
+	<script src="~/Scripts/Mausr.js"></script>
+	<script src="~/Scripts/Mausr.painter.js"></script>
+
+	<script>
+		new MausrPainter('mainCanvas');
+	</script>
+}
