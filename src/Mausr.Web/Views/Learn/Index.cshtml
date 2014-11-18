@@ -2,27 +2,42 @@
 
 @{
 	ViewBag.Title = "Learn";
-	
+
 }
 
 <h2>Learn</h2>
 
-<select id="symbol">
-	@foreach (var symbol in Model.Symbols) {
-		<option value="@symbol.SymbolId">@symbol.SymbolStr (@symbol.Name)</option>
-	}
-</select>
+<div class="row">
+	<div class="col-md-12">
+		<select id="symbolSelect">
+			@foreach (var symbol in Model.Symbols) {
+				<option value="@symbol.SymbolId">@symbol.SymbolStr (@symbol.Name)</option>
+			}
+		</select>
+		<input id="saveBtn" type="button" value="Save" />
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<input id="clearCanvasBtn" type="button" value="Clear" />
+		<input id="replayBtn" type="button" value="Replay" />
+		<input id="refreshBtn" type="button" value="Refresh" />
+	</div>
+</div>
 
-
-<input id="clearCanvasBtn" type="button" value="Clear" />
-<input id="replayBtn" type="button" value="Replay" />
-<input id="saveBtn" type="button" value="Save" />
-<br />
-
-
-<canvas id="mainCanvas" width="400" height="400" style="border: 2px solid #000;"></canvas>
-
-<canvas id="replayCanvas" width="400" height="400" style="border: 2px solid #00F;"></canvas>
+<div class="row">
+	<div class="col-md-6">
+		<canvas id="mainCanvas" width="256" height="256" style="border: 2px solid #000;"></canvas>		
+	</div>
+	<div class="col-md-6">
+		<img id="imageResponse" />
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<canvas id="replayCanvas" width="300" height="300" style="border: 2px solid #00F;"></canvas>
+	</div>
+</div>
 
 @section scripts {
 	<script src="~/Scripts/Mausr.js"></script>
@@ -30,5 +45,7 @@
 
 	<script>
 		new MausrPainter('mainCanvas');
+
+		$('#refreshBtn').click(function () { window.location.reload(true); });
 	</script>
 }

@@ -1,5 +1,7 @@
 ﻿"use strict";
 
+$('#refreshBtn').val("Refresh (v2)")
+
 function MausrPainter() {
 	var self = this;
 
@@ -19,19 +21,41 @@ function MausrPainter() {
 	this.allLines = [];
 
 	this.$mainCanvas.mousedown(function (e) {
-		self.paintStart(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+		var coords = self.getMousePos(this, e);
+		self.paintStart(coords.x, coords.y);
 	});
 
 	this.$mainCanvas.mousemove(function (e) {
-		self.paintContinue(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+		var coords = self.getMousePos(this, e);
+		self.paintContinue(coords.x, coords.y);
 	});
 
 	this.$mainCanvas.mouseup(function (e) {
-		self.paintEnd(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+		var coords = self.getMousePos(this, e);
+		self.paintEnd(coords.x, coords.y);
 	});
 
 	this.$mainCanvas.mouseleave(function (e) {
-		self.paintEnd(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+		var coords = self.getMousePos(this, e);
+		self.paintEnd(coords.x, coords.y);
+	});
+
+	this.$mainCanvas.bind('touchstart', function (e) {
+		e.preventDefault();
+		console.log(e);
+		var coords = self.getTouchPos(this, e.originalEvent);
+		self.paintStart(coords.x, coords.y);
+	});
+
+	this.$mainCanvas.bind('touchmove', function (e) {
+		e.preventDefault();
+		var coords = self.getTouchPos(this, e.originalEvent);
+		self.paintContinue(coords.x, coords.y);
+	});
+
+	this.$mainCanvas.bind('touchend', function (e) {
+		e.preventDefault();
+		self.paintEnd();
 	});
 
 	this.$clearBtn.click(function () {
@@ -46,10 +70,29 @@ function MausrPainter() {
 	});
 
 	this.$saveBtn.click(function () {
-		self.save(self.allLines);
+		var symbolId = $('#symbolSelect').val();
+		self.save(symbolId, self.allLines, function (imgIdStr) {
+			$('#imageResponse').attr('src', '/SymbolDrawings/256/8/' + imgIdStr + '.png');
+		});
 	});
 
 
+};
+
+MausrPainter.prototype.getMousePos = function (canvas, e) {
+	var rect = canvas.getBoundingClientRect();
+	return {
+		x: e.clientX - rect.left,
+		y: e.clientY - rect.top
+	};
+};
+
+MausrPainter.prototype.getTouchPos = function (canvas, e) {
+	var rect = canvas.getBoundingClientRect();
+	return {
+		x: e.touches[0].clientX - rect.left,
+		y: e.touches[0].clientY - rect.top
+	};
 };
 
 MausrPainter.MIN_SAMPLE_DIST_SQ = 4 * 4;
@@ -76,8 +119,8 @@ MausrPainter.prototype.startLine = function (x, y) {
 
 MausrPainter.prototype.addPtToCurrLine = function (x, y) {
 	this.currentLine.push({
-		x: x,
-		y: y,
+		x: x / this.context.canvas.width,
+		y: y / this.context.canvas.height,
 		t: this.now() - this.currentRefTime
 	});
 };
@@ -124,13 +167,17 @@ MausrPainter.prototype.paintEnd = function (x, y) {
 
 	this.drawing = false;
 
-	this.addPtToCurrLine(x, y);
+	if (x && y) {
+		this.addPtToCurrLine(x, y);
+	}
 	this.redraw();
 };
 
 MausrPainter.prototype.redraw = function () {
 	// Clears the canvas
-	this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+	var width = this.context.canvas.width;
+	var height = this.context.canvas.height;
+	this.context.clearRect(0, 0, width, height);
 
 	if (this.allLines.length > 0) {
 		this.context.beginPath();
@@ -139,11 +186,11 @@ MausrPainter.prototype.redraw = function () {
 			var line = this.allLines[l];
 			assert(line.length > 0);
 
-			this.context.moveTo(line[0].x, line[0].y);
+			this.context.moveTo(line[0].x * width, line[0].y * height);
 
 			for (var i = 1; i < line.length; i += 1) {
 				var pt = line[i];
-				this.context.lineTo(pt.x, pt.y);
+				this.context.lineTo(pt.x * width, pt.y * height);
 			}
 		}
 
@@ -155,7 +202,9 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 	var context = canvas.getContext("2d");
 	this.initContext(context);
 
-	context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+	var width = context.canvas.width;
+	var height = context.canvas.height;
+	context.clearRect(0, 0, width, height);
 
 	var lineIndex = 0;
 	var coordIndex = 0;
@@ -170,13 +219,14 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 	};
 
 	var drawCurrState = function () {
+		context.clearRect(0, 0, width, height);
 		context.beginPath();
 
 		for (var l = 0; l <= lineIndex; l++) {
 			var line = lines[l];
 			assert(line.length > 0);
 
-			context.moveTo(line[0].x, line[0].y);
+			context.moveTo(line[0].x * width, line[0].y * height);
 
 			for (var i = 1; i < line.length; i += 1) {
 				if (l == lineIndex && i > coordIndex) {
@@ -184,7 +234,7 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 				}
 
 				var pt = line[i];
-				context.lineTo(pt.x, pt.y);
+				context.lineTo(pt.x * width, pt.y * height);
 			}
 		}
 
@@ -208,7 +258,13 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 	step();
 };
 
-MausrPainter.prototype.save = function (lines) {
+MausrPainter.prototype.save = function (symbolId, lines, callback) {
 	var json = JSON.stringify(lines);
-	console.log(json);
+
+	$.ajax({
+		type: "POST",
+		url: "/SymbolDrawings/Save",
+		data: { symbolId: symbolId, jsonData: JSON.stringify(lines) }
+	})
+	.done(callback);
 };

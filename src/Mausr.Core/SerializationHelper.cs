@@ -24,17 +24,23 @@ namespace Mausr.Core {
 
 		public static void SerializeArray<T>(T[] array, byte[] data, ref int index) {
 			Contract.Requires(index + array.Length * Marshal.SizeOf<T>() < data.Length);
-						
+
 			int bytesCount = Marshal.SizeOf<T>() * array.Length;
-			Buffer.BlockCopy(array, 0, data, index, bytesCount);
+			var pinnedHandle = GCHandle.Alloc(array, GCHandleType.Pinned);
+			Marshal.Copy(pinnedHandle.AddrOfPinnedObject(), data, index, bytesCount);
+			pinnedHandle.Free();
+
 			index += bytesCount;
 		}
 
 		public static void DeserializeArray<T>(T[] array, byte[] data, ref int index) {
 			Contract.Requires(index + array.Length * Marshal.SizeOf<T>() < data.Length);
-			
+
 			int bytesCount = Marshal.SizeOf<T>() * array.Length;
-			Buffer.BlockCopy(data, index, array, 0, bytesCount);
+			var pinnedHandle = GCHandle.Alloc(array, GCHandleType.Pinned);
+			Marshal.Copy(data, index, pinnedHandle.AddrOfPinnedObject(), bytesCount);
+			pinnedHandle.Free();
+
 			index += bytesCount;
 		}
 

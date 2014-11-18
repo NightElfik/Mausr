@@ -11,7 +11,7 @@ namespace Mausr.Web.Models {
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int SymbolDrawingId { get; set; }
-		
+			
 		public DateTime CreatedDateTime { get; set; }
 
 		[Required]

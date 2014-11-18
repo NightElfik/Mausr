@@ -31,15 +31,13 @@ namespace Mausr.Core {
 
 			SerializationHelper.SerializeInt(Lines.Length, data, ref dataIndex);
 
-			using (var ms = new MemoryStream()) {
-				for (int l = 0; l < Lines.Length; ++l) {
-					var line = Lines[l];
-					SerializationHelper.SerializeInt(line.Length, data, ref dataIndex);
-					SerializationHelper.SerializeArray(line, data, ref dataIndex);
-				}
-
-				return ms.GetBuffer();
+			for (int l = 0; l < Lines.Length; ++l) {
+				var line = Lines[l];
+				SerializationHelper.SerializeInt(line.Length, data, ref dataIndex);
+				SerializationHelper.SerializeArray(line, data, ref dataIndex);
 			}
+
+			return data;
 		}
 
 		public static RawDrawing Deserialize(byte[] data) {

@@ -29,6 +29,7 @@ public static partial class MVC
     public static Mausr.Web.Controllers.HomeController Home = new Mausr.Web.Controllers.T4MVC_HomeController();
     public static Mausr.Web.Controllers.LearnController Learn = new Mausr.Web.Controllers.T4MVC_LearnController();
     public static Mausr.Web.Controllers.ManageController Manage = new Mausr.Web.Controllers.T4MVC_ManageController();
+    public static Mausr.Web.Controllers.SymbolDrawingsController SymbolDrawings = new Mausr.Web.Controllers.T4MVC_SymbolDrawingsController();
     public static Mausr.Web.Controllers.SymbolsController Symbols = new Mausr.Web.Controllers.T4MVC_SymbolsController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
