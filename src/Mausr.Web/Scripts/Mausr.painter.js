@@ -1,15 +1,13 @@
 ﻿"use strict";
 
-$('#refreshBtn').val("Refresh (v2)")
-
-function MausrPainter() {
+function MausrPainter(options) {
 	var self = this;
 
-	this.$mainCanvas = $('#mainCanvas');
-	this.$clearBtn = $('#clearCanvasBtn');
-	this.$replayCanvas = $('#replayCanvas');
-	this.$replayBtn = $('#replayBtn');
-	this.$saveBtn = $('#saveBtn');
+	this.$mainCanvas = $('#' + options.canvasId);
+	this.$jsonText = $('#' + options.jsonTextId);
+	this.$clearBtn = $('#' + options.clearBtnId);
+	this.$replayCanvas = $('#' + options.replyCanvasId);
+	this.$replayBtn = $('#' + options.replyBtnId);
 
 	this.context = this.$mainCanvas[0].getContext('2d');
 	this.initContext(this.context);
@@ -19,6 +17,7 @@ function MausrPainter() {
 	this.currentRefTime;
 	this.currentLine = [];
 	this.allLines = [];
+
 
 	this.$mainCanvas.mousedown(function (e) {
 		var coords = self.getMousePos(this, e);
@@ -63,20 +62,15 @@ function MausrPainter() {
 		self.currentLine = [];
 		self.allLines = [];
 		self.redraw();
+		self.exportText();
+		return false;
 	});
 
 	this.$replayBtn.click(function () {
+		self.$replayCanvas.show();
 		self.replay(self.$replayCanvas[0], self.allLines);
+		return false;
 	});
-
-	this.$saveBtn.click(function () {
-		var symbolId = $('#symbolSelect').val();
-		self.save(symbolId, self.allLines, function (imgIdStr) {
-			$('#imageResponse').attr('src', '/SymbolDrawings/256/8/' + imgIdStr + '.png');
-		});
-	});
-
-
 };
 
 MausrPainter.prototype.getMousePos = function (canvas, e) {
@@ -171,6 +165,7 @@ MausrPainter.prototype.paintEnd = function (x, y) {
 		this.addPtToCurrLine(x, y);
 	}
 	this.redraw();
+	this.exportText();
 };
 
 MausrPainter.prototype.redraw = function () {
@@ -198,6 +193,11 @@ MausrPainter.prototype.redraw = function () {
 	}
 };
 
+MausrPainter.prototype.exportText = function () {
+	this.$jsonText.text(JSON.stringify(this.allLines));
+};
+
+
 MausrPainter.prototype.replay = function (canvas, lines) {
 	var context = canvas.getContext("2d");
 	this.initContext(context);
@@ -205,6 +205,10 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 	var width = context.canvas.width;
 	var height = context.canvas.height;
 	context.clearRect(0, 0, width, height);
+
+	if (lines.length == 0) {
+		return;
+	}
 
 	var lineIndex = 0;
 	var coordIndex = 0;
@@ -256,15 +260,4 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 	};
 
 	step();
-};
-
-MausrPainter.prototype.save = function (symbolId, lines, callback) {
-	var json = JSON.stringify(lines);
-
-	$.ajax({
-		type: "POST",
-		url: "/SymbolDrawings/Save",
-		data: { symbolId: symbolId, jsonData: JSON.stringify(lines) }
-	})
-	.done(callback);
 };

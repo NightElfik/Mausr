@@ -10,11 +10,12 @@ namespace Mausr.Web.Models {
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int SymbolId { get; set; }
-		
+
 		[Required]
 		[MaxLength(2)]
+		[Display(Name = "Symbol")]
 		public string SymbolStr { get; set; }
-		
+
 		[Required]
 		public string Name { get; set; }
 

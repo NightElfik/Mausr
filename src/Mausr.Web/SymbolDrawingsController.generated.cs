@@ -56,15 +56,21 @@ namespace Mausr.Web.Controllers
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult Img()
+        public virtual System.Web.Mvc.ActionResult Delete()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Img);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Delete);
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult Save()
+        public virtual System.Web.Mvc.ActionResult DeleteConfirmed()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Save);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult Img()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Img);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -83,19 +89,47 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string Create = "Create";
+            public readonly string Delete = "Delete";
+            public readonly string DeleteConfirmed = "Delete";
             public readonly string Img = "Img";
-            public readonly string Save = "Save";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string Create = "Create";
+            public const string Delete = "Delete";
+            public const string DeleteConfirmed = "Delete";
             public const string Img = "Img";
-            public const string Save = "Save";
         }
 
 
+        static readonly ActionParamsClass_Create s_params_Create = new ActionParamsClass_Create();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Create CreateParams { get { return s_params_Create; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Create
+        {
+            public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Delete DeleteParams { get { return s_params_Delete; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Delete
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_DeleteConfirmed s_params_DeleteConfirmed = new ActionParamsClass_DeleteConfirmed();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_DeleteConfirmed DeleteConfirmedParams { get { return s_params_DeleteConfirmed; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_DeleteConfirmed
+        {
+            public readonly string id = "id";
+        }
         static readonly ActionParamsClass_Img s_params_Img = new ActionParamsClass_Img();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Img ImgParams { get { return s_params_Img; } }
@@ -104,16 +138,7 @@ namespace Mausr.Web.Controllers
         {
             public readonly string id = "id";
             public readonly string imageSize = "imageSize";
-            public readonly string brushSize = "brushSize";
-        }
-        static readonly ActionParamsClass_Save s_params_Save = new ActionParamsClass_Save();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_Save SaveParams { get { return s_params_Save; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_Save
-        {
-            public readonly string symbolId = "symbolId";
-            public readonly string jsonData = "jsonData";
+            public readonly string penSize = "penSize";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -125,7 +150,13 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string Create = "Create";
+                public readonly string Delete = "Delete";
+                public readonly string Index = "Index";
             }
+            public readonly string Create = "~/Views/SymbolDrawings/Create.cshtml";
+            public readonly string Delete = "~/Views/SymbolDrawings/Delete.cshtml";
+            public readonly string Index = "~/Views/SymbolDrawings/Index.cshtml";
         }
     }
 
@@ -146,29 +177,63 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void ImgOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id, int imageSize, int brushSize);
+        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Img(int id, int imageSize, int brushSize)
+        public override System.Web.Mvc.ActionResult Create()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Img);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "imageSize", imageSize);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "brushSize", brushSize);
-            ImgOverride(callInfo, id, imageSize, brushSize);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Create);
+            CreateOverride(callInfo);
             return callInfo;
         }
 
         [NonAction]
-        partial void SaveOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int symbolId, string jsonData);
+        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.CreateSymbolDrawingViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Save(int symbolId, string jsonData)
+        public override System.Web.Mvc.ActionResult Create(Mausr.Web.Models.CreateSymbolDrawingViewModel model)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Save);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "symbolId", symbolId);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "jsonData", jsonData);
-            SaveOverride(callInfo, symbolId, jsonData);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Create);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            CreateOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Delete(int? id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Delete);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DeleteOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteConfirmedOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DeleteConfirmed(int id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DeleteConfirmedOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ImgOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id, int imageSize, int penSize);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Img(int id, int imageSize, int penSize)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Img);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "imageSize", imageSize);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "penSize", penSize);
+            ImgOverride(callInfo, id, imageSize, penSize);
             return callInfo;
         }
 

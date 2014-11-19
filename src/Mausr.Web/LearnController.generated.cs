@@ -70,13 +70,11 @@ namespace Mausr.Web.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass
         {
-            public readonly string Index = "Index";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
-            public const string Index = "Index";
         }
 
 
@@ -90,9 +88,7 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
-                public readonly string Index = "Index";
             }
-            public readonly string Index = "~/Views/Learn/Index.cshtml";
         }
     }
 
@@ -100,17 +96,6 @@ namespace Mausr.Web.Controllers
     public partial class T4MVC_LearnController : Mausr.Web.Controllers.LearnController
     {
         public T4MVC_LearnController() : base(Dummy.Instance) { }
-
-        [NonAction]
-        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult Index()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            IndexOverride(callInfo);
-            return callInfo;
-        }
 
     }
 }

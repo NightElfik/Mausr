@@ -1,0 +1,72 @@
+﻿@model CreateSymbolDrawingViewModel
+
+@{
+	ViewBag.Title = "Create symbol drawing";
+	int imageSize = 256;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@MyHtml.ShowMessages()
+
+@using (Html.BeginForm()) {
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.SymbolId, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				<select class="form-control" id="SymbolId" name="SymbolId">
+					@foreach (var symbol in Model.Symbols) {
+						<option value="@symbol.SymbolId">@symbol.SymbolId @symbol.SymbolStr (@symbol.Name)</option>
+					}
+				</select>
+				@Html.ValidationMessageFor(model => model.SymbolId, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.JsonData, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-3">			
+				<canvas id="canvas" width="@imageSize" height="@imageSize" style="border: 2px solid #888;"></canvas>		
+			</div>
+			<div class="col-md-7">
+				<canvas id="replayCanvas" width="@imageSize" height="@imageSize" style="border: 2px solid #55F; display:none;"></canvas>
+				<textarea id="JsonData" name="JsonData" class="form-control" rows="5"></textarea>
+				@Html.ValidationMessageFor(model => model.JsonData, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-primary" />
+				<button id="replyBtn" class="btn btn-default">Reply</button>
+				<button id="clearBtn" class="btn btn-default">Clear</button>
+			</div>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts {
+	<script src="~/Scripts/Mausr.js"></script>
+	<script src="~/Scripts/Mausr.painter.js"></script>
+
+	<script>
+		$(function () {
+			new MausrPainter({
+				canvasId: 'canvas',
+				jsonTextId: 'JsonData',
+				clearBtnId: 'clearBtn',
+				replyCanvasId: 'replayCanvas',
+				replyBtnId: 'replyBtn'
+			});
+		});
+	</script>
+}

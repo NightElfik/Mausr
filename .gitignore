@@ -10,6 +10,7 @@ obj/
 /src/Mausr.Web/App_Data/*.ldf
 /src/Mausr.Web/App_Data/*.zip
 /src/Mausr.Web/App_Data/*.7z
+/src/Mausr.Web/Cache/*
 
 /Publish
 

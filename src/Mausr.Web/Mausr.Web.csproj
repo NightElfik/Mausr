@@ -193,6 +193,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MyHtml.cs" />
     <Compile Include="HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -310,16 +311,16 @@
       <LastGenOutput>T4MVC1.cs</LastGenOutput>
     </Content>
     <Content Include="T4MVC.tt.hooks.t4" />
-    <Content Include="Views\Learn\Index.cshtml" />
     <Content Include="Views\Symbols\Create.cshtml" />
     <Content Include="Views\Symbols\Delete.cshtml" />
     <Content Include="Views\Symbols\Details.cshtml" />
     <Content Include="Views\Symbols\Edit.cshtml" />
     <Content Include="Views\Symbols\Index.cshtml" />
+    <Content Include="Views\SymbolDrawings\Create.cshtml" />
+    <Content Include="Views\SymbolDrawings\Delete.cshtml" />
+    <Content Include="Views\SymbolDrawings\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\SymbolDrawings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

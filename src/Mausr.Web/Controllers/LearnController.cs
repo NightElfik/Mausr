@@ -19,11 +19,11 @@ namespace Mausr.Web.Controllers {
 		}
 
 
-		public virtual ActionResult Index() {
-			return View(new LearnViewModel() {
-				Symbols = symbolsDb.Symbols.ToList()
-			});
-		}
+		//public virtual ActionResult Index() {
+		//	return View(new LearnViewModel() {
+		//		Symbols = symbolsDb.Symbols.ToList()
+		//	});
+		//}
 
 	}
 }
