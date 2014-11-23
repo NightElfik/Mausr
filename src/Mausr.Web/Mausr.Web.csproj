@@ -65,6 +65,9 @@
     <Reference Include="Glimpse.Mvc5">
       <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.2.3\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -94,6 +97,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -183,6 +187,7 @@
     <Compile Include="Controllers\LearnController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlotController.cs" />
     <Compile Include="Controllers\SymbolDrawingsController.cs" />
     <Compile Include="Controllers\SymbolsController.cs" />
     <Compile Include="DataContexts\IdentityDb.cs" />
@@ -208,8 +213,13 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LearnViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PlotImageModel.cs" />
+    <Compile Include="Models\PlotViewModel.cs" />
     <Compile Include="Models\Symbol.cs" />
     <Compile Include="Models\SymbolDrawing.cs" />
+    <Compile Include="PlotController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharedController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
@@ -319,6 +329,8 @@
     <Content Include="Views\SymbolDrawings\Create.cshtml" />
     <Content Include="Views\SymbolDrawings\Delete.cshtml" />
     <Content Include="Views\SymbolDrawings\Index.cshtml" />
+    <Content Include="Views\Plot\Plot.cshtml" />
+    <Content Include="Views\Plot\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,0 +1,8 @@
+﻿@model PlotViewModel
+@{
+	ViewBag.Title = Model.Name;
+}
+
+<h1>@ViewBag.Title</h1>
+
+<img src="@Url.Action(Model.ViewAction.AddRouteValues(Model.ImageModel))" />
