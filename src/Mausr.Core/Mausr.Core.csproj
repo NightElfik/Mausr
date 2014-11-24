@@ -133,6 +133,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MathNetExtensions.cs" />
+    <Compile Include="NeuralNet\Net.cs" />
+    <Compile Include="NeuralNet\NetEvaluator.cs" />
+    <Compile Include="NeuralNet\INeuronActivationFunc.cs" />
+    <Compile Include="NeuralNet\SigomidActivationFunc.cs" />
     <Compile Include="Optimization\SteepestDescentAdvancedOptmizer.cs" />
     <Compile Include="Optimization\SteepestDescentBasicOptmizer.cs" />
     <Compile Include="Optimization\IFunctionWithDerivative.cs" />

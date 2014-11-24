@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mausr.Web", "Mausr.Web\Maus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mausr.Core", "Mausr.Core\Mausr.Core.csproj", "{D1FA2E1E-C60E-4C03-9743-EEE5A94C9F7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mausr.Tests", "Mausr.Tests\Mausr.Tests.csproj", "{AA56F64A-635D-4B11-9B3E-27EA1DCEC46A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D1FA2E1E-C60E-4C03-9743-EEE5A94C9F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1FA2E1E-C60E-4C03-9743-EEE5A94C9F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1FA2E1E-C60E-4C03-9743-EEE5A94C9F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA56F64A-635D-4B11-9B3E-27EA1DCEC46A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA56F64A-635D-4B11-9B3E-27EA1DCEC46A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA56F64A-635D-4B11-9B3E-27EA1DCEC46A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA56F64A-635D-4B11-9B3E-27EA1DCEC46A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

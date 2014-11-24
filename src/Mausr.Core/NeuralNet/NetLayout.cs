@@ -1,28 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mausr.Core.NeuralNet {
 	public class NetLayout {
 
-		private List<int> hiddenLayersSizes = new List<int>();
+		private int[] layersSizes;
 
 
-		public int InputSize { get; private set; }
+		public int InputSize { get { return layersSizes[0]; } }
 
-		public int OutputSize { get; private set; }
+		public int OutputSize { get { return layersSizes[layersSizes.Length - 1]; } }
+		
+		public int LayersCount { get { return layersSizes.Length; } }
 
-		public int HiddenLayersCount { get { return hiddenLayersSizes.Count; } }
-
-		public int TotalLayersCount { get { return 2 + hiddenLayersSizes.Count; } }
+		public int CoefsCount { get { return layersSizes.Length - 1; } }
 
 
-		public int GetHiddenLayerSize(int index) {
-			Contract.Requires(index >= 0 && index < HiddenLayersCount);
-			return hiddenLayersSizes[index];
+
+		/// <summary>
+		/// Initializes net layout with layers sizes.
+		/// Directly uses the given array without a copy.
+		/// </summary>
+		public NetLayout(params int[] sizes) {
+			Contract.Requires(sizes.Length >= 2);
+			layersSizes = sizes;
+		}
+
+
+		public int GetLayerSize(int layerIndex) {
+			Contract.Requires(layerIndex >= 0 && layerIndex < LayersCount);
+			return layersSizes[layerIndex];
+		}
+
+		[Pure]
+		public int GetCoefMatrixRows(int coefIndex) {
+			Contract.Requires(coefIndex >= 0 && coefIndex < CoefsCount);
+			return layersSizes[coefIndex] + 1;
+		}
+		
+		[Pure]
+		public int GetCoefMatrixCols(int coefIndex) {
+			Contract.Requires(coefIndex >= 0 && coefIndex < CoefsCount);
+			return layersSizes[coefIndex + 1];
 		}
 
 	}
