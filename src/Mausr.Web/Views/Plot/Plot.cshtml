@@ -1,8 +1,127 @@
 ﻿@model PlotViewModel
+
 @{
-	ViewBag.Title = Model.Name;
+	ActionResult ar = ViewBag.ViewAction;
 }
 
 <h1>@ViewBag.Title</h1>
 
-<img src="@Url.Action(Model.ViewAction.AddRouteValues(Model.ImageModel))" />
+<div class="row">
+	<div class="col-md-6">
+		<img src="@Url.Action(ar.AddRouteValues(Model))" alt="Plot" class="img-thumbnail img-responsive" />
+	</div>
+	<div class="col-md-6">
+		<form action="" class="form-horizontal" role="form" method="post">
+			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+			<h4>Optimization parameters</h4>
+			<div class="form-group">
+				@Html.LabelFor(m => m.InitialX, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.InitialX, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.InitialX, "", new { @class = "text-danger" })
+				</div>
+				@Html.LabelFor(m => m.InitialY, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.InitialY, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.InitialY, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.MaxIters, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.MaxIters, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.MaxIters, "", new { @class = "text-danger" })
+				</div>
+				@Html.LabelFor(m => m.MinDerivMagn, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.MinDerivMagn, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.MinDerivMagn, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<h5>Basic gradient descent</h5>
+			<div class="form-group">
+				@Html.LabelFor(m => m.BasicStep, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.BasicStep, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.BasicStep, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<h5>Gradient descent with momentum</h5>
+			<div class="form-group">
+				@Html.LabelFor(m => m.MomentumStep, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.MomentumStep, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.MomentumStep, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.MomentumStart, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.MomentumStart, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.MomentumStart, "", new { @class = "text-danger" })
+				</div>
+				@Html.LabelFor(m => m.MomentumEnd, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.MomentumEnd, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.MomentumEnd, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<input type="submit" value="Redraw" class="btn btn-primary" />
+				</div>
+			</div>
+			<hr />
+			<h4>Image parameters</h4>
+			<div class="form-group">
+				@Html.LabelFor(m => m.OriginX, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.OriginX, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.OriginX, "", new { @class = "text-danger" })
+				</div>
+				@Html.LabelFor(m => m.OriginY, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.OriginY, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.OriginY, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.Width, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.Width, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.Width, "", new { @class = "text-danger" })
+				</div>
+				@Html.LabelFor(m => m.Height, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.Height, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.Height, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.StepPerPixel, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.StepPerPixel, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.StepPerPixel, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				@Html.LabelFor(m => m.ContoursCount, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.ContoursCount, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.ContoursCount, "", new { @class = "text-danger" })
+				</div>
+				@Html.LabelFor(m => m.ScalePower, new { @class = "col-md-3 control-label" })
+				<div class="col-md-3">
+					@Html.TextBoxFor(m => m.ScalePower, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.ScalePower, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-offset-3 col-md-9">
+					<input type="submit" value="Redraw" class="btn btn-primary" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

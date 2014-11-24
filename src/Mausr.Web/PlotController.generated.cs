@@ -182,10 +182,10 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void RosenbrockFunctionOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotImageModel model);
+        partial void RosenbrockFunctionOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult RosenbrockFunction(Mausr.Web.Models.PlotImageModel model)
+        public override System.Web.Mvc.ActionResult RosenbrockFunction(Mausr.Web.Models.PlotViewModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.RosenbrockFunction);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
@@ -194,10 +194,10 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void RosenbrockFunctionPlotOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotImageModel model);
+        partial void RosenbrockFunctionPlotOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult RosenbrockFunctionPlot(Mausr.Web.Models.PlotImageModel model)
+        public override System.Web.Mvc.ActionResult RosenbrockFunctionPlot(Mausr.Web.Models.PlotViewModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.RosenbrockFunctionPlot);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
@@ -206,10 +206,10 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void CrazySinCosFunctionOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotImageModel model);
+        partial void CrazySinCosFunctionOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult CrazySinCosFunction(Mausr.Web.Models.PlotImageModel model)
+        public override System.Web.Mvc.ActionResult CrazySinCosFunction(Mausr.Web.Models.PlotViewModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CrazySinCosFunction);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
@@ -218,10 +218,10 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void CrazySinCosFunctionPlotOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotImageModel model);
+        partial void CrazySinCosFunctionPlotOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PlotViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult CrazySinCosFunctionPlot(Mausr.Web.Models.PlotImageModel model)
+        public override System.Web.Mvc.ActionResult CrazySinCosFunctionPlot(Mausr.Web.Models.PlotViewModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.CrazySinCosFunctionPlot);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);

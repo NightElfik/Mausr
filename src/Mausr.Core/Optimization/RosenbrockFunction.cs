@@ -38,8 +38,8 @@ namespace Mausr.Core.Optimization {
 			Contract.Requires(point.Count == DimensionsCount);
 			double x = point[0];
 			double y = point[1];
-			resultDerivativeResult[0] = (4 * b * x * x * x) - (2 * a) - (4 * b * x * y) + (2 * x);
-			resultDerivativeResult[1] = (2 * b) * (y - x * x) * (y - x * x);
+			resultDerivativeResult[0] = (2 * x) * ((2 * b * x * x) - (2 * b * y) + 1) - (2 * a);
+			resultDerivativeResult[1] = 2 * b * (y - x * x);
 		}
 
 	}

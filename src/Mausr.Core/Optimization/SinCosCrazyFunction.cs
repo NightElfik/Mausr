@@ -14,7 +14,7 @@ namespace Mausr.Core.Optimization {
 	/// </summary>
 	public class SinCosCrazyFunction : IFunctionWithDerivative {
 
-		public int DimensionsCount { get { return 2; } }		
+		public int DimensionsCount { get { return 2; } }
 
 		public double Evaluate(DenseVector point) {
 			Contract.Requires(point.Count == DimensionsCount);
@@ -26,7 +26,15 @@ namespace Mausr.Core.Optimization {
 		public void Derivate(DenseVector resultDerivativeResult, DenseVector point) {
 			Contract.Requires(resultDerivativeResult.Count == DimensionsCount);
 			Contract.Requires(point.Count == DimensionsCount);
-			throw new NotImplementedException();
+			double x = point[0];
+			double y = point[1];
+			double expy = Math.Exp(y);
+			double a = 2 * x + 1 - expy;
+			double b = 0.5 * x * x - 0.25 * y * y + 3;
+			resultDerivativeResult[0] = x * Math.Cos(a) * Math.Cos(b)
+				- 2 * Math.Sin(a) * Math.Sin(b);
+			resultDerivativeResult[1] = expy * Math.Sin(a) * Math.Sin(b) 
+				- 0.5 * y * Math.Cos(a) * Math.Cos(b);
 		}
 
 	}
