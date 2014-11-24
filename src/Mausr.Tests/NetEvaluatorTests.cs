@@ -25,12 +25,21 @@ namespace Mausr.Tests {
 			performEvaluatorTest(net, 1, 1, 1);
 		}
 
+		[TestMethod]
+		public void EvaluateAndNotandTest() {
+			var net = NetBuilder.CreateAndNotandNet();
+			performEvaluatorTest(net, new int[] { 0, 1 }, 0, 0);
+			performEvaluatorTest(net, new int[] { 0, 1 }, 0, 1);
+			performEvaluatorTest(net, new int[] { 0, 1 }, 1, 0);
+			performEvaluatorTest(net, new int[] { 1, 0 }, 1, 1);
+		}
+
 
 		public static void performEvaluatorTest(Net network, int expectedOutput, params double[] input) {
 			performEvaluatorTest(network, new int[] { expectedOutput }, input);
 		}
 
-		public static void performEvaluatorTest(Net network, int[] expectedOutput, double[] input) {
+		public static void performEvaluatorTest(Net network, int[] expectedOutput, params double[] input) {
 			var evaluator = new NetEvaluator(network);
 			var actual = evaluator.Evaluate(DenseMatrix.Build.DenseOfRowArrays(input));
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Mausr.Core.Optimization {
@@ -29,7 +30,7 @@ namespace Mausr.Core.Optimization {
 		}
 
 
-		public bool Optimize(DenseVector result, IFunctionWithDerivative function, DenseVector initialPosition) {
+		public bool Optimize(Vector<double> result, IFunctionWithDerivative function, Vector<double> initialPosition) {
 			Contract.Requires(result.Count == function.DimensionsCount);
 			Contract.Requires(initialPosition.Count == function.DimensionsCount);
 
@@ -48,7 +49,7 @@ namespace Mausr.Core.Optimization {
 			return false;
 		}
 
-		public bool Optimize(List<DenseVector> steps, IFunctionWithDerivative function, DenseVector initialPosition) {
+		public bool Optimize(List<Vector<double>> steps, IFunctionWithDerivative function, Vector<double> initialPosition) {
 			Contract.Requires<ArgumentNullException>(steps != null);
 			Contract.Requires(initialPosition.Count == function.DimensionsCount);
 
@@ -72,8 +73,8 @@ namespace Mausr.Core.Optimization {
 		}
 
 
-		private bool performStep(DenseVector result, int iteration, IFunctionWithDerivative function, DenseVector point,
-				DenseVector derivative, DenseVector prevStep) {
+		private bool performStep(Vector<double> result, int iteration, IFunctionWithDerivative function, Vector<double> point,
+				Vector<double> derivative, Vector<double> prevStep) {
 
 			bool converged = false;
 			function.Derivate(derivative, point);

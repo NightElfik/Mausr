@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Web.Mvc;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.Optimization;
 using Mausr.Core.Plot;
@@ -102,26 +103,26 @@ namespace Mausr.Web.Controllers {
 
 		private ActionResult plot(IFunctionWithDerivative f, PlotViewModel model) {
 
-			List<Tuple<Color, List<DenseVector>>> points = new List<Tuple<Color, List<DenseVector>>>();
+			List<Tuple<Color, List<Vector<double>>>> points = new List<Tuple<Color, List<Vector<double>>>>();
 			var initPos = new DenseVector(2);
 			initPos[0] = model.InitialX;
 			initPos[1] = model.InitialY;
 			{
-				var ps = new List<DenseVector>();
-				points.Add(new Tuple<Color, List<DenseVector>>(Color.DarkGreen, ps));
+				var ps = new List<Vector<double>>();
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkGreen, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.BasicStep, model.MinDerivMagn, model.MaxIters);
 				sdImpl.Optimize(ps, f, initPos);
 			}
 			{
-				var ps = new List<DenseVector>();
-				points.Add(new Tuple<Color, List<DenseVector>>(Color.DarkRed, ps));
+				var ps = new List<Vector<double>>();
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkRed, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.MomentumStep,
 					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
 				sdImpl.Optimize(ps, f, initPos);
 			}
 			{
-				var ps = new List<DenseVector>();
-				points.Add(new Tuple<Color, List<DenseVector>>(Color.Blue, ps));
+				var ps = new List<Vector<double>>();
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Blue, ps));
 				var sdImpl = new SteepestDescentAdvancedOptmizer(model.MomentumStep,
 					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
 				sdImpl.Optimize(ps, f, initPos);

@@ -55,9 +55,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MathNetExtensionsTests.cs" />
     <Compile Include="NetBuilder.cs" />
     <Compile Include="NetEvaluatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NetCostFunctionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mausr.Core\Mausr.Core.csproj">

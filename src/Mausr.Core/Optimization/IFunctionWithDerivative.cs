@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MathNet.Numerics.LinearAlgebra.Double;
+﻿using MathNet.Numerics.LinearAlgebra;
 
 namespace Mausr.Core.Optimization {
 	public interface IFunctionWithDerivative {
 
 		int DimensionsCount { get; }
 
-		double Evaluate(DenseVector point);
+		double Evaluate(Vector<double> point);
 
-		void Derivate(DenseVector resultDerivativeResult, DenseVector point);
+		void Derivate(Vector<double> resultDerivativeResult, Vector<double> point);
 
 	}
 }

@@ -4,17 +4,18 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.Optimization;
 
 namespace Mausr.Core.Plot {
 	public class FunctionPlotter {
 
-		public Bitmap ContourPlot(IFunctionWithDerivative funcition, DenseVector origin, int xDimIndex, int yDimIndex,
+		public Bitmap ContourPlot(IFunctionWithDerivative funcition, Vector<double> origin, int xDimIndex, int yDimIndex,
 				int imgWidth, int imgHeight, double stepPerPixel, int contoursCount, double scalePower,
-				List<Tuple<Color, List<DenseVector>>> pointGroups) {
+				List<Tuple<Color, List<Vector<double>>>> pointGroups) {
 
-			DenseVector point = new DenseVector(origin.Count);
+			var point = new DenseVector(origin.Count);
 			origin.CopyTo(point);
 
 			double xOrigin = origin[xDimIndex] - stepPerPixel * imgWidth / 2;

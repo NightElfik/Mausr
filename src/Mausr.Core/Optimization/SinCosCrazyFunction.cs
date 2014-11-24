@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace Mausr.Core.Optimization {
 	/// <summary>
@@ -16,14 +12,14 @@ namespace Mausr.Core.Optimization {
 
 		public int DimensionsCount { get { return 2; } }
 
-		public double Evaluate(DenseVector point) {
+		public double Evaluate(Vector<double> point) {
 			Contract.Requires(point.Count == DimensionsCount);
 			double x = point[0];
 			double y = point[1];
 			return Math.Sin(0.5 * x * x - 0.25 * y * y + 3) * Math.Cos(2 * x + 1 - Math.Exp(y));
 		}
 
-		public void Derivate(DenseVector resultDerivativeResult, DenseVector point) {
+		public void Derivate(Vector<double> resultDerivativeResult, Vector<double> point) {
 			Contract.Requires(resultDerivativeResult.Count == DimensionsCount);
 			Contract.Requires(point.Count == DimensionsCount);
 			double x = point[0];

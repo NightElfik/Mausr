@@ -6,7 +6,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 namespace Mausr.Core.NeuralNet {
 	public class Net {
 
-		private Matrix<double>[] coefficients;
+		public Matrix<double>[] Coefficients { get; private set; }
 
 		public NetLayout Layout { get; private set; }
 
@@ -17,7 +17,7 @@ namespace Mausr.Core.NeuralNet {
 		public Net(NetLayout layout, INeuronActivationFunc neuronActivationFunc) {
 			Layout = layout;
 			NeuronActivationFunc = neuronActivationFunc;
-			coefficients = new DenseMatrix[layout.CoefsCount];
+			Coefficients = new DenseMatrix[layout.CoefsCount];
 		}
 
 
@@ -25,14 +25,14 @@ namespace Mausr.Core.NeuralNet {
 			Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Layout.CoefsCount);
 			Contract.Ensures(Contract.Result<Matrix<double>>().RowCount == Layout.GetCoefMatrixRows(index));
 			Contract.Ensures(Contract.Result<Matrix<double>>().ColumnCount == Layout.GetCoefMatrixCols(index));
-			return coefficients[index];
+			return Coefficients[index];
 		}
 
 		public void SetCoefsMatrix(int index, Matrix<double> value) {
 			Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Layout.CoefsCount);
 			Contract.Requires<ArgumentException>(value.RowCount == Layout.GetCoefMatrixRows(index));
 			Contract.Requires<ArgumentException>(value.ColumnCount == Layout.GetCoefMatrixCols(index));
-			coefficients[index] = value;
+			Coefficients[index] = value;
 		}
 
 	}
