@@ -7,7 +7,7 @@ namespace Mausr.Core.Optimization {
 
 		double Evaluate(Vector<double> point);
 
-		void Derivate(Vector<double> resultDerivativeResult, Vector<double> point);
+		void Derivate(Vector<double> resultDerivative, Vector<double> point);
 
 	}
 }

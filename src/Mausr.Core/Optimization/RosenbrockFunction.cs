@@ -28,13 +28,13 @@ namespace Mausr.Core.Optimization {
 			return dx * dx + b * dxy * dxy;
 		}
 
-		public void Derivate(Vector<double> resultDerivativeResult, Vector<double> point) {
-			Contract.Requires(resultDerivativeResult.Count == DimensionsCount);
+		public void Derivate(Vector<double> resultDerivative, Vector<double> point) {
+			Contract.Requires(resultDerivative.Count == DimensionsCount);
 			Contract.Requires(point.Count == DimensionsCount);
 			double x = point[0];
 			double y = point[1];
-			resultDerivativeResult[0] = (2 * x) * ((2 * b * x * x) - (2 * b * y) + 1) - (2 * a);
-			resultDerivativeResult[1] = 2 * b * (y - x * x);
+			resultDerivative[0] = (2 * x) * ((2 * b * x * x) - (2 * b * y) + 1) - (2 * a);
+			resultDerivative[1] = 2 * b * (y - x * x);
 		}
 
 	}

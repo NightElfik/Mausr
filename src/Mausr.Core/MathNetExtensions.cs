@@ -19,8 +19,15 @@ namespace Mausr.Core {
 			}
 
 			var result = new DenseVector(size);
+			PackTo(matrices, result);
+			return result;
+		}
+	
+		/// <summary>
+		/// Packs given matrices to given array.
+		/// </summary>
+		public static void PackTo(this Matrix<double>[] matrices, Vector<double> result) {
 			int globalIndex = 0;
-
 			for (int i = 0; i < matrices.Length; ++i) {
 				var m = matrices[i];
 				int rows = m.RowCount;
@@ -32,8 +39,6 @@ namespace Mausr.Core {
 					}
 				}
 			}
-
-			return result;
 		}
 
 		/// <summary>

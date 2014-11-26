@@ -2,16 +2,16 @@
 using System.Diagnostics.Contracts;
 
 namespace Mausr.Core.NeuralNet {
-	public class SigomidActivationFunc : INeuronActivationFunc {
-
-		[Pure]
-		public double Evaluate(double value) {
+	public class SigomidActivationFunc : NeuronActivationFunc {
+		
+		public override double Evaluate(double value) {
 			return 1.0 / (1.0 + Math.Exp(-value));
 		}
-
-		public Func<double, double> Get() {
-			return Evaluate;
+				
+		public override double Derivative(double value) {
+			double x = 1.0 / (1.0 + Math.Exp(-value));
+			return x * (1.0 - x);
 		}
-
+		
 	}
 }

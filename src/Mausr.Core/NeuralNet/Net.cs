@@ -10,11 +10,11 @@ namespace Mausr.Core.NeuralNet {
 
 		public NetLayout Layout { get; private set; }
 
-		public INeuronActivationFunc NeuronActivationFunc { get; private set; }
+		public NeuronActivationFunc NeuronActivationFunc { get; private set; }
 
 
 
-		public Net(NetLayout layout, INeuronActivationFunc neuronActivationFunc) {
+		public Net(NetLayout layout, NeuronActivationFunc neuronActivationFunc) {
 			Layout = layout;
 			NeuronActivationFunc = neuronActivationFunc;
 			Coefficients = new DenseMatrix[layout.CoefsCount];

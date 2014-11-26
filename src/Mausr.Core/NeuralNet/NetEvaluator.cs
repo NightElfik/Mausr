@@ -29,7 +29,7 @@ namespace Mausr.Core.NeuralNet {
 		protected Matrix<double> evalStep(int coefIndex, Matrix<double> input) {
 			var result = input.InsertColumn(0, DenseVector.Create(input.RowCount, 1));
 			result = result.Multiply(Net.GetCoefsMatrix(coefIndex));
-			result.Map(Net.NeuronActivationFunc.Get(), result);
+			result.Map(Net.NeuronActivationFunc.Evaluate, result);
 			return result;
 		}
 
