@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using MathNet.Numerics.LinearAlgebra.Double;
+﻿using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.NeuralNet;
 
-namespace Mausr.Tests {
+namespace Mausr.Tests.NeuralNet {
 	public static class NetBuilder {
 		
 		/// <summary>
@@ -27,7 +26,7 @@ namespace Mausr.Tests {
 		/// <summary>
 		/// Creates neural net that computes AND, and NOT AND functions.
 		/// </summary>
-		public static Net CreateAndNotandNet() {
+		public static Net CreateAndNandNet() {
 			var net = new Net(new NetLayout(2, 2), new SigomidActivationFunc());
 			net.SetCoefsMatrix(0, DenseMatrix.Build.DenseOfArray(new double[,] { { -30, 30 }, { 20, -20 }, { 20, -20 } }));
 			return net;

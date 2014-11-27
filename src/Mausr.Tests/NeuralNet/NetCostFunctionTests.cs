@@ -3,15 +3,16 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core;
 using Mausr.Core.NeuralNet;
+using Mausr.Tests.Optimization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mausr.Tests {
+namespace Mausr.Tests.NeuralNet {
 	[TestClass]
 	public class NetCostFunctionTests {
 
 		[TestMethod]
-		public void EvaluateAndNotandNoRegularizationTest() {
-			var net = NetBuilder.CreateAndNotandNet();
+		public void EvaluateAndNandNoRegularizationTest() {
+			var net = NetBuilder.CreateAndNandNet();
 			var inputs = DenseMatrix.OfArray(new double[,] { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } });
 			{
 				var outputIndices = new int[] { 1, 1, 1, 0 };
@@ -30,8 +31,8 @@ namespace Mausr.Tests {
 		}
 
 		[TestMethod]
-		public void DerivativeAndNotandNoRegularizationTest() {
-			var net = NetBuilder.CreateAndNotandNet();
+		public void DerivativeAndNandNoRegularizationTest() {
+			var net = NetBuilder.CreateAndNandNet();
 			var inputs = DenseMatrix.OfArray(new double[,] { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } });
 			{
 				var outputIndices = new int[] { 1, 1, 1, 0 };

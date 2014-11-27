@@ -1,10 +1,9 @@
 ﻿using System;
-using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.NeuralNet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mausr.Tests {
+namespace Mausr.Tests.NeuralNet {
 	[TestClass]
 	public class NetEvaluatorTests {
 		[TestMethod]
@@ -27,7 +26,7 @@ namespace Mausr.Tests {
 
 		[TestMethod]
 		public void EvaluateAndNotandTest() {
-			var net = NetBuilder.CreateAndNotandNet();
+			var net = NetBuilder.CreateAndNandNet();
 			performEvaluatorTest(net, new int[] { 0, 1 }, 0, 0);
 			performEvaluatorTest(net, new int[] { 0, 1 }, 0, 1);
 			performEvaluatorTest(net, new int[] { 0, 1 }, 1, 0);

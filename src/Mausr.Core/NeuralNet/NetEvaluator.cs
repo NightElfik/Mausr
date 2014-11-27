@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
@@ -25,11 +26,20 @@ namespace Mausr.Core.NeuralNet {
 
 			return result;
 		}
+		
+		public int[] PredictFromEvaluated(Matrix<double> outpus) {
+			return outpus.EnumerateRows().Select(row => row.MaximumIndex()).ToArray();
+		}
+
+		public int[] Predict(Matrix<double> inputs) {
+			return PredictFromEvaluated(Evaluate(inputs));
+		}
+
 
 		protected Matrix<double> evalStep(int coefIndex, Matrix<double> input) {
 			var result = input.InsertColumn(0, DenseVector.Create(input.RowCount, 1));
-			result = result.Multiply(Net.GetCoefsMatrix(coefIndex));
-			result.Map(Net.NeuronActivationFunc.Evaluate, result);
+			result = result * Net.GetCoefsMatrix(coefIndex);
+			result.MapInplace(Net.NeuronActivationFunc.Evaluate);
 			return result;
 		}
 

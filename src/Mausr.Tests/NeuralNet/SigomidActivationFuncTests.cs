@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Mausr.Core.NeuralNet;
+using Mausr.Tests.Optimization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mausr.Tests {
+namespace Mausr.Tests.NeuralNet {
 	[TestClass]
 	public class SigomidActivationFuncTests {
 		[TestMethod]

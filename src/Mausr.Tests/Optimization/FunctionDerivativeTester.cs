@@ -3,7 +3,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.Optimization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mausr.Tests {
+namespace Mausr.Tests.Optimization {
 	public static class FunctionDerivativeTester {
 
 		const double COMPUTE_EPSILON = 1e-5;

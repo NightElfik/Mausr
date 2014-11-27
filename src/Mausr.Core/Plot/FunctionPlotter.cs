@@ -157,5 +157,22 @@ namespace Mausr.Core.Plot {
 			return img;
 		}
 
+		public Bitmap FunctionPlot(double[] points, int imgWidth, int imgHeight, double min, double max) {
+			var img = new Bitmap(imgWidth, imgHeight, PixelFormat.Format24bppRgb);
+
+			using (var g = Graphics.FromImage(img)) {
+				g.Clear(Color.White);
+				g.SmoothingMode = SmoothingMode.HighQuality;
+
+				for (int i = 1; i < points.Length; ++i) {
+					g.DrawLine(Pens.Black, (float)imgWidth * (i - 1) / points.Length,
+						(float)(imgHeight - imgHeight * (points[i - 1] - min) / max),
+						(float)imgWidth * i / points.Length,
+						(float)(imgHeight - imgHeight * (points[i] - min) / max));
+				}
+			}
+
+			return img;
+		}
 	}
 }

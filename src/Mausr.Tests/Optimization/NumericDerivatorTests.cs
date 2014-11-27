@@ -5,7 +5,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.Optimization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Mausr.Tests {
+namespace Mausr.Tests.Optimization {
 	[TestClass]
 	public class NumericDerivatorTests {
 

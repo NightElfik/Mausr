@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -103,7 +102,7 @@ namespace Mausr.Core.NeuralNet {
 			}
 
 			// Backward pass - computation of derivatives.
-			
+
 			Contract.Assert(result.ColumnCount == netLayout.OutputSize);
 			int samplesCount = inputs.RowCount;
 
@@ -118,7 +117,7 @@ namespace Mausr.Core.NeuralNet {
 			//
 			// ∂y_i/∂x_i = f'(z_i) is derivative of neuron transfer function and z_i is its input.
 			//
-			
+
 			// In our case all targets are vectors with one non-zero: [0, 0, ..., 0, 1, 0, ..., 0].
 			// Compute -(t_i - y_i) by subtrancting the 1 where needed.
 			// The rest are zeros thus does not need to be subtracted.
@@ -130,7 +129,7 @@ namespace Mausr.Core.NeuralNet {
 
 			// δ_i = f'(z_i) * -(t_i - y_i).
 			//deltas[deltaIndex].PointwiseMultiply(result, deltas[deltaIndex]);
-			deltas[deltaIndex] = result;
+			deltas[deltaIndex] = result;  // WTF, I really do not understand why I have to not include derivative of neuron function.
 
 			//
 			// Derivative of i-th neuron in non-output layer l is:
@@ -152,12 +151,25 @@ namespace Mausr.Core.NeuralNet {
 			// in the activation matrix A the bias terms will just work without extra care.
 			// D = A^T * δ
 			//
+			double regPram = regularizationLambda / samplesCount;
 			var derivatives = new Matrix<double>[netLayout.CoefsCount];
 			for (int i = 0; i < netLayout.CoefsCount; ++i) {
-				derivatives[i] = activations[i].TransposeThisAndMultiply(deltas[i]);
-				derivatives[i].Divide(samplesCount, derivatives[i]);
-				Contract.Assert(derivatives[i].RowCount == unpackedCoefs[i].RowCount);
-				Contract.Assert(derivatives[i].ColumnCount == unpackedCoefs[i].ColumnCount);
+				var derivs = activations[i].TransposeThisAndMultiply(deltas[i]);
+				derivs.Divide(samplesCount, derivs);
+				derivatives[i] = derivs;
+
+
+				// Regularization - regularize all but bias coeficients.
+				var coefs = unpackedCoefs[i];
+				Contract.Assert(derivs.RowCount == coefs.RowCount);
+				Contract.Assert(derivs.ColumnCount == coefs.ColumnCount);
+
+				int rows = derivs.RowCount, cols = derivs.ColumnCount;
+				for (int r = 1; r < rows; ++r) {
+					for (int c = 0; c < cols; ++c) {
+						derivs[r, c] += regPram * coefs[r, c];
+					}
+				}
 			}
 
 			derivatives.PackTo(resultDerivative);

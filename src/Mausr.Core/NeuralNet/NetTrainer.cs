@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.Optimization;
@@ -40,6 +37,21 @@ namespace Mausr.Core.NeuralNet {
 			bool status = Optimizer.Optimize(result, costFunction, point);
 
 			result.Unpack(Net.Coefficients);
+
+			return status;
+		}
+	
+		public bool Train(List<Vector<double>> optimizationSteps, Matrix<double> inputs, int[] outputIndices) {
+			Contract.Requires(inputs.ColumnCount == Net.Layout.InputSize);
+
+			var costFunction = new NetCostFunction(Net, inputs, outputIndices, RegularizationLambda);
+
+			InitializeCoefs(Net);
+			var point = Net.Coefficients.Pack();
+
+			bool status = Optimizer.Optimize(optimizationSteps, costFunction, point);
+
+			optimizationSteps[optimizationSteps.Count - 1].Unpack(Net.Coefficients);
 
 			return status;
 		}

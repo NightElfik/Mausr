@@ -40,6 +40,7 @@
       <HintPath>..\packages\MathNet.Numerics.3.2.3\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <Choose>
@@ -55,16 +56,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FunctionDerivativeTester.cs" />
+    <Compile Include="NeuralNet\NetTrainerTests.cs" />
+    <Compile Include="Optimization\FunctionDerivativeTester.cs" />
     <Compile Include="MathNetExtensionsTests.cs" />
-    <Compile Include="NetBuilder.cs" />
-    <Compile Include="NetEvaluatorTests.cs" />
+    <Compile Include="NeuralNet\NetBuilder.cs" />
+    <Compile Include="NeuralNet\NetEvaluatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NetCostFunctionTests.cs" />
-    <Compile Include="NumericDerivatorTests.cs" />
-    <Compile Include="SigomidActivationFuncTests.cs" />
-    <Compile Include="RosenbrockFunctionTests.cs" />
-    <Compile Include="SinCosCrazyFunctionTests.cs" />
+    <Compile Include="NeuralNet\NetCostFunctionTests.cs" />
+    <Compile Include="Optimization\NumericDerivatorTests.cs" />
+    <Compile Include="NeuralNet\SigomidActivationFuncTests.cs" />
+    <Compile Include="Optimization\RosenbrockFunctionTests.cs" />
+    <Compile Include="Optimization\SinCosCrazyFunctionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mausr.Core\Mausr.Core.csproj">
