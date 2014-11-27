@@ -34,8 +34,8 @@ namespace Mausr.Core.NeuralNet {
 			unpackedCoefs = new Matrix<double>[netLayout.CoefsCount];
 			DimensionsCount = 0;
 			for (int i = 0; i < netLayout.CoefsCount; ++i) {
-				DimensionsCount += netLayout.GetLayerSize(i) * netLayout.GetLayerSize(i + 1);
 				unpackedCoefs[i] = new DenseMatrix(netLayout.GetCoefMatrixRows(i), netLayout.GetCoefMatrixCols(i));
+				DimensionsCount += unpackedCoefs[i].RowCount * unpackedCoefs[i].ColumnCount;
 			}
 
 		}
@@ -49,8 +49,8 @@ namespace Mausr.Core.NeuralNet {
 			// Forward pass.
 			for (int i = 0; i < netLayout.CoefsCount; ++i) {
 				result = result.InsertColumn(0, DenseVector.Create(result.RowCount, 1));
-				result *= unpackedCoefs[i];
-				result.Map(neuronActivateFunction, result);
+				result = result * unpackedCoefs[i];
+				result.MapInplace(neuronActivateFunction);
 			}
 
 			// Cost function.
@@ -85,7 +85,11 @@ namespace Mausr.Core.NeuralNet {
 			point.Unpack(unpackedCoefs);
 
 			Matrix<double> result = inputs;
+
+			// Activation values with extra column of 1s. Matrix on index i is activation of layer i + 1.
 			var activations = new Matrix<double>[netLayout.CoefsCount];
+
+			// Derivations of aftivations. Matrix on index i corresponds to layer i + 1.
 			var deltas = new Matrix<double>[netLayout.CoefsCount];
 
 			// Forward pass - computation of activations.
@@ -95,7 +99,7 @@ namespace Mausr.Core.NeuralNet {
 				result = activations[i] * unpackedCoefs[i];
 				// Save deltas that will be used later later: δ_i = f'(z_i).
 				deltas[i] = result.Map(neuronActivateFunctionDerivative);
-				result.Map(neuronActivateFunction, result);
+				result.MapInplace(neuronActivateFunction);
 			}
 
 			// Backward pass - computation of derivatives.
@@ -104,48 +108,59 @@ namespace Mausr.Core.NeuralNet {
 			int samplesCount = inputs.RowCount;
 
 			//
-			// Derivative of i-th neuron in the output layer is:
-			// δ_i = ∂E/∂y_i * ∂y_i/∂x_i = -(t_i - y_i) * f'(z_i)
+			// Derivative of i-th neuron in the output layer n_l is:
+			// δ_i = ∂E/∂y_i * ∂y_i/∂z_i = -(t_i - y_i) * f'(z_i), where:
+			//		z is input value, y is output, and t is target value.
 			//
-			// ∂E/∂y_i =  is derivative of error computed as E := 1/2 * Σ_i(t_i - y_i)^2
+			// ∂E/∂y_i = is derivative of error computed as E := 1/2 * Σ_i(t_i - y_i)^2
 			//		The 1/2 won't affect optimization process (and can be even ommited in computation of error function)
 			//		but simplifies the derivative.
 			//
-			// ∂y_i/∂x_i = f'(z_i) is derivative of neuron transfer function and z_i is input to.
+			// ∂y_i/∂x_i = f'(z_i) is derivative of neuron transfer function and z_i is its input.
 			//
-						
+			
+			// In our case all targets are vectors with one non-zero: [0, 0, ..., 0, 1, 0, ..., 0].
 			// Compute -(t_i - y_i) by subtrancting the 1 where needed.
 			// The rest are zeros thus does not need to be subtracted.
 			for (int i = 0; i < samplesCount; ++i) {
 				result[i, outputIndices[i]] -= 1;  // -(t_i - y_i) = y_i - t_i
 			}
 
+			int deltaIndex = netLayout.CoefsCount - 1;
+
 			// δ_i = f'(z_i) * -(t_i - y_i).
-			deltas[netLayout.CoefsCount - 1].PointwiseMultiply(result, deltas[netLayout.CoefsCount - 1]);
+			//deltas[deltaIndex].PointwiseMultiply(result, deltas[deltaIndex]);
+			deltas[deltaIndex] = result;
 
 			//
-			// Derivative of i-th neuron in non-output layer is little more complicated:
-			// ∂E/∂y_i = (chain rule) = Σ_{j∈l+1} ∂E/∂y_j * ∂y_j/∂x_j * ∂x_j/∂y_i, where
-			//		i is current layer,
-			//		j is next layer downstream,
-			//		l is current layer, l + 1 is next one down stream,
-			//		∂x_j/∂y_i = w_ij
-			// ∂E/∂y_i = Σ_{j∈l+1}(w_ji^(l) * δ_j^(l+1)) * f'(z_i^(l)) 	
-			//
-			
-			for (int i = netLayout.CoefsCount - 2; i >= 0; --i) {
-				var coefsNoBias = unpackedCoefs[i + 1].RemoveColumn(0);  // Remove bias coeficients.
-				var newDelta = deltas[i + 1].TransposeAndMultiply(coefsNoBias);
-				deltas[i].PointwiseMultiply(newDelta);
+			// Derivative of i-th neuron in non-output layer l is:
+			// δ_i^(l) = Σ_{j=1}^{s_{l+1}}(W_ij^(l) * δ_j^(l+1)) * f'(z_i^(l))
+			// This can be vectorized as: δ_i^(l) = δ_j^(l+1) * (W^(l))^T .* f'(z_i^(l)).
+			//			
+			for (deltaIndex -= 1; deltaIndex >= 0; --deltaIndex) {
+				var coefsNoBias = unpackedCoefs[deltaIndex + 1].RemoveRow(0);  // Remove bias coeficients.
+				var newDelta = deltas[deltaIndex + 1].TransposeAndMultiply(coefsNoBias);  // δ_j^(l+1) * (W^(l))^T.
+				deltas[deltaIndex].PointwiseMultiply(newDelta, deltas[deltaIndex]);  // δ_i^(l) .* f'(z_i^(l).
 			}
 
-			
-			var gradients = new Matrix<double>[netLayout.CoefsCount];
+			//
+			// Finally we can compute derivatives from δs.
+			// For weights: ∂/∂W_ij^(l) J(W,b,x,y) = a_j^(l) * δ_i^(l + 1).
+			// For bias: ∂/∂b_i^(l) J(W,b,x,y) = δ_i^(l + 1).
+			// Derivatives has to be averaged for all training samles.
+			// The sum is achieved by matrix multiplication and since we have a extra column of 1s
+			// in the activation matrix A the bias terms will just work without extra care.
+			// D = A^T * δ
+			//
+			var derivatives = new Matrix<double>[netLayout.CoefsCount];
 			for (int i = 0; i < netLayout.CoefsCount; ++i) {
-				gradients[i] = activations[i].TransposeThisAndMultiply(deltas[i]);
+				derivatives[i] = activations[i].TransposeThisAndMultiply(deltas[i]);
+				derivatives[i].Divide(samplesCount, derivatives[i]);
+				Contract.Assert(derivatives[i].RowCount == unpackedCoefs[i].RowCount);
+				Contract.Assert(derivatives[i].ColumnCount == unpackedCoefs[i].ColumnCount);
 			}
 
-			gradients.PackTo(resultDerivative);
+			derivatives.PackTo(resultDerivative);
 		}
 
 

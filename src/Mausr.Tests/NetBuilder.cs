@@ -1,4 +1,5 @@
-﻿using MathNet.Numerics.LinearAlgebra.Double;
+﻿using System.Linq;
+using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.NeuralNet;
 
 namespace Mausr.Tests {
@@ -31,6 +32,7 @@ namespace Mausr.Tests {
 			net.SetCoefsMatrix(0, DenseMatrix.Build.DenseOfArray(new double[,] { { -30, 30 }, { 20, -20 }, { 20, -20 } }));
 			return net;
 		}
+		
 
 	}
 }
