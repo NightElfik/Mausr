@@ -28,7 +28,7 @@ namespace Mausr.Tests.NeuralNet {
 			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
 			var trainer = new NetTrainer(net, optimizer, regularizationLambda);
 
-			bool result = trainer.Train(inputs, outputIndices);
+			bool result = trainer.Train(inputs, outputIndices, null);
 
 			var actualOutputIndices = trainer.Predict(inputs);
 			CollectionAssert.AreEqual(outputIndices, actualOutputIndices);
@@ -46,7 +46,7 @@ namespace Mausr.Tests.NeuralNet {
 			double costBefore = cf.Evaluate(net.Coefficients.Pack());
 
 			var optimizationSteps = new List<Vector<double>>();
-			bool result = trainer.Train(optimizationSteps, inputs, outputIndices);			
+			bool result = trainer.Train(inputs, outputIndices, p => optimizationSteps.Add(p));			
 
 			new FunctionPlotter()
 				.FunctionPlot(optimizationSteps.Select(pt => cf.Evaluate(pt)).ToArray(), 1024, 512, 0, 2)

@@ -30,7 +30,8 @@ namespace Mausr.Core.Optimization {
 		}
 
 
-		public bool Optimize(Vector<double> result, IFunctionWithDerivative function, Vector<double> initialPosition) {
+		public bool Optimize(Vector<double> result, IFunctionWithDerivative function,
+				Vector<double> initialPosition, Action<Vector<double>> iterationCallback) {
 			Contract.Requires(result.Count == function.DimensionsCount);
 			Contract.Requires(initialPosition.Count == function.DimensionsCount);
 
@@ -40,7 +41,13 @@ namespace Mausr.Core.Optimization {
 			initialPosition.CopyTo(result);
 
 			for (int i = 0; i < maxIters; ++i) {
-				if (performStep(result, i, function, result, derivative, prevStep)) {
+				bool converged = performStep(result, i, function, result, derivative, prevStep);
+
+				if (iterationCallback != null) {
+					iterationCallback(result.Clone());
+				}
+
+				if (converged) {
 					return true;
 				}
 			}
@@ -48,30 +55,7 @@ namespace Mausr.Core.Optimization {
 			LastIterationsCount = maxIters;
 			return false;
 		}
-
-		public bool Optimize(List<Vector<double>> steps, IFunctionWithDerivative function, Vector<double> initialPosition) {
-			Contract.Requires<ArgumentNullException>(steps != null);
-			Contract.Requires(initialPosition.Count == function.DimensionsCount);
-
-			var derivative = new DenseVector(function.DimensionsCount);
-			var prevStep = new DenseVector(function.DimensionsCount);
-			var lastPoint = new DenseVector(function.DimensionsCount);
-			initialPosition.CopyTo(lastPoint);
-			steps.Add(lastPoint);
-
-			for (int i = 0; i < maxIters; ++i) {
-				var newPoint = new DenseVector(function.DimensionsCount);
-				steps.Add(newPoint);
-				if (performStep(newPoint, i, function, lastPoint, derivative, prevStep)) {
-					return true;
-				}
-				lastPoint = newPoint;
-			}
-
-			LastIterationsCount = maxIters;
-			return false;
-		}
-
+		
 
 		private bool performStep(Vector<double> result, int iteration, IFunctionWithDerivative function, Vector<double> point,
 				Vector<double> derivative, Vector<double> prevStep) {

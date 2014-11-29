@@ -275,6 +275,7 @@
     <Compile Include="Controllers\PlotController.cs" />
     <Compile Include="Controllers\SymbolDrawingsController.cs" />
     <Compile Include="Controllers\SymbolsController.cs" />
+    <Compile Include="Controllers\TrainController.cs" />
     <Compile Include="DataContexts\IdentityDb.cs" />
     <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
     <Compile Include="DataContexts\SymbolsDb.cs" />
@@ -306,6 +307,7 @@
     <Compile Include="Models\PlotViewModel.cs" />
     <Compile Include="Models\Symbol.cs" />
     <Compile Include="Models\SymbolDrawing.cs" />
+    <Compile Include="Models\TrainViewModel.cs" />
     <Compile Include="PlotController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -323,6 +325,9 @@
     <Compile Include="T4MVC1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrainController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -415,7 +420,6 @@
     <Content Include="Views\Symbols\Details.cshtml" />
     <Content Include="Views\Symbols\Edit.cshtml" />
     <Content Include="Views\Symbols\Index.cshtml" />
-    <Content Include="Views\SymbolDrawings\Create.cshtml" />
     <Content Include="Views\SymbolDrawings\Delete.cshtml" />
     <Content Include="Views\SymbolDrawings\Index.cshtml" />
     <Content Include="Views\Plot\Plot.cshtml" />
@@ -423,6 +427,7 @@
     <Content Include="Views\Learn\Index.cshtml" />
     <Content Include="Views\Learn\Batch.cshtml" />
     <Content Include="Views\Learn\Done.cshtml" />
+    <Content Include="Views\Train\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Shared\EditorTemplates\" />

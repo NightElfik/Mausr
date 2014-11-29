@@ -28,55 +28,8 @@ namespace Mausr.Web.Controllers {
 
 
 		public virtual ActionResult Index() {
-			return View(symbolsDb.SymbolDrawings.ToList());
-		}
-
-
-		public virtual ActionResult Create() {
-			return View(new CreateSymbolDrawingViewModel() {
-				Symbols = symbolsDb.Symbols.ToList(),
-			});
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public virtual ActionResult Create(CreateSymbolDrawingViewModel model) {
-			model.Symbols = symbolsDb.Symbols.ToList();
-			if (!ModelState.IsValid) {
-				return View(model);
-			}
-
-			var sym = symbolsDb.Symbols.FirstOrDefault(s => s.SymbolId == model.SymbolId);
-			if (sym == null) {
-				ModelState.AddModelError("SymbolId", "Symbol not found.");
-				return View(model);
-			}
-
-			RawDrawing drawing;
-			try {
-				var lines = JsonConvert.DeserializeObject<RawPoint[][]>(model.JsonData);
-				drawing = new RawDrawing() { Lines = lines };
-			}
-			catch (Exception) {
-				ModelState.AddModelError("JsonData", "Failed to read json data.");
-				return View(model);
-			}
-
-			//var sd = new SymbolDrawing() {
-			//	Symbol = sym,
-			//	CreatedDateTime = DateTime.UtcNow,
-			//	RawDrawing = drawing,
-			//};
-
-			//symbolsDb.SymbolDrawings.Add(sd);
-			//symbolsDb.SaveChanges();
-
-			//MyHtml.SuccessMessage("Drawing was successfully saved in the DB under ID <b>{0}</b>.",
-			//	sd.SymbolDrawingId);
-
-			return View(new CreateSymbolDrawingViewModel() {
-				Symbols = model.Symbols
-			});
+			var groups = symbolsDb.SymbolDrawings.GroupBy(x => x.Symbol).ToList();
+			return View(groups);
 		}
 
 
@@ -84,6 +37,7 @@ namespace Mausr.Web.Controllers {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
+
 			SymbolDrawing symbolDrawing = symbolsDb.SymbolDrawings.Find(id);
 			if (symbolDrawing == null) {
 				return HttpNotFound();

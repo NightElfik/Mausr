@@ -107,25 +107,26 @@ namespace Mausr.Web.Controllers {
 			var initPos = new DenseVector(2);
 			initPos[0] = model.InitialX;
 			initPos[1] = model.InitialY;
+			var result = new DenseVector(f.DimensionsCount);
 			{
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkGreen, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.BasicStep, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(ps, f, initPos);
+				sdImpl.Optimize(result, f, initPos, p => ps.Add(p));
 			}
 			{
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkRed, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.MomentumStep,
 					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(ps, f, initPos);
+				sdImpl.Optimize(result, f, initPos, p => ps.Add(p));
 			}
 			{
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Blue, ps));
 				var sdImpl = new SteepestDescentAdvancedOptmizer(model.MomentumStep,
 					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(ps, f, initPos);
+				sdImpl.Optimize(result, f, initPos, p => ps.Add(p));
 			}
 
 			var fp = new FunctionPlotter();

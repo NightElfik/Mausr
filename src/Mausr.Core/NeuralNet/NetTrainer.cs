@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using MathNet.Numerics.LinearAlgebra;
@@ -25,8 +26,10 @@ namespace Mausr.Core.NeuralNet {
 
 		/// <param name="inputs">Matrix with data in rows.</param>
 		/// <param name="outputIndices">Array of indices of output neurons that should be activated for each input.</param>
-		public bool Train(Matrix<double> inputs, int[] outputIndices) {
+		public bool Train(Matrix<double> inputs, int[] outputIndices, Action<Vector<double>> iterationCallback) {
 			Contract.Requires(inputs.ColumnCount == Net.Layout.InputSize);
+			Contract.Requires(outputIndices.Min() >= 0);
+			Contract.Requires(outputIndices.Max() < Net.Layout.OutputSize);
 
 			var costFunction = new NetCostFunction(Net, inputs, outputIndices, RegularizationLambda);
 
@@ -34,24 +37,9 @@ namespace Mausr.Core.NeuralNet {
 			var point = Net.Coefficients.Pack();
 			var result = new DenseVector(point.Count);
 
-			bool status = Optimizer.Optimize(result, costFunction, point);
+			bool status = Optimizer.Optimize(result, costFunction, point, iterationCallback);
 
 			result.UnpackTo(Net.Coefficients);
-
-			return status;
-		}
-	
-		public bool Train(List<Vector<double>> optimizationSteps, Matrix<double> inputs, int[] outputIndices) {
-			Contract.Requires(inputs.ColumnCount == Net.Layout.InputSize);
-
-			var costFunction = new NetCostFunction(Net, inputs, outputIndices, RegularizationLambda);
-
-			InitializeCoefs(Net);
-			var point = Net.Coefficients.Pack();
-
-			bool status = Optimizer.Optimize(optimizationSteps, costFunction, point);
-
-			optimizationSteps[optimizationSteps.Count - 1].UnpackTo(Net.Coefficients);
 
 			return status;
 		}

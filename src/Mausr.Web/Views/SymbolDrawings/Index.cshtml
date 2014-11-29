@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SymbolDrawing>
+﻿@model IEnumerable<IGrouping<Symbol, SymbolDrawing>>
 
 @{
 	ViewBag.Title = "Symbol drawings";
@@ -6,31 +6,19 @@
 	int penSize = 4;
 }
 
-<h2>@ViewBag.Title</h2>
+<h1>@ViewBag.Title</h1>
 
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-	<tr>
-		<th>@Html.DisplayNameFor(model => model.Symbol.SymbolStr)</th>
-		<th>@Html.DisplayNameFor(model => model.CreatedDateTime)</th>
-		<th>Image</th>
-		<th></th>
-	</tr>
-
-	@foreach (var item in Model) {
-		<tr>
-			<td>@Html.DisplayFor(modelItem => item.Symbol.SymbolStr)</td>
-			<td>@Html.DisplayFor(modelItem => item.CreatedDateTime)</td>
-			<td>
+@foreach (var group in Model) {
+	<div class="row">
+		<hr />
+		<h4>@group.Key.SymbolStr: @group.Key.Name</h4>
+		@foreach (var item in group) {
+			<div class="pull-left">
 				<img src="@Url.ActionAbsolute(MVC.SymbolDrawings.Img(item.SymbolDrawingId, imageSize, penSize))"
-						width="@imageSize" height="@imageSize" />
-			</td>
-			<td>
+					 width="@imageSize" height="@imageSize" />
+				<p class="small">@item.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
 				@Html.ActionLink("Delete", "Delete", new { id = item.SymbolDrawingId })
-			</td>
-		</tr>
-	}
-
-</table>
+			</div>
+		}
+	</div>
+}
