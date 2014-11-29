@@ -19,13 +19,13 @@ namespace Mausr.Tests.NeuralNet {
 			var net = NetBuilder.CreateAndNandNet();
 			var inputs = DenseMatrix.OfArray(new double[,] { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } });
 			var outputIndices = new int[] { 1, 1, 1, 0 };
-			performTrainTest(net, inputs, outputIndices, 1, 0.05);
-			//performTrainTestWithPlots(net, inputs, outputIndices, 1, 0.05, 0.05);
+			performTrainTest(net, inputs, outputIndices, 1, 0.05, 1024);
+			//performTrainTestWithPlots(net, inputs, outputIndices, 1, 0.05, 1024, 0.05);
 		}
-
+		
 		private void performTrainTest(Net net, Matrix<double> inputs, int[] outputIndices,
-				double learningRate, double regularizationLambda) {
-			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, 1024);
+				double learningRate, double regularizationLambda, int maxIters) {
+			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
 			var trainer = new NetTrainer(net, optimizer, regularizationLambda);
 
 			bool result = trainer.Train(inputs, outputIndices);
@@ -37,8 +37,8 @@ namespace Mausr.Tests.NeuralNet {
 		}
 
 		private void performTrainTestWithPlots(Net net, Matrix<double> inputs, int[] outputIndices,
-				double learningRate, double regularizationLambda, double stepPerPixel) {
-			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, 1024);
+				double learningRate, double regularizationLambda, int maxIters, double stepPerPixel) {
+			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
 			var trainer = new NetTrainer(net, optimizer, regularizationLambda);
 
 			var cf = new NetCostFunction(net, inputs, outputIndices, regularizationLambda);

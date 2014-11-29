@@ -4,4 +4,5 @@ Enable-Migrations -ContextTypeName IdentityDb -MigrationsDirectory DataContexts\
 
 
 Update-Database -ConfigurationTypeName Mausr.Web.DataContexts.SymbolsMigrations.Configuration
+Update-Database -ConfigurationTypeName Mausr.Web.DataContexts.SymbolsMigrations.Configuration -Verbose
 Update-Database -ConfigurationTypeName Mausr.Web.DataContexts.SymbolsMigrations.Configuration -Force

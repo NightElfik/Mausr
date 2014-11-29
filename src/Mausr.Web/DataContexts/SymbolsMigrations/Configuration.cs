@@ -1,8 +1,6 @@
-namespace Mausr.Web.DataContexts.SymbolsMigrations {
-	using System;
-	using System.Data.Entity;
+﻿namespace Mausr.Web.DataContexts.SymbolsMigrations {
 	using System.Data.Entity.Migrations;
-	using System.Linq;
+	using Mausr.Web.Models;
 
 	internal sealed class Configuration : DbMigrationsConfiguration<SymbolsDb> {
 		public Configuration() {
@@ -11,18 +9,109 @@ namespace Mausr.Web.DataContexts.SymbolsMigrations {
 		}
 
 		protected override void Seed(SymbolsDb context) {
-			//  This method will be called after migrating to the latest version.
+			context.Symbols.AddOrUpdate(
+			  s => s.SymbolStr,
+			  new Symbol { SymbolStr = "Γ", Name = "Greek Capital Letter Gamma" },
+			  new Symbol { SymbolStr = "Δ", Name = "Greek Capital Letter Delta" },
+			  new Symbol { SymbolStr = "Θ", Name = "Greek Capital Letter Theta" },
+			  new Symbol { SymbolStr = "Λ", Name = "Greek Capital Letter Lamda" },
+			  new Symbol { SymbolStr = "Ξ", Name = "Greek Capital Letter Xi" },
+			  new Symbol { SymbolStr = "Π", Name = "Greek Capital Letter Pi" },
+			  new Symbol { SymbolStr = "Σ", Name = "Greek Capital Letter Sigma" },
+			  new Symbol { SymbolStr = "Φ", Name = "Greek Capital Letter Phi" },
+			  new Symbol { SymbolStr = "Ψ", Name = "Greek Capital Letter Psi" },
+			  new Symbol { SymbolStr = "Ω", Name = "Greek Capital Letter Omega" },
 
-			//  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-			//  to avoid creating duplicate seed data. E.g.
-			//
-			//    context.People.AddOrUpdate(
-			//      p => p.FullName,
-			//      new Person { FullName = "Andrew Peters" },
-			//      new Person { FullName = "Brice Lambson" },
-			//      new Person { FullName = "Rowan Miller" }
-			//    );
-			//
+			  new Symbol { SymbolStr = "α", Name = "Greek Small Letter Alpha" },
+			  new Symbol { SymbolStr = "β", Name = "Greek Small Letter Beta" },
+			  new Symbol { SymbolStr = "γ", Name = "Greek Small Letter Gamma" },
+			  new Symbol { SymbolStr = "δ", Name = "Greek Small Letter Delta" },
+			  new Symbol { SymbolStr = "ε", Name = "Greek Small Letter Epsilon" },
+			  new Symbol { SymbolStr = "ζ", Name = "Greek Small Letter Zeta" },
+			  new Symbol { SymbolStr = "η", Name = "Greek Small Letter Eta" },
+			  new Symbol { SymbolStr = "θ", Name = "Greek Small Letter Theta" },
+			  new Symbol { SymbolStr = "ι", Name = "Greek Small Letter Iota" },
+			  new Symbol { SymbolStr = "κ", Name = "Greek Small Letter Kappa" },
+			  new Symbol { SymbolStr = "λ", Name = "Greek Small Letter Lamda" },
+			  new Symbol { SymbolStr = "μ", Name = "Greek Small Letter Mu" },
+			  new Symbol { SymbolStr = "ν", Name = "Greek Small Letter Nu" },
+			  new Symbol { SymbolStr = "ξ", Name = "Greek Small Letter Xi" },
+			  new Symbol { SymbolStr = "ο", Name = "Greek Small Letter Omicron" },
+			  new Symbol { SymbolStr = "π", Name = "Greek Small Letter Pi" },
+			  new Symbol { SymbolStr = "ρ", Name = "Greek Small Letter Rho" },
+			  new Symbol { SymbolStr = "ς", Name = "Greek Small Letter Final Sigma" },
+			  new Symbol { SymbolStr = "σ", Name = "Greek Small Letter Sigma" },
+			  new Symbol { SymbolStr = "τ", Name = "Greek Small Letter Tau" },
+			  new Symbol { SymbolStr = "υ", Name = "Greek Small Letter Upsilon" },
+			  new Symbol { SymbolStr = "φ", Name = "Greek Small Letter Phi" },
+			  new Symbol { SymbolStr = "χ", Name = "Greek Small Letter Chi" },
+			  new Symbol { SymbolStr = "ψ", Name = "Greek Small Letter Psi" },
+			  new Symbol { SymbolStr = "ω", Name = "Greek Small Letter Omega" },
+
+			  new Symbol { SymbolStr = "ϐ", Name = "Greek Beta Symbol" },
+			  new Symbol { SymbolStr = "ϑ", Name = "Greek Theta Symbol" },
+			  new Symbol { SymbolStr = "ϒ", Name = "Greek Upsilon with Hook Symbol" },
+			  new Symbol { SymbolStr = "ϕ", Name = "Greek Phi Symbol" },
+			  new Symbol { SymbolStr = "ϖ", Name = "Greek Pi Symbol" },
+			  new Symbol { SymbolStr = "ϗ", Name = "Greek Kai Symbol" },
+
+			  new Symbol { SymbolStr = "♥", Name = "Black Heart Suit" },
+			  new Symbol { SymbolStr = "★", Name = "Black Star" },
+
+			  new Symbol { SymbolStr = "→", Name = "Rightwards Arrow" },
+			  new Symbol { SymbolStr = "↑", Name = "Upwards Arrow" },
+			  new Symbol { SymbolStr = "→", Name = "Rightwards Arrow" },
+			  new Symbol { SymbolStr = "↓", Name = "Downwards Arrow" },
+			  new Symbol { SymbolStr = "↔", Name = "Left Right Arrow" },
+			  new Symbol { SymbolStr = "↕", Name = "Up Down Arrow" },
+			  new Symbol { SymbolStr = "↖", Name = "North West Arrow" },
+			  new Symbol { SymbolStr = "↗", Name = "North East Arrow" },
+			  new Symbol { SymbolStr = "↘", Name = "South East Arrow" },
+			  new Symbol { SymbolStr = "↙", Name = "South West Arrow" },
+			  new Symbol { SymbolStr = "⇐", Name = "Leftwards Double Arrow" },
+			  new Symbol { SymbolStr = "⇒", Name = "Rightwards Double Arrow" },
+
+			  new Symbol { SymbolStr = "∀", Name = "For All" },
+			  new Symbol { SymbolStr = "∂", Name = "Partial Differential" },
+			  new Symbol { SymbolStr = "∃", Name = "There Exists" },
+			  new Symbol { SymbolStr = "∄", Name = "There Does Not Exist" },
+			  new Symbol { SymbolStr = "∅", Name = "Empty Set" },
+			  new Symbol { SymbolStr = "∆", Name = "Increment" },
+			  new Symbol { SymbolStr = "∇", Name = "Nabla" },
+			  new Symbol { SymbolStr = "∈", Name = "Element Of" },
+			  new Symbol { SymbolStr = "∉", Name = "Not an Element Of" },
+			  new Symbol { SymbolStr = "∎", Name = "End of Proof" },
+			  new Symbol { SymbolStr = "∓", Name = "Minus-or-Plus Sign" },
+			  new Symbol { SymbolStr = "∘", Name = "Ring Operator" },
+			  new Symbol { SymbolStr = "∙", Name = "Bullet Operator" },
+			  new Symbol { SymbolStr = "√", Name = "Square Root" },
+			  new Symbol { SymbolStr = "∞", Name = "Infinity" },
+			  new Symbol { SymbolStr = "∠", Name = "Angle" },
+			  new Symbol { SymbolStr = "∡", Name = "Measured Angle" },
+			  new Symbol { SymbolStr = "∤", Name = "Does Not Divide" },
+			  new Symbol { SymbolStr = "∧", Name = "Logical And" },
+			  new Symbol { SymbolStr = "∨", Name = "Logical Or" },
+			  new Symbol { SymbolStr = "∩", Name = "Intersection" },
+			  new Symbol { SymbolStr = "∪", Name = "Union" },
+			  new Symbol { SymbolStr = "∫", Name = "Integral" },
+			  new Symbol { SymbolStr = "∬", Name = "Double Integral" },
+			  new Symbol { SymbolStr = "∮", Name = "Contour Integral" },
+			  new Symbol { SymbolStr = "∯", Name = "Surface Integral" },
+			  new Symbol { SymbolStr = "≁", Name = "Not Tilde" },
+			  new Symbol { SymbolStr = "≃", Name = "Asymptotically Equal To" },
+			  new Symbol { SymbolStr = "≄", Name = "Not Asymptotically Equal To" },
+			  new Symbol { SymbolStr = "≅", Name = "Approximately Equal To" },
+			  new Symbol { SymbolStr = "≆", Name = "Approximately But Not Actually Equal To" },
+			  new Symbol { SymbolStr = "≇", Name = "Neither Approximately nor Actually Equal To" },
+			  new Symbol { SymbolStr = "≈", Name = "Almost Equal To" },
+			  new Symbol { SymbolStr = "≉", Name = "Not Almost Equal To" },
+			  new Symbol { SymbolStr = "≤", Name = "Less-Than or Equal To" },
+			  new Symbol { SymbolStr = "≥", Name = "Greater-Than or Equal To" },
+
+			  new Symbol { SymbolStr = "⌘", Name = "Place of Interest Sign" },
+			  new Symbol { SymbolStr = "☹", Name = "White Frowning Face" },
+			  new Symbol { SymbolStr = "☺", Name = "White Smiling Face" }
+			);
 		}
 	}
 }

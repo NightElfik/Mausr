@@ -6,7 +6,7 @@ namespace Mausr.Core {
 	public static class SerializationHelper {
 
 		public static void SerializeInt(int value, byte[] data, ref int index) {
-			Contract.Requires(index + 4 < data.Length);
+			Contract.Requires(index + 4 <= data.Length);
 
 			var intData = BitConverter.GetBytes(value);
 			for (int i = 0; i < 4; ++i) {
@@ -23,7 +23,7 @@ namespace Mausr.Core {
 		}
 
 		public static void SerializeArray<T>(T[] array, byte[] data, ref int index) {
-			Contract.Requires(index + array.Length * Marshal.SizeOf<T>() < data.Length);
+			Contract.Requires(index + array.Length * Marshal.SizeOf<T>() <= data.Length);
 
 			int bytesCount = Marshal.SizeOf<T>() * array.Length;
 			var pinnedHandle = GCHandle.Alloc(array, GCHandleType.Pinned);
@@ -34,7 +34,7 @@ namespace Mausr.Core {
 		}
 
 		public static void DeserializeArray<T>(T[] array, byte[] data, ref int index) {
-			Contract.Requires(index + array.Length * Marshal.SizeOf<T>() < data.Length);
+			Contract.Requires(index + array.Length * Marshal.SizeOf<T>() <= data.Length);
 
 			int bytesCount = Marshal.SizeOf<T>() * array.Length;
 			var pinnedHandle = GCHandle.Alloc(array, GCHandleType.Pinned);

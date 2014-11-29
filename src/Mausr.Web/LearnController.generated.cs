@@ -54,6 +54,18 @@ namespace Mausr.Web.Controllers
             return RedirectToActionPermanent(taskResult.Result);
         }
 
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult Batch()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Batch);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult BatchPost()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.BatchPost);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public LearnController Actions { get { return MVC.Learn; } }
@@ -70,14 +82,46 @@ namespace Mausr.Web.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNamesClass
         {
+            public readonly string Index = "Index";
+            public readonly string Batch = "Batch";
+            public readonly string BatchPost = "Batch";
+            public readonly string Done = "Done";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
+            public const string Index = "Index";
+            public const string Batch = "Batch";
+            public const string BatchPost = "Batch";
+            public const string Done = "Done";
         }
 
 
+        static readonly ActionParamsClass_Index s_params_Index = new ActionParamsClass_Index();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Index IndexParams { get { return s_params_Index; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Index
+        {
+            public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_Batch s_params_Batch = new ActionParamsClass_Batch();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Batch BatchParams { get { return s_params_Batch; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Batch
+        {
+            public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_BatchPost s_params_BatchPost = new ActionParamsClass_BatchPost();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_BatchPost BatchPostParams { get { return s_params_BatchPost; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_BatchPost
+        {
+            public readonly string model = "model";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -88,7 +132,13 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string Batch = "Batch";
+                public readonly string Done = "Done";
+                public readonly string Index = "Index";
             }
+            public readonly string Batch = "~/Views/Learn/Batch.cshtml";
+            public readonly string Done = "~/Views/Learn/Done.cshtml";
+            public readonly string Index = "~/Views/Learn/Index.cshtml";
         }
     }
 
@@ -96,6 +146,64 @@ namespace Mausr.Web.Controllers
     public partial class T4MVC_LearnController : Mausr.Web.Controllers.LearnController
     {
         public T4MVC_LearnController() : base(Dummy.Instance) { }
+
+        [NonAction]
+        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Index()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
+            IndexOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.LearnInitViewModel model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Index(Mausr.Web.Models.LearnInitViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            IndexOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void BatchOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.BatchInitViewModel model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Batch(Mausr.Web.Models.BatchInitViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Batch);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            BatchOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void BatchPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.LearnBatchViewModel model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult BatchPost(Mausr.Web.Models.LearnBatchViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.BatchPost);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            BatchPostOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DoneOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Done()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Done);
+            DoneOverride(callInfo);
+            return callInfo;
+        }
 
     }
 }

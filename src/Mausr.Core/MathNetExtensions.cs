@@ -12,6 +12,8 @@ namespace Mausr.Core {
 		/// Packs given matrices to the array.
 		/// </summary>
 		public static Vector<double> Pack(this Matrix<double>[] matrices) {
+			Contract.Requires(matrices != null && matrices.Length > 0);
+			Contract.Requires(Contract.ForAll(matrices, m => m != null));
 
 			int size = 0;
 			for (int i = 0; i < matrices.Length; ++i) {
@@ -27,6 +29,11 @@ namespace Mausr.Core {
 		/// Packs given matrices to given array.
 		/// </summary>
 		public static void PackTo(this Matrix<double>[] matrices, Vector<double> result) {
+			Contract.Requires(matrices != null && matrices.Length > 0);
+			Contract.Requires(Contract.ForAll(matrices, m => m != null));
+			Contract.Requires(result != null);
+			Contract.Requires(result.Count == matrices.Sum(m => m.RowCount * m.ColumnCount));
+
 			int globalIndex = 0;
 			for (int i = 0; i < matrices.Length; ++i) {
 				var m = matrices[i];
@@ -44,7 +51,10 @@ namespace Mausr.Core {
 		/// <summary>
 		/// Packs given matrices to the array.
 		/// </summary>
-		public static void Unpack(this Vector<double> packedMatrices, Matrix<double>[] resultMatrices) {
+		public static void UnpackTo(this Vector<double> packedMatrices, Matrix<double>[] resultMatrices) {
+			Contract.Requires(packedMatrices != null);
+			Contract.Requires(resultMatrices != null && resultMatrices.Length > 0);
+			Contract.Requires(Contract.ForAll(resultMatrices, m => m != null));
 			Contract.Requires(packedMatrices.Count == resultMatrices.Sum(m => m.RowCount * m.ColumnCount));
 
 			int globalIndex = 0;

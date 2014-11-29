@@ -20,6 +20,11 @@ namespace Mausr.Core.NeuralNet {
 			Coefficients = new DenseMatrix[layout.CoefsCount];
 		}
 
+		public void AllocateCoefs() {			
+			for (int i = 0; i < Layout.CoefsCount; ++i) {
+				Coefficients[i] = new DenseMatrix(Layout.GetCoefMatrixRows(i), Layout.GetCoefMatrixCols(i));
+			}
+		}
 
 		public Matrix<double> GetCoefsMatrix(int index) {
 			Contract.Requires<ArgumentOutOfRangeException>(index >= 0 && index < Layout.CoefsCount);

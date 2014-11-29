@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 using Mausr.Core;
 
 namespace Mausr.Web.Models {
@@ -21,6 +18,14 @@ namespace Mausr.Web.Models {
 		[Required]
 		public virtual Symbol Symbol { get; set; }
 
+		[Required]
+		[Display(Name = "Drawing tool")]
+		public virtual DrawingTool DrawingTool { get; set; }
+
+		[Required]
+		[Display(Name = "Drawing device")]
+		public virtual DrawingDevice DrawingDevice { get; set; }
+		
 		
 		[NotMapped]
 		public RawDrawing RawDrawing {
@@ -28,5 +33,21 @@ namespace Mausr.Web.Models {
 			set { RawData = value.Serialize(); }
 		}
 
+	}
+
+
+	public enum DrawingTool {
+		Unknown,
+		Mouse,
+		Stylus,
+		Finger,
+	}
+
+	public enum DrawingDevice {
+		Unknown,
+		Desktop,
+		Laptop,
+		Tablet,
+		Phone,
 	}
 }

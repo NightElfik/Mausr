@@ -41,7 +41,7 @@ namespace Mausr.Core.NeuralNet {
 
 
 		public double Evaluate(Vector<double> point) {
-			point.Unpack(unpackedCoefs);
+			point.UnpackTo(unpackedCoefs);
 
 			Matrix<double> result = inputs;
 
@@ -81,7 +81,7 @@ namespace Mausr.Core.NeuralNet {
 		}
 
 		public void Derivate(Vector<double> resultDerivative, Vector<double> point) {
-			point.Unpack(unpackedCoefs);
+			point.UnpackTo(unpackedCoefs);
 
 			Matrix<double> result = inputs;
 

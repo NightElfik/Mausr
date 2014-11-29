@@ -36,7 +36,7 @@ namespace Mausr.Core.NeuralNet {
 
 			bool status = Optimizer.Optimize(result, costFunction, point);
 
-			result.Unpack(Net.Coefficients);
+			result.UnpackTo(Net.Coefficients);
 
 			return status;
 		}
@@ -51,12 +51,15 @@ namespace Mausr.Core.NeuralNet {
 
 			bool status = Optimizer.Optimize(optimizationSteps, costFunction, point);
 
-			optimizationSteps[optimizationSteps.Count - 1].Unpack(Net.Coefficients);
+			optimizationSteps[optimizationSteps.Count - 1].UnpackTo(Net.Coefficients);
 
 			return status;
 		}
 
 		public void InitializeCoefs(Net network) {
+			Contract.Requires(network.Coefficients != null);
+			Contract.Requires(Contract.ForAll(network.Coefficients, c => c != null));
+
 			var rand = new Random();
 			foreach (var coef in Net.Coefficients) {
 				double epsilon = Math.Sqrt(6) / Math.Sqrt(coef.ColumnCount + coef.RowCount);

@@ -62,7 +62,7 @@ function MausrPainter(options) {
 		self.currentLine = [];
 		self.allLines = [];
 		self.redraw();
-		self.exportText();
+		self.$jsonText.text("");
 		return false;
 	});
 

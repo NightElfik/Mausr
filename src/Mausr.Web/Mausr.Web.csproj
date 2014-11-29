@@ -287,6 +287,7 @@
     <Compile Include="HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
     <Compile Include="LearnController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
@@ -295,8 +296,12 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BatchDoneViewModel.cs" />
+    <Compile Include="Models\BatchInitViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\LearnViewModel.cs" />
+    <Compile Include="Models\CreateSymbolDrawingViewModel.cs" />
+    <Compile Include="Models\LearnBatchViewModel.cs" />
+    <Compile Include="Models\LearnInitViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlotViewModel.cs" />
     <Compile Include="Models\Symbol.cs" />
@@ -415,11 +420,15 @@
     <Content Include="Views\SymbolDrawings\Index.cshtml" />
     <Content Include="Views\Plot\Plot.cshtml" />
     <Content Include="Views\Plot\Index.cshtml" />
+    <Content Include="Views\Learn\Index.cshtml" />
+    <Content Include="Views\Learn\Batch.cshtml" />
+    <Content Include="Views\Learn\Done.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Shared\EditorTemplates\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

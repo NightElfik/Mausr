@@ -62,17 +62,17 @@ namespace Mausr.Web.Controllers {
 				return View(model);
 			}
 
-			var sd = new SymbolDrawing() {
-				Symbol = sym,
-				CreatedDateTime = DateTime.UtcNow,
-				RawDrawing = drawing,
-			};
+			//var sd = new SymbolDrawing() {
+			//	Symbol = sym,
+			//	CreatedDateTime = DateTime.UtcNow,
+			//	RawDrawing = drawing,
+			//};
 
-			symbolsDb.SymbolDrawings.Add(sd);
-			symbolsDb.SaveChanges();
+			//symbolsDb.SymbolDrawings.Add(sd);
+			//symbolsDb.SaveChanges();
 
-			MyHtml.SuccessMessage("Drawing was successfully saved in the DB under ID <b>{0}</b>.",
-				sd.SymbolDrawingId);
+			//MyHtml.SuccessMessage("Drawing was successfully saved in the DB under ID <b>{0}</b>.",
+			//	sd.SymbolDrawingId);
 
 			return View(new CreateSymbolDrawingViewModel() {
 				Symbols = model.Symbols
