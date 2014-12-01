@@ -19,6 +19,10 @@ namespace Mausr.Web.Controllers {
 			return View(symbolsDb.Symbols.ToList());
 		}
 
+		public virtual ActionResult Collisions() {
+			return View(symbolsDb.Symbols.GroupBy(s => s.SymbolStr).Where(g => g.Count() > 1).ToList());
+		}
+
 		public virtual ActionResult Details(int? id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -88,11 +92,5 @@ namespace Mausr.Web.Controllers {
 			return RedirectToAction("Index");
 		}
 
-		protected override void Dispose(bool disposing) {
-			if (disposing) {
-				symbolsDb.Dispose();
-			}
-			base.Dispose(disposing);
-		}
 	}
 }

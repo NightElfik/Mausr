@@ -428,6 +428,7 @@
     <Content Include="Views\Learn\Batch.cshtml" />
     <Content Include="Views\Learn\Done.cshtml" />
     <Content Include="Views\Train\Index.cshtml" />
+    <Content Include="Views\Symbols\Collisions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Shared\EditorTemplates\" />

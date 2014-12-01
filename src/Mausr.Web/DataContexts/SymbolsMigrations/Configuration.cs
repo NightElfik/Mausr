@@ -9,6 +9,12 @@
 		}
 
 		protected override void Seed(SymbolsDb context) {
+
+			// Turn on case-sensitive (binary) comparison.
+			// Default locale is case insensitive and treats symbols Σ, ς, and σ as identical.
+			context.Database.ExecuteSqlCommand(
+				@"ALTER TABLE Symbols ALTER COLUMN SymbolStr NVARCHAR(2) COLLATE SQL_Latin1_General_CP850_BIN NOT NULL");
+
 			context.Symbols.AddOrUpdate(
 			  s => s.SymbolStr,
 			  new Symbol { SymbolStr = "Γ", Name = "Greek Capital Letter Gamma" },
@@ -39,7 +45,7 @@
 			  new Symbol { SymbolStr = "ο", Name = "Greek Small Letter Omicron" },
 			  new Symbol { SymbolStr = "π", Name = "Greek Small Letter Pi" },
 			  new Symbol { SymbolStr = "ρ", Name = "Greek Small Letter Rho" },
-			  new Symbol { SymbolStr = "ς", Name = "Greek Small Letter Final Sigma" },
+			  //new Symbol { SymbolStr = "ς", Name = "Greek Small Letter Final Sigma" },
 			  new Symbol { SymbolStr = "σ", Name = "Greek Small Letter Sigma" },
 			  new Symbol { SymbolStr = "τ", Name = "Greek Small Letter Tau" },
 			  new Symbol { SymbolStr = "υ", Name = "Greek Small Letter Upsilon" },
@@ -48,28 +54,37 @@
 			  new Symbol { SymbolStr = "ψ", Name = "Greek Small Letter Psi" },
 			  new Symbol { SymbolStr = "ω", Name = "Greek Small Letter Omega" },
 
-			  new Symbol { SymbolStr = "ϐ", Name = "Greek Beta Symbol" },
 			  new Symbol { SymbolStr = "ϑ", Name = "Greek Theta Symbol" },
-			  new Symbol { SymbolStr = "ϒ", Name = "Greek Upsilon with Hook Symbol" },
 			  new Symbol { SymbolStr = "ϕ", Name = "Greek Phi Symbol" },
-			  new Symbol { SymbolStr = "ϖ", Name = "Greek Pi Symbol" },
-			  new Symbol { SymbolStr = "ϗ", Name = "Greek Kai Symbol" },
 
 			  new Symbol { SymbolStr = "♥", Name = "Black Heart Suit" },
 			  new Symbol { SymbolStr = "★", Name = "Black Star" },
 
-			  new Symbol { SymbolStr = "→", Name = "Rightwards Arrow" },
+			  new Symbol { SymbolStr = "←", Name = "Leftwards Arrow" },
 			  new Symbol { SymbolStr = "↑", Name = "Upwards Arrow" },
 			  new Symbol { SymbolStr = "→", Name = "Rightwards Arrow" },
 			  new Symbol { SymbolStr = "↓", Name = "Downwards Arrow" },
 			  new Symbol { SymbolStr = "↔", Name = "Left Right Arrow" },
 			  new Symbol { SymbolStr = "↕", Name = "Up Down Arrow" },
-			  new Symbol { SymbolStr = "↖", Name = "North West Arrow" },
-			  new Symbol { SymbolStr = "↗", Name = "North East Arrow" },
-			  new Symbol { SymbolStr = "↘", Name = "South East Arrow" },
-			  new Symbol { SymbolStr = "↙", Name = "South West Arrow" },
+			  //new Symbol { SymbolStr = "↖", Name = "North West Arrow" },
+			  //new Symbol { SymbolStr = "↗", Name = "North East Arrow" },
+			  //new Symbol { SymbolStr = "↘", Name = "South East Arrow" },
+			  //new Symbol { SymbolStr = "↙", Name = "South West Arrow" },
 			  new Symbol { SymbolStr = "⇐", Name = "Leftwards Double Arrow" },
 			  new Symbol { SymbolStr = "⇒", Name = "Rightwards Double Arrow" },
+
+			  new Symbol { SymbolStr = "±", Name = "Plus-Minus Sign" },
+			  new Symbol { SymbolStr = "°", Name = "Degree Sign" },
+
+			  new Symbol { SymbolStr = "©", Name = "Copyright Sign" },
+			  new Symbol { SymbolStr = "®", Name = "Registered Sign" },
+
+			  new Symbol { SymbolStr = "«", Name = "Left-Pointing Double Angle Quotation Mark" },
+			  new Symbol { SymbolStr = "»", Name = "Right-Pointing Double Angle Quotation Mark" },
+
+			  new Symbol { SymbolStr = "€", Name = "Euro Sign" },
+			  new Symbol { SymbolStr = "£", Name = "Pound Sign" },
+			  new Symbol { SymbolStr = "¥", Name = "Yen Sign" },
 
 			  new Symbol { SymbolStr = "∀", Name = "For All" },
 			  new Symbol { SymbolStr = "∂", Name = "Partial Differential" },
@@ -81,7 +96,6 @@
 			  new Symbol { SymbolStr = "∈", Name = "Element Of" },
 			  new Symbol { SymbolStr = "∉", Name = "Not an Element Of" },
 			  new Symbol { SymbolStr = "∎", Name = "End of Proof" },
-			  new Symbol { SymbolStr = "∓", Name = "Minus-or-Plus Sign" },
 			  new Symbol { SymbolStr = "∘", Name = "Ring Operator" },
 			  new Symbol { SymbolStr = "∙", Name = "Bullet Operator" },
 			  new Symbol { SymbolStr = "√", Name = "Square Root" },
@@ -94,17 +108,17 @@
 			  new Symbol { SymbolStr = "∩", Name = "Intersection" },
 			  new Symbol { SymbolStr = "∪", Name = "Union" },
 			  new Symbol { SymbolStr = "∫", Name = "Integral" },
-			  new Symbol { SymbolStr = "∬", Name = "Double Integral" },
-			  new Symbol { SymbolStr = "∮", Name = "Contour Integral" },
-			  new Symbol { SymbolStr = "∯", Name = "Surface Integral" },
-			  new Symbol { SymbolStr = "≁", Name = "Not Tilde" },
+			  //new Symbol { SymbolStr = "∬", Name = "Double Integral" },
+			  //new Symbol { SymbolStr = "∮", Name = "Contour Integral" },
+			  //new Symbol { SymbolStr = "∯", Name = "Surface Integral" },
+			  //new Symbol { SymbolStr = "≁", Name = "Not Tilde" },
 			  new Symbol { SymbolStr = "≃", Name = "Asymptotically Equal To" },
 			  new Symbol { SymbolStr = "≄", Name = "Not Asymptotically Equal To" },
-			  new Symbol { SymbolStr = "≅", Name = "Approximately Equal To" },
-			  new Symbol { SymbolStr = "≆", Name = "Approximately But Not Actually Equal To" },
-			  new Symbol { SymbolStr = "≇", Name = "Neither Approximately nor Actually Equal To" },
+			  //new Symbol { SymbolStr = "≅", Name = "Approximately Equal To" },
+			  //new Symbol { SymbolStr = "≆", Name = "Approximately But Not Actually Equal To" },
+			 // new Symbol { SymbolStr = "≇", Name = "Neither Approximately nor Actually Equal To" },
 			  new Symbol { SymbolStr = "≈", Name = "Almost Equal To" },
-			  new Symbol { SymbolStr = "≉", Name = "Not Almost Equal To" },
+			  //new Symbol { SymbolStr = "≉", Name = "Not Almost Equal To" },
 			  new Symbol { SymbolStr = "≤", Name = "Less-Than or Equal To" },
 			  new Symbol { SymbolStr = "≥", Name = "Greater-Than or Equal To" },
 

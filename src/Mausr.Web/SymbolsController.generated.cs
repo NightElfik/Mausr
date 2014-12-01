@@ -95,6 +95,7 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string Collisions = "Collisions";
             public readonly string Details = "Details";
             public readonly string Create = "Create";
             public readonly string Edit = "Edit";
@@ -106,6 +107,7 @@ namespace Mausr.Web.Controllers
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string Collisions = "Collisions";
             public const string Details = "Details";
             public const string Create = "Create";
             public const string Edit = "Edit";
@@ -165,12 +167,14 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string Collisions = "Collisions";
                 public readonly string Create = "Create";
                 public readonly string Delete = "Delete";
                 public readonly string Details = "Details";
                 public readonly string Edit = "Edit";
                 public readonly string Index = "Index";
             }
+            public readonly string Collisions = "~/Views/Symbols/Collisions.cshtml";
             public readonly string Create = "~/Views/Symbols/Create.cshtml";
             public readonly string Delete = "~/Views/Symbols/Delete.cshtml";
             public readonly string Details = "~/Views/Symbols/Details.cshtml";
@@ -192,6 +196,17 @@ namespace Mausr.Web.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
             IndexOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void CollisionsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Collisions()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Collisions);
+            CollisionsOverride(callInfo);
             return callInfo;
         }
 

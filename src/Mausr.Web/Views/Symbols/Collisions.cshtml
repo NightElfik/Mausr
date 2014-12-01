@@ -1,0 +1,21 @@
+﻿@model IEnumerable<IGrouping<string, Symbol>>
+@{
+	ViewBag.Title = "Stmbol collisions";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<table class="table">
+	<tr>
+		<th>Symbols (IDs)</th>
+	</tr>
+
+	@foreach (var group in Model) {
+		<tr>
+			<td>
+				@string.Join(", ", group.Select(x => string.Format("{0} ({1})", x.SymbolStr, x.SymbolId)))
+			</td>
+		</tr>
+	}
+
+</table>

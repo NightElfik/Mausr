@@ -54,12 +54,6 @@ namespace Mausr.Web.Controllers
             return RedirectToActionPermanent(taskResult.Result);
         }
 
-        [NonAction]
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult Train()
-        {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Train);
-        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public TrainController Actions { get { return MVC.Train; } }
@@ -77,22 +71,20 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
-            public readonly string Train = "Train";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
-            public const string Train = "Train";
         }
 
 
-        static readonly ActionParamsClass_Train s_params_Train = new ActionParamsClass_Train();
+        static readonly ActionParamsClass_Index s_params_Index = new ActionParamsClass_Index();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_Train TrainParams { get { return s_params_Train; } }
+        public ActionParamsClass_Index IndexParams { get { return s_params_Index; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_Train
+        public class ActionParamsClass_Index
         {
             public readonly string model = "model";
         }
@@ -129,14 +121,14 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void TrainOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.TrainViewModel model);
+        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.TrainViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Train(Mausr.Web.Models.TrainViewModel model)
+        public override System.Web.Mvc.ActionResult Index(Mausr.Web.Models.TrainViewModel model)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Train);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            TrainOverride(callInfo, model);
+            IndexOverride(callInfo, model);
             return callInfo;
         }
 

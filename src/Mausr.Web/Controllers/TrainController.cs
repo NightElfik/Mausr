@@ -19,12 +19,29 @@ namespace Mausr.Web.Controllers {
 		}
 
 		public virtual ActionResult Index() {
-			return View();
+			var model = new TrainViewModel() {
+				InputImgSizePx = 20,
+				PenThicknessPerc = 10,
+				LearnRounds = 2,
+				BatchSize = 128,
+				MaxIteratinosPerBatch = 256,
+				RegularizationLambda = 0.1,
+				LearningRate = 0.1,
+				MomentumStartPerc = 60,
+				MomentumEndPerc = 99,
+				MinDerivativeMagnitude = 1e-4,
+				TestDataSetSizePerc = 10,
+			};
+
+			initModel(model);
+
+			return View(model);
 		}
 
 		[HttpPost]
-		public virtual ActionResult Train(TrainViewModel model) {
+		public virtual ActionResult Index(TrainViewModel model) {
 			if (!ModelState.IsValid) {
+				initModel(model);
 				return View(model);
 			}
 
@@ -35,12 +52,18 @@ namespace Mausr.Web.Controllers {
 			var net = new Net(layout, new SigomidActivationFunc());
 
 			var optimizer = new SteepestDescentAdvancedOptmizer(model.LearningRate,
-				model.MomentumStart, model.MomentumEnd, model.MinDerivativeMagnitude, model.MaxIteratinos);
+				model.MomentumStartPerc, model.MomentumEndPerc, model.MinDerivativeMagnitude, model.MaxIteratinosPerBatch);
 			var trainer = new NetTrainer(net, optimizer, model.RegularizationLambda);
 
 			//trainer.Train();
 
 			return View();
+		}
+
+
+		private void initModel(TrainViewModel model) {
+			model.OutputSize = symbolsDb.Symbols.Count();
+			model.TrainingSamples = symbolsDb.SymbolDrawings.Count();
 		}
 
 	}
