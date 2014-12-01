@@ -10,6 +10,14 @@ namespace Mausr.Core {
 		public int LinesCount { get { return Lines == null ? -1 : Lines.Length; } }
 
 
+		public RawDrawing() {
+
+		}
+
+		public RawDrawing(RawDrawing rd) {
+			Lines = rd.Lines.Select(l => l.ToArray()).ToArray();
+		}
+
 
 		public byte[] Serialize() {
 			Contract.Requires(Lines != null);

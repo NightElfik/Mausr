@@ -55,22 +55,27 @@ namespace Mausr.Web.Controllers {
 		}
 
 		[HttpGet]
-		[Route("SymbolDrawings/Img/{normalized:bool}/{decorated:bool}/{imageSize:int:min(8):max(1024)}/{penSizePerc:int:min(1):max(30)}/{id:int:min(0)}.png")]
-		public virtual ActionResult Img(int id, int imageSize, int penSizePerc, bool normalized, bool decorated) {
+		[Route("SymbolDrawings/Img/{normalized:bool}/{decorated:bool}/{rotation:int:min(-360):max(360)}/{imageSize:int:min(8):max(1024)}/{penSizePerc:int:min(1):max(30)}/{id:int:min(0)}.png")]
+		public virtual ActionResult Img(int id, int imageSize, int penSizePerc, int rotation, bool normalized, bool decorated) {
 			var sd = symbolsDb.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == id);
 			if (sd == null) {
 				return HttpNotFound();
 			}
 
-			string fileName = string.Format("{0}-s{1}-p{2}-d{3}-n{4}.png", id, imageSize, penSizePerc,
-				decorated ? 1 : 0, normalized ? 1 : 0);
+			string fileName = string.Format("{0}-s{1}-p{2}-r{3}-d{4}-n{5}.png",
+				id, imageSize, penSizePerc, rotation, decorated ? 1 : 0, normalized ? 1 : 0);
 			string filePath = Path.Combine(appSettingsProvider.SymbolDrawingsCacheDirAbsolute, fileName);
 
 			if (!System.IO.File.Exists(filePath)) {
 				var drawing = sd.RawDrawing;
-				if (normalized) {
+				
+				if (rotation != 0) {
+					drawing = new RawDataProcessor().Rotate(drawing, rotation, normalized);
+				}
+				else if (normalized) {
 					new RawDataProcessor().Normalize(drawing);
 				}
+
 				var img = new Rasterizer().Rasterize(drawing, imageSize, penSizePerc / 100f, normalized, decorated);
 				img.Save(filePath, ImageFormat.Png);
 			}

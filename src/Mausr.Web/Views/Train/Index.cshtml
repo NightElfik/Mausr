@@ -199,10 +199,11 @@
 		$(function () {
 			var imgUrls = [
 				@Html.Raw(string.Join(",", Model.ExampleDrawings.Select(d =>
-					"'" + Url.Action(MVC.SymbolDrawings.Img(d.SymbolDrawingId, 88, 22, true, false)) + "'")))
+					"'" + Url.Action(MVC.SymbolDrawings.Img(d.SymbolDrawingId, 88, 22, 0, true, false)) + "'")))
 			];
 			var $imgSizeInput = $('#@Html.NameFor(m => m.InputImgSizePx)');
 			var $penSizeInput = $('#@Html.NameFor(m => m.PenThicknessPerc)');
+			var $extraRotationInput = $('#@Html.NameFor(m => m.GenerateExtraInputsByRotation)');
 			var $normalizedInput = $('#@Html.NameFor(m => m.NormalizeInput)');
 			var $container = $('#sampleImagesContainer');
 			$('#genSampleImagesBtn').click(function (e) {
@@ -211,7 +212,14 @@
 					var url = imgUrls[i].replace('/88/', '/' + $imgSizeInput.val() + '/')
 						.replace('/22/', '/' + $penSizeInput.val() + '/')
 						.replace('/True/', '/' + ($normalizedInput.prop('checked') ? 'True' : 'False') + '/');
+					
 					$container.append($('<img src="' + url + '" style="border: 1px solid #AAA; margin: 4px;" />'));
+
+					var rotAngle = parseInt($extraRotationInput.val(), 10);
+					if (rotAngle != 0) {
+						$container.append($('<img src="' + url.replace('/0/', '/' + rotAngle + '/') + '" style="border: 1px solid #AAA; margin: 4px;" />'));
+						$container.append($('<img src="' + url.replace('/0/', '/' + (-rotAngle) + '/') + '" style="border: 1px solid #AAA; margin: 4px;" />'));
+					}
 				}
 				return false;
 			});
