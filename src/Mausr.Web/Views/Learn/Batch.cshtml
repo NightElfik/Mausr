@@ -5,13 +5,6 @@
 	int imageSize = 256;
 }
 
-@if (Model.SavedDrawing != null) {
-	<div class="alert alert-success">
-		<a href="#" class="close" data-dismiss="alert">&times;</a>
-		<strong>Success!</strong> Drawing of '@Model.SavedDrawing.Symbol.SymbolStr' was successfully saved under ID @Model.SavedDrawing.SymbolDrawingId.
-	</div>
-}
-
 <h1>Learning: @Model.Symbol.SymbolStr <small>@Model.Symbol.Name</small></h1>
 
 @using (Html.BeginForm()) {
@@ -19,25 +12,26 @@
 
 	<div class="form-horizontal">
 		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-		<div class="form-group col-md-12">
+		<div class="form-group col-sm-6">
 			<canvas id="canvas" class="img-thumbnail" width="@imageSize" height="@imageSize"></canvas>
 		</div>
 
-		<div class="form-group">
-			<div class="col-md-2">
-				<input type="submit" value="Save" class="btn btn-primary btn-lg btn-block" />
-			</div>
-			<div class="col-md-2">
-				<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
-			</div>
-			<div class="col-md-2">
-				@(Html.ActionLink("Skip", MVC.Learn.Batch().AddRouteValues(new BatchInitViewModel() {
-					DrawingDevice = Model.DrawingDevice,
-					DrawingTool = Model.DrawingTool,
-					BatchNumber = Model.BatchNumber,
-					SymbolNumber = Model.SymbolNumber + 1,
-				}), new { @class = "btn btn-default btn-lg btn-block", role = "button" }))
-			</div>
+		<div class="form-group col-sm-6">
+			<input type="submit" value="Save" class="btn btn-primary btn-lg btn-block" />
+			<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
+			@(Html.ActionLink("Skip", MVC.Learn.Batch().AddRouteValues(new BatchInitViewModel() {
+				DrawingDevice = Model.DrawingDevice,
+				DrawingTool = Model.DrawingTool,
+				BatchNumber = Model.BatchNumber,
+				SymbolNumber = Model.SymbolNumber + 1,
+			}), new { @class = "btn btn-default btn-lg btn-block", role = "button" }))
+
+			@if (Model.SavedDrawing != null) {
+				<div class="alert alert-success">
+					<a href="#" class="close" data-dismiss="alert">&times;</a>
+					<strong>Success!</strong> Drawing of '@Model.SavedDrawing.Symbol.SymbolStr' was successfully saved under ID @Model.SavedDrawing.SymbolDrawingId.
+				</div>
+			}
 		</div>
 
 		<div class="form-group">

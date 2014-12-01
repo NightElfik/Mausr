@@ -149,6 +149,7 @@
     <Compile Include="Optimization\RosenbrockFunction.cs" />
     <Compile Include="Plot\FunctionPlotter.cs" />
     <Compile Include="Rasterizer.cs" />
+    <Compile Include="RawDataProcessor.cs" />
     <Compile Include="SerializationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawDrawing.cs" />

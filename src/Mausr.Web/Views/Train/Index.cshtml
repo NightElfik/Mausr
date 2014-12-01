@@ -13,10 +13,10 @@
 		<hr />
 		<h4>Basic info and topology</h4>
 		<div class="form-group">
-			@Html.LabelFor(model => model.NetName, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.NetName, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.NetName, new { htmlAttributes = new { @class = "form-control", placeholder = "My network 400-100-97" } })
-				@Html.ValidationMessageFor(model => model.NetName, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.NetName, new { htmlAttributes = new { @class = "form-control", placeholder = "My network 400-100-97" } })
+				@Html.ValidationMessageFor(m => m.NetName, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Human readable network name for identification later on.</small></p>
 			</div>
 		</div>
@@ -27,10 +27,10 @@
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.HiddenLayersSizes, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.HiddenLayersSizes, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.HiddenLayersSizes, new { htmlAttributes = new { @class = "form-control", placeholder = "100; 20" } })
-				@Html.ValidationMessageFor(model => model.HiddenLayersSizes, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.HiddenLayersSizes, new { htmlAttributes = new { @class = "form-control", placeholder = "100; 20" } })
+				@Html.ValidationMessageFor(m => m.HiddenLayersSizes, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Sizes of hidden layers separated by space, comma, or semicolon.</small></p>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 			<label class="col-sm-3 control-label">Output layer size</label>
 			<div class="col-md-3">
 				<p class="form-control-static">@Model.OutputSize</p>
-				<p class="text-muted"><small>Number of output neurons is given by number of symbols in DB.</small></p>
+				<p class="text-muted"><small>Number of output neurons is given by the number of symbols in DB.</small></p>
 			</div>
 		</div>
 
@@ -47,41 +47,55 @@
 		<h4>Input image parameters</h4>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.InputImgSizePx, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.InputImgSizePx, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
-					@Html.EditorFor(model => model.InputImgSizePx, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.EditorFor(m => m.InputImgSizePx, new { htmlAttributes = new { @class = "form-control" } })
 					<div class="input-group-addon">px</div>
 				</div>
-				@Html.ValidationMessageFor(model => model.InputImgSizePx, "", new { @class = "text-danger" })
-				<p class="text-muted"><small>A square of this number is size of input layer on the neuron network.</small></p>
+				@Html.ValidationMessageFor(m => m.InputImgSizePx, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>A square of this number is the size of input layer on the neural network.</small></p>
 			</div>
-		</div>
-
-		<div class="form-group">
-			@Html.LabelFor(model => model.PenThicknessPerc, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.PenThicknessPerc, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
-					@Html.EditorFor(model => model.PenThicknessPerc, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.EditorFor(m => m.PenThicknessPerc, new { htmlAttributes = new { @class = "form-control" } })
 					<div class="input-group-addon">%</div>
 				</div>
-				@Html.ValidationMessageFor(model => model.PenThicknessPerc, "", new { @class = "text-danger" })
+				@Html.ValidationMessageFor(m => m.PenThicknessPerc, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Thickness of a pen used for drawing the symbols as percentage of image edge size.</small></p>
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.GenerateExtraInputsByRotation, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.NormalizeInput, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.NormalizeInput, new { htmlAttributes = new { @class = "checkbox" } })
+				@Html.ValidationMessageFor(m => m.NormalizeInput, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Crops and centers input data.</small></p>
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.GenerateExtraInputsByRotation, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
 					<div class="input-group-addon">±</div>
-					@Html.EditorFor(model => model.GenerateExtraInputsByRotation, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.EditorFor(m => m.GenerateExtraInputsByRotation, new { htmlAttributes = new { @class = "form-control" } })
 					<div class="input-group-addon">°</div>
 				</div>
-				@Html.ValidationMessageFor(model => model.GenerateExtraInputsByRotation, "", new { @class = "text-danger" })
-				<p class="text-muted"><small>In non-zero, generates extra artifical inputs by rotating existing ones by given amount of degrees. This triples the input count.</small></p>
+				@Html.ValidationMessageFor(m => m.GenerateExtraInputsByRotation, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>If non-zero, generates extra artifical inputs by rotating existing ones by given amount of degrees. This triples the input count.</small></p>
 			</div>
 		</div>
+
+		<div class="form-group">
+			<div class="col-md-3">
+				<a class="btn btn-default pull-right" id="genSampleImagesBtn" href="#" role="button">Show sample images</a>
+			</div>
+			<div class="col-md-9" id="sampleImagesContainer"></div>
+		</div>
+
 
 		<hr />
 		<h4>Training parameters</h4>
@@ -94,77 +108,77 @@
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.TestDataSetSizePerc, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.TestDataSetSizePerc, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
-					@Html.EditorFor(model => model.TestDataSetSizePerc, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.EditorFor(m => m.TestDataSetSizePerc, new { htmlAttributes = new { @class = "form-control" } })
 					<div class="input-group-addon">%</div>
 				</div>
-				@Html.ValidationMessageFor(model => model.TestDataSetSizePerc, "", new { @class = "text-danger" })
+				@Html.ValidationMessageFor(m => m.TestDataSetSizePerc, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Percentage of training samples that will be used for performance evaluation.</small></p>
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.LearnRounds, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.LearnRounds, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.LearnRounds, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.LearnRounds, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.LearnRounds, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.LearnRounds, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Number of rounds of learning. All input samples are processed in one round.</small></p>
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.BatchSize, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.BatchSize, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.BatchSize, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.BatchSize, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.BatchSize, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.BatchSize, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Number of samples in a batch. There will be as many batches as nedded in every learning round.</small></p>
 			</div>
-			@Html.LabelFor(model => model.MaxIteratinosPerBatch, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.MaxIteratinosPerBatch, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.MaxIteratinosPerBatch, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.MaxIteratinosPerBatch, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.MaxIteratinosPerBatch, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.MaxIteratinosPerBatch, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Maximal number of iterations of optimization algorithm per batch.</small></p>
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.LearningRate, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.LearningRate, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.LearningRate, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.LearningRate, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.LearningRate, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.LearningRate, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Step multiplier for gradient descent algorithm.</small></p>
 			</div>
-			@Html.LabelFor(model => model.RegularizationLambda, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.RegularizationLambda, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.RegularizationLambda, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.RegularizationLambda, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.RegularizationLambda, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.RegularizationLambda, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Regularization parameter often called λ that helps to prevent overfitting.</small></p>
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.MomentumStartPerc, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.MomentumStartPerc, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
-					@Html.EditorFor(model => model.MomentumStartPerc, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.EditorFor(m => m.MomentumStartPerc, new { htmlAttributes = new { @class = "form-control" } })
 					<div class="input-group-addon">%</div>
 				</div>
-				@Html.ValidationMessageFor(model => model.MomentumStartPerc, "", new { @class = "text-danger" })
+				@Html.ValidationMessageFor(m => m.MomentumStartPerc, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Momentum at the start of the optimization algorithm.</small></p>
 			</div>
-			@Html.LabelFor(model => model.MomentumEndPerc, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.MomentumEndPerc, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
-					@Html.EditorFor(model => model.MomentumEndPerc, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.EditorFor(m => m.MomentumEndPerc, new { htmlAttributes = new { @class = "form-control" } })
 					<div class="input-group-addon">%</div>
 				</div>
-				@Html.ValidationMessageFor(model => model.MomentumEndPerc, "", new { @class = "text-danger" })
+				@Html.ValidationMessageFor(m => m.MomentumEndPerc, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Momentum at the end of the optimization algorithm run (given by max iterations).</small></p>
 			</div>
 		</div>
 		<div class="form-group">
-			@Html.LabelFor(model => model.MinDerivativeMagnitude, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.MinDerivativeMagnitude, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(model => model.MinDerivativeMagnitude, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(model => model.MinDerivativeMagnitude, "", new { @class = "text-danger" })
+				@Html.EditorFor(m => m.MinDerivativeMagnitude, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.MinDerivativeMagnitude, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Minimum derivative magnitude before terminating the optimization batch.</small></p>
 			</div>
 		</div>
@@ -177,4 +191,30 @@
 			</div>
 		</div>
 	</div>
+}
+
+@section scripts {
+
+	<script>
+		$(function () {
+			var imgUrls = [
+				@Html.Raw(string.Join(",", Model.ExampleDrawings.Select(d =>
+					"'" + Url.Action(MVC.SymbolDrawings.Img(d.SymbolDrawingId, 88, 22, true, false)) + "'")))
+			];
+			var $imgSizeInput = $('#@Html.NameFor(m => m.InputImgSizePx)');
+			var $penSizeInput = $('#@Html.NameFor(m => m.PenThicknessPerc)');
+			var $normalizedInput = $('#@Html.NameFor(m => m.NormalizeInput)');
+			var $container = $('#sampleImagesContainer');
+			$('#genSampleImagesBtn').click(function (e) {
+				$container.html("");
+				for (var i = 0; i < imgUrls.length; ++i) {
+					var url = imgUrls[i].replace('/88/', '/' + $imgSizeInput.val() + '/')
+						.replace('/22/', '/' + $penSizeInput.val() + '/')
+						.replace('/True/', '/' + ($normalizedInput.prop('checked') ? 'True' : 'False') + '/');
+					$container.append($('<img src="' + url + '" style="border: 1px solid #AAA; margin: 4px;" />'));
+				}
+				return false;
+			});
+		});
+	</script>
 }

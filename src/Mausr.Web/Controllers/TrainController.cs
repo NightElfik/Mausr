@@ -21,7 +21,9 @@ namespace Mausr.Web.Controllers {
 		public virtual ActionResult Index() {
 			var model = new TrainViewModel() {
 				InputImgSizePx = 20,
-				PenThicknessPerc = 10,
+				PenThicknessPerc = 8,
+				GenerateExtraInputsByRotation = 10,
+				NormalizeInput = true,
 				LearnRounds = 2,
 				BatchSize = 128,
 				MaxIteratinosPerBatch = 256,
@@ -64,6 +66,7 @@ namespace Mausr.Web.Controllers {
 		private void initModel(TrainViewModel model) {
 			model.OutputSize = symbolsDb.Symbols.Count();
 			model.TrainingSamples = symbolsDb.SymbolDrawings.Count();
+			model.ExampleDrawings = symbolsDb.SymbolDrawings.Take(16).ToList();
 		}
 
 	}

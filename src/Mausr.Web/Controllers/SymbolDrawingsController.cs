@@ -55,19 +55,23 @@ namespace Mausr.Web.Controllers {
 		}
 
 		[HttpGet]
-		[Route("SymbolDrawings/{imageSize:int:min(64):max(1024)}/{penSize:int:min(1):max(32)}/{id:int:min(0)}.png")]
-		public virtual ActionResult Img(int id, int imageSize, int penSize) {
+		[Route("SymbolDrawings/Img/{normalized:bool}/{decorated:bool}/{imageSize:int:min(8):max(1024)}/{penSizePerc:int:min(1):max(30)}/{id:int:min(0)}.png")]
+		public virtual ActionResult Img(int id, int imageSize, int penSizePerc, bool normalized, bool decorated) {
 			var sd = symbolsDb.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == id);
 			if (sd == null) {
 				return HttpNotFound();
 			}
 
-			string fileName = string.Format("{0}-s{1}-b{2}.png", id, imageSize, penSize);
+			string fileName = string.Format("{0}-s{1}-p{2}-d{3}-n{4}.png", id, imageSize, penSizePerc,
+				decorated ? 1 : 0, normalized ? 1 : 0);
 			string filePath = Path.Combine(appSettingsProvider.SymbolDrawingsCacheDirAbsolute, fileName);
 
 			if (!System.IO.File.Exists(filePath)) {
-				var rasterizer = new Rasterizer();
-				var img = rasterizer.Rasterize(sd.RawDrawing, imageSize, penSize);
+				var drawing = sd.RawDrawing;
+				if (normalized) {
+					new RawDataProcessor().Normalize(drawing);
+				}
+				var img = new Rasterizer().Rasterize(drawing, imageSize, penSizePerc / 100f, normalized, decorated);
 				img.Save(filePath, ImageFormat.Png);
 			}
 

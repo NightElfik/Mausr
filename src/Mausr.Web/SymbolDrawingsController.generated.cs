@@ -128,7 +128,9 @@ namespace Mausr.Web.Controllers
         {
             public readonly string id = "id";
             public readonly string imageSize = "imageSize";
-            public readonly string penSize = "penSize";
+            public readonly string penSizePerc = "penSizePerc";
+            public readonly string normalized = "normalized";
+            public readonly string decorated = "decorated";
         }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -189,16 +191,18 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void ImgOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id, int imageSize, int penSize);
+        partial void ImgOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id, int imageSize, int penSizePerc, bool normalized, bool decorated);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Img(int id, int imageSize, int penSize)
+        public override System.Web.Mvc.ActionResult Img(int id, int imageSize, int penSizePerc, bool normalized, bool decorated)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Img);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "imageSize", imageSize);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "penSize", penSize);
-            ImgOverride(callInfo, id, imageSize, penSize);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "penSizePerc", penSizePerc);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "normalized", normalized);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "decorated", decorated);
+            ImgOverride(callInfo, id, imageSize, penSizePerc, normalized, decorated);
             return callInfo;
         }
 

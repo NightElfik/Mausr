@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Mausr.Web.Models {
 	public class TrainViewModel {
@@ -24,6 +25,10 @@ namespace Mausr.Web.Models {
 		[Range(1, 20)]
 		[Display(Name = "Pen thickness")]
 		public int PenThicknessPerc { get; set; }
+
+		[Required]
+		[Display(Name = "Normalize input data")]
+		public bool NormalizeInput { get; set; }
 
 		[Required]
 		[Range(0, 30)]
@@ -81,6 +86,8 @@ namespace Mausr.Web.Models {
 		public int OutputSize { get; set; }
 
 		public int TrainingSamples { get; set; }
+
+		public IEnumerable<SymbolDrawing> ExampleDrawings { get; set; }
 
 	}
 }
