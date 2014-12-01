@@ -47,8 +47,8 @@ namespace Mausr.Web {
 			//builder.RegisterFilterProvider();
 
 
-			builder.RegisterType<SymbolsDb>()
-				//.As<ISymbolsDb>()
+			builder.RegisterType<MausrDb>()
+				//.As<Idb>()
 				.InstancePerRequest();
 
 			builder.Register(x => new AppSettingsProvider())

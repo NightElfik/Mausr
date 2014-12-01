@@ -8,11 +8,11 @@ using Mausr.Web.Models;
 namespace Mausr.Web.Controllers {
 	public partial class TrainController : Controller {
 		
-		protected readonly SymbolsDb symbolsDb;
+		protected readonly MausrDb db;
 
 
-		public TrainController(SymbolsDb symbolsDb) {
-			this.symbolsDb = symbolsDb;
+		public TrainController(MausrDb db) {
+			this.db = db;
 		}
 
 		public virtual ActionResult Index() {
@@ -45,7 +45,7 @@ namespace Mausr.Web.Controllers {
 			}
 
 			int inputSize = model.InputImgSizePx * model.InputImgSizePx;
-			int outputSize = symbolsDb.Symbols.Count();
+			int outputSize = db.Symbols.Count();
 
 			var layout = NetLayout.Parse(inputSize + " " + model.HiddenLayersSizes + " " + outputSize);
 			var net = new Net(layout, new SigomidActivationFunc());
@@ -61,9 +61,9 @@ namespace Mausr.Web.Controllers {
 
 
 		private void initModel(TrainViewModel model) {
-			model.OutputSize = symbolsDb.Symbols.Count();
-			model.TrainingSamples = symbolsDb.SymbolDrawings.Count();
-			model.ExampleDrawings = symbolsDb.SymbolDrawings.Take(16).ToList();
+			model.OutputSize = db.Symbols.Count();
+			model.TrainingSamples = db.SymbolDrawings.Count();
+			model.ExampleDrawings = db.SymbolDrawings.Take(16).ToList();
 		}
 
 	}

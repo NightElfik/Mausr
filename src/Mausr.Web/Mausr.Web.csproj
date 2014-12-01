@@ -276,10 +276,7 @@
     <Compile Include="Controllers\SymbolDrawingsController.cs" />
     <Compile Include="Controllers\SymbolsController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
-    <Compile Include="DataContexts\IdentityDb.cs" />
-    <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
-    <Compile Include="DataContexts\SymbolsDb.cs" />
-    <Compile Include="DataContexts\SymbolsMigrations\Configuration.cs" />
+    <Compile Include="DataContexts\MausrDb.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -296,6 +293,7 @@
     <Compile Include="ManageController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BatchDoneViewModel.cs" />
     <Compile Include="Models\BatchInitViewModel.cs" />
@@ -332,19 +330,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Identity.mdf" />
-    <Content Include="App_Data\Identity_log.ldf">
-      <DependentUpon>Identity.mdf</DependentUpon>
-    </Content>
-    <Content Include="App_Data\Symbols.mdf" />
-    <Content Include="App_Data\Symbols_log.ldf">
-      <DependentUpon>Symbols.mdf</DependentUpon>
+    <Content Include="App_Data\Mausr.mdf" />
+    <Content Include="App_Data\Mausr_log.ldf">
+      <DependentUpon>Mausr.mdf</DependentUpon>
     </Content>
     <Content Include="Css\bootstrap-theme.css" />
     <Content Include="Css\bootstrap-theme.min.css" />
     <Content Include="Css\bootstrap.css" />
     <Content Include="Css\bootstrap.min.css" />
-    <Content Include="DataContexts\MigrationsCommands.txt" />
+    <Content Include="Migrations\MigrationsCommands.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Css\Site.css" />

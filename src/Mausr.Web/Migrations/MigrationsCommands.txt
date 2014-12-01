@@ -1,5 +1,10 @@
 ﻿
-Enable-Migrations -ContextTypeName SymbolsDb -MigrationsDirectory DataContexts\SymbolsMigrations
+Enable-Migrations
+
+Update-Database
+
+
+Enable-Migrations -ContextTypeName db -MigrationsDirectory DataContexts\SymbolsMigrations
 Enable-Migrations -ContextTypeName IdentityDb -MigrationsDirectory DataContexts\IdentityMigrations
 
 

@@ -2,25 +2,27 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Mvc;
+using Mausr.Core;
 using Mausr.Web.DataContexts;
 using Mausr.Web.Models;
+using Newtonsoft.Json;
 
 namespace Mausr.Web.Controllers {
 	public partial class LearnController : Controller {
 
 
-		protected readonly SymbolsDb symbolsDb;
+		protected readonly MausrDb db;
 
 
-		public LearnController(SymbolsDb symbolsDb) {
-			this.symbolsDb = symbolsDb;
+		public LearnController(MausrDb db) {
+			this.db = db;
 		}
 
 
 		[HttpGet]
 		public virtual ActionResult Index() {
 			return View(new LearnInitViewModel() {
-				SymbolsCount = symbolsDb.Symbols.Count(),
+				SymbolsCount = db.Symbols.Count(),
 			});
 		}
 
@@ -44,7 +46,7 @@ namespace Mausr.Web.Controllers {
 			var batchModel = new LearnBatchViewModel() {
 				BatchNumber = model.BatchNumber,
 				SymbolNumber = model.SymbolNumber,
-				SymbolsCount = symbolsDb.Symbols.Count(),
+				SymbolsCount = db.Symbols.Count(),
 			};
 
 			if (batchModel.SymbolNumber >= batchModel.SymbolsCount) {
@@ -58,7 +60,7 @@ namespace Mausr.Web.Controllers {
 
 			if (model.SavedDrawingId != null) {
 				batchModel.SavedDrawingId = model.SavedDrawingId;
-				batchModel.SavedDrawing = symbolsDb.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == model.SavedDrawingId);
+				batchModel.SavedDrawing = db.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == model.SavedDrawingId);
 			}
 
 			return View(batchModel);
@@ -70,7 +72,7 @@ namespace Mausr.Web.Controllers {
 			if (ModelState.IsValid) {
 				var symbol = getSymbol(model.BatchNumber, model.SymbolNumber);
 				if (symbol != null) {
-					var sd = symbolsDb.InsertSymbolDrawingFromJson(model.JsonData, symbol, model.DrawnUsingTouch);
+					var sd = insertSymbolDrawingFromJson(model.JsonData, symbol, model.DrawnUsingTouch);
 
 					if (sd != null) {
 						var initModel = new BatchInitViewModel() {
@@ -97,7 +99,7 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 
-			model.SymbolsCount = symbolsDb.Symbols.Count();
+			model.SymbolsCount = db.Symbols.Count();
 			return View(model);
 		}
 
@@ -108,9 +110,39 @@ namespace Mausr.Web.Controllers {
 		private Symbol getSymbol(int batchNumber, int symbolNumber) {
 			Contract.Requires(symbolNumber >= 0);
 
-			return symbolsDb.Symbols.OrderBy(s => (s.SymbolId * 113) ^ batchNumber).Skip(symbolNumber).FirstOrDefault();
+			return db.Symbols.OrderBy(s => (s.SymbolId * 113) ^ batchNumber).Skip(symbolNumber).FirstOrDefault();
 		}
+		
+		private SymbolDrawing insertSymbolDrawingFromJson(string jsonData, Symbol symbol, bool drawnUsingTouch) {
 
+			RawDrawing drawing;
+			try {
+				var lines = JsonConvert.DeserializeObject<RawPoint[][]>(jsonData);
+				drawing = new RawDrawing() { Lines = lines };
+			}
+			catch (Exception ex) {
+				return null;
+			}
+
+			new RawDataProcessor().CleanData(drawing);
+
+			if (drawing.LinesCount == 0) {
+				return null;
+			}
+
+			var sd = new SymbolDrawing() {
+				Symbol = symbol,
+				RawDrawing = drawing,
+				CreatedDateTime = DateTime.UtcNow,
+				DrawnUsingTouch = drawnUsingTouch,
+			};
+
+
+			sd = db.SymbolDrawings.Add(sd);
+			db.SaveChanges();
+
+			return sd;
+		}
 
 	}
 }

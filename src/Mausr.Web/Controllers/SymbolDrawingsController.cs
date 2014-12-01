@@ -17,18 +17,18 @@ using Newtonsoft.Json;
 namespace Mausr.Web.Controllers {
 	public partial class SymbolDrawingsController : Controller {
 
-		protected readonly SymbolsDb symbolsDb;
+		protected readonly MausrDb db;
 		protected readonly AppSettingsProvider appSettingsProvider;
 
 
-		public SymbolDrawingsController(SymbolsDb symbolsDb, AppSettingsProvider appSettingsProvider) {
-			this.symbolsDb = symbolsDb;
+		public SymbolDrawingsController(MausrDb db, AppSettingsProvider appSettingsProvider) {
+			this.db = db;
 			this.appSettingsProvider = appSettingsProvider;
 		}
 
 
 		public virtual ActionResult Index() {
-			var groups = symbolsDb.SymbolDrawings.GroupBy(x => x.Symbol).ToList();
+			var groups = db.SymbolDrawings.GroupBy(x => x.Symbol).ToList();
 			return View(groups);
 		}
 
@@ -38,7 +38,7 @@ namespace Mausr.Web.Controllers {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			SymbolDrawing symbolDrawing = symbolsDb.SymbolDrawings.Find(id);
+			SymbolDrawing symbolDrawing = db.SymbolDrawings.Find(id);
 			if (symbolDrawing == null) {
 				return HttpNotFound();
 			}
@@ -48,16 +48,16 @@ namespace Mausr.Web.Controllers {
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public virtual ActionResult DeleteConfirmed(int id) {
-			SymbolDrawing symbolDrawing = symbolsDb.SymbolDrawings.Find(id);
-			symbolsDb.SymbolDrawings.Remove(symbolDrawing);
-			symbolsDb.SaveChanges();
+			SymbolDrawing symbolDrawing = db.SymbolDrawings.Find(id);
+			db.SymbolDrawings.Remove(symbolDrawing);
+			db.SaveChanges();
 			return RedirectToAction("Index");
 		}
 
 		[HttpGet]
 		[Route("SymbolDrawings/Img/{normalized:bool}/{decorated:bool}/{rotation:int:min(-360):max(360)}/{imageSize:int:min(8):max(1024)}/{penSizePerc:int:min(1):max(30)}/{id:int:min(0)}.png")]
 		public virtual ActionResult Img(int id, int imageSize, int penSizePerc, int rotation, bool normalized, bool decorated) {
-			var sd = symbolsDb.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == id);
+			var sd = db.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == id);
 			if (sd == null) {
 				return HttpNotFound();
 			}
