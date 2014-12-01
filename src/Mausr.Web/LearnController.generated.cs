@@ -83,6 +83,7 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string IndexPost = "Index";
             public readonly string Batch = "Batch";
             public readonly string BatchPost = "Batch";
             public readonly string Done = "Done";
@@ -92,20 +93,13 @@ namespace Mausr.Web.Controllers
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string IndexPost = "Index";
             public const string Batch = "Batch";
             public const string BatchPost = "Batch";
             public const string Done = "Done";
         }
 
 
-        static readonly ActionParamsClass_Index s_params_Index = new ActionParamsClass_Index();
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_Index IndexParams { get { return s_params_Index; } }
-        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_Index
-        {
-            public readonly string model = "model";
-        }
         static readonly ActionParamsClass_Batch s_params_Batch = new ActionParamsClass_Batch();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Batch BatchParams { get { return s_params_Batch; } }
@@ -159,14 +153,13 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.LearnInitViewModel model);
+        partial void IndexPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Index(Mausr.Web.Models.LearnInitViewModel model)
+        public override System.Web.Mvc.ActionResult IndexPost()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            IndexOverride(callInfo, model);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.IndexPost);
+            IndexPostOverride(callInfo);
             return callInfo;
         }
 

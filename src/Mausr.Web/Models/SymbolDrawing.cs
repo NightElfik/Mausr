@@ -5,10 +5,12 @@ using Mausr.Core;
 
 namespace Mausr.Web.Models {
 	public class SymbolDrawing {
-
+		
+		[Required]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int SymbolDrawingId { get; set; }
 			
+		[Required]
 		[Display(Name = "Created")]
 		public DateTime CreatedDateTime { get; set; }
 
@@ -17,14 +19,10 @@ namespace Mausr.Web.Models {
 				
 		[Required]
 		public virtual Symbol Symbol { get; set; }
-
+		
 		[Required]
-		[Display(Name = "Drawing tool")]
-		public virtual DrawingTool DrawingTool { get; set; }
-
-		[Required]
-		[Display(Name = "Drawing device")]
-		public virtual DrawingDevice DrawingDevice { get; set; }
+		[Display(Name = "Drawn using touch")]
+		public virtual bool DrawnUsingTouch { get; set; }
 		
 		
 		[NotMapped]
@@ -33,21 +31,5 @@ namespace Mausr.Web.Models {
 			set { RawData = value.Serialize(); }
 		}
 
-	}
-
-
-	public enum DrawingTool {
-		Unknown,
-		Mouse,
-		Stylus,
-		Finger,
-	}
-
-	public enum DrawingDevice {
-		Unknown,
-		Desktop,
-		Laptop,
-		Tablet,
-		Phone,
 	}
 }

@@ -1,4 +1,5 @@
 ﻿@model LearnInitViewModel
+
 @{
 	ViewBag.Title = "Learning initialization";
 }
@@ -10,28 +11,16 @@
 	@Html.AntiForgeryToken()
 
 	<div class="form-horizontal">
-		<hr />
-		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
 		<div class="form-group">
-			@Html.LabelFor(model => model.DrawingDevice, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-4">
-				@Html.EnumDropDownListFor(model => model.DrawingDevice, new { @class = "form-control" })
-				@Html.ValidationMessageFor(model => model.DrawingDevice, "", new { @class = "text-danger" })
-			</div>
-		</div>
-
-		<div class="form-group">
-			@Html.LabelFor(model => model.DrawingTool, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-4">
-				@Html.EnumDropDownListFor(model => model.DrawingTool, new { @class = "form-control" })
-				@Html.ValidationMessageFor(model => model.DrawingTool, "", new { @class = "text-danger" })
+			<label class="col-sm-3 control-label">Total symbols count</label>
+			<div class="col-md-3">
+				<p class="form-control-static">@Model.SymbolsCount</p>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Next" class="btn btn-primary" />
+				<input type="submit" value="Start learning batch" class="btn btn-primary btn-lg" />
 			</div>
 		</div>
 	</div>

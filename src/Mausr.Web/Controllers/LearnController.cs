@@ -19,34 +19,29 @@ namespace Mausr.Web.Controllers {
 
 		[HttpGet]
 		public virtual ActionResult Index() {
-			return View(new LearnInitViewModel());
+			return View(new LearnInitViewModel() {
+				SymbolsCount = symbolsDb.Symbols.Count(),
+			});
 		}
 
 		[HttpPost]
-		public virtual ActionResult Index(LearnInitViewModel model) {
-			if (ModelState.IsValid) {
-				var rand = new Random();
-				var batchInitModel = new BatchInitViewModel() {
-					DrawingDevice = model.DrawingDevice,
-					DrawingTool = model.DrawingTool,
-					BatchNumber = rand.Next(),
-					SymbolNumber = 0,
-				};
-				return RedirectToAction(Actions.Batch().AddRouteValues(batchInitModel));
-			}
-
-			return View(model);
+		[ActionName("Index")]
+		public virtual ActionResult IndexPost() {
+			var rand = new Random();
+			var batchInitModel = new BatchInitViewModel() {
+				BatchNumber = rand.Next(),
+				SymbolNumber = 0,
+			};
+			return RedirectToAction(Actions.Batch().AddRouteValues(batchInitModel));
 		}
 
 		[HttpGet]
 		public virtual ActionResult Batch(BatchInitViewModel model) {
 			if (!ModelState.IsValid) {
-				return RedirectToAction(Index());
+				return RedirectToAction(Actions.Index());
 			}
 
 			var batchModel = new LearnBatchViewModel() {
-				DrawingDevice = model.DrawingDevice,
-				DrawingTool = model.DrawingTool,
 				BatchNumber = model.BatchNumber,
 				SymbolNumber = model.SymbolNumber,
 				SymbolsCount = symbolsDb.Symbols.Count(),
@@ -75,13 +70,10 @@ namespace Mausr.Web.Controllers {
 			if (ModelState.IsValid) {
 				var symbol = getSymbol(model.BatchNumber, model.SymbolNumber);
 				if (symbol != null) {
-					var sd = symbolsDb.InsertSymbolDrawingFromJson(model.JsonData, symbol,
-						model.DrawingDevice, model.DrawingTool);
+					var sd = symbolsDb.InsertSymbolDrawingFromJson(model.JsonData, symbol, model.DrawnUsingTouch);
 
 					if (sd != null) {
 						var initModel = new BatchInitViewModel() {
-							DrawingDevice = model.DrawingDevice,
-							DrawingTool = model.DrawingTool,
 							BatchNumber = model.BatchNumber,
 							SymbolNumber = model.SymbolNumber + 1,
 							SavedDrawingId = sd.SymbolDrawingId,
@@ -89,7 +81,7 @@ namespace Mausr.Web.Controllers {
 						return RedirectToAction(Batch().AddRouteValues(initModel));
 					}
 					else {
-						ModelState.AddModelError("", "Failed to parse or insert symbol drawing to the DB.");
+						ModelState.AddModelError("", "Invalid symbol drawing.");
 					}
 				}
 				else {

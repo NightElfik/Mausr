@@ -18,8 +18,7 @@ namespace Mausr.Web.DataContexts {
 		public DbSet<SymbolDrawing> SymbolDrawings { get; set; }
 
 
-		public SymbolDrawing InsertSymbolDrawingFromJson(string jsonData, Symbol symbol,
-				DrawingDevice dd, DrawingTool dt) {
+		public SymbolDrawing InsertSymbolDrawingFromJson(string jsonData, Symbol symbol, bool drawnUsingTouch) {
 
 			RawDrawing drawing;
 			try {
@@ -30,6 +29,8 @@ namespace Mausr.Web.DataContexts {
 				return null;
 			}
 
+			new RawDataProcessor().CleanData(drawing);
+
 			if (drawing.LinesCount == 0) {
 				return null;
 			}
@@ -38,12 +39,13 @@ namespace Mausr.Web.DataContexts {
 				Symbol = symbol,
 				RawDrawing = drawing,
 				CreatedDateTime = DateTime.UtcNow,
-				DrawingDevice = dd,
-				DrawingTool = dt,
+				DrawnUsingTouch = drawnUsingTouch,
 			};
+
 
 			sd = SymbolDrawings.Add(sd);
 			SaveChanges();
+
 			return sd;
 		}
 

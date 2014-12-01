@@ -8,10 +8,12 @@ function MausrPainter(options) {
 	this.$clearBtn = $('#' + options.clearBtnId);
 	this.$replayCanvas = $('#' + options.replyCanvasId);
 	this.$replayBtn = $('#' + options.replyBtnId);
+	this.$drawnUsingInput = $('#' + options.drawnUsingTouchId);
 
 	this.context = this.$mainCanvas[0].getContext('2d');
 	this.initContext(this.context);
 
+	self.$drawnUsingInput.val('False');
 	this.drawing = false;
 
 	this.currentRefTime;
@@ -41,24 +43,28 @@ function MausrPainter(options) {
 
 	this.$mainCanvas.bind('touchstart', function (e) {
 		e.preventDefault();
-		console.log(e);
+		self.$drawnUsingInput.val('True');
 		var coords = self.getTouchPos(this, e.originalEvent);
 		self.paintStart(coords.x, coords.y);
+		return false;
 	});
 
 	this.$mainCanvas.bind('touchmove', function (e) {
 		e.preventDefault();
 		var coords = self.getTouchPos(this, e.originalEvent);
 		self.paintContinue(coords.x, coords.y);
+		return false;
 	});
 
 	this.$mainCanvas.bind('touchend', function (e) {
 		e.preventDefault();
 		self.paintEnd();
+		return false;
 	});
 
 	this.$clearBtn.click(function () {
 		self.drawing = false;
+		self.$drawnUsingInput.val('False');
 		self.currentLine = [];
 		self.allLines = [];
 		self.redraw();

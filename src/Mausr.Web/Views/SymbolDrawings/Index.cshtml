@@ -17,6 +17,7 @@
 				<img src="@Url.Action(MVC.SymbolDrawings.Img(item.SymbolDrawingId, imageSize, penSize, 0, false, true))"
 					 width="@imageSize" height="@imageSize" />
 				<p class="small">@item.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
+				<p class="small">Drawn using @(item.DrawnUsingTouch ? "touch" : "mouse")</p>
 				@Html.ActionLink("Delete", "Delete", new { id = item.SymbolDrawingId })
 			</div>
 		}

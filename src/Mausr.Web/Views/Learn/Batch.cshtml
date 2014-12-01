@@ -12,6 +12,8 @@
 
 	<div class="form-horizontal">
 		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(m => m.DrawnUsingTouch)
+
 		<div class="form-group col-sm-6">
 			<canvas id="canvas" class="img-thumbnail" width="@imageSize" height="@imageSize"></canvas>
 		</div>
@@ -20,14 +22,12 @@
 			<input type="submit" value="Save" class="btn btn-primary btn-lg btn-block" />
 			<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
 			@(Html.ActionLink("Skip", MVC.Learn.Batch().AddRouteValues(new BatchInitViewModel() {
-				DrawingDevice = Model.DrawingDevice,
-				DrawingTool = Model.DrawingTool,
 				BatchNumber = Model.BatchNumber,
 				SymbolNumber = Model.SymbolNumber + 1,
 			}), new { @class = "btn btn-default btn-lg btn-block", role = "button" }))
 
 			@if (Model.SavedDrawing != null) {
-				<div class="alert alert-success">
+				<div class="alert alert-success" style="margin-top: 6px;">
 					<a href="#" class="close" data-dismiss="alert">&times;</a>
 					<strong>Success!</strong> Drawing of '@Model.SavedDrawing.Symbol.SymbolStr' was successfully saved under ID @Model.SavedDrawing.SymbolDrawingId.
 				</div>
@@ -52,7 +52,8 @@
 			new MausrPainter({
 				canvasId: 'canvas',
 				jsonTextId: '@Html.NameFor(m => m.JsonData)',
-				clearBtnId: 'clearBtn'
+				clearBtnId: 'clearBtn',
+				drawnUsingTouchId: '@Html.NameFor(m => m.DrawnUsingTouch)'
 			});
 		});
 	</script>

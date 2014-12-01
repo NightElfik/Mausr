@@ -5,6 +5,9 @@ namespace Mausr.Web.Models {
 						
 		[Required]
 		public string JsonData { get; set; }
+			
+		[Required]
+		public bool DrawnUsingTouch { get; set; }
 
 
 		public int SymbolsCount { get; set; }

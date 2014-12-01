@@ -124,7 +124,13 @@
 
 			  new Symbol { SymbolStr = "⌘", Name = "Place of Interest Sign" },
 			  new Symbol { SymbolStr = "☹", Name = "White Frowning Face" },
-			  new Symbol { SymbolStr = "☺", Name = "White Smiling Face" }
+			  new Symbol { SymbolStr = "☺", Name = "White Smiling Face" },
+			  
+			  new Symbol { SymbolStr = "ℂ", Name = "Double-Struck Capital C" },
+			  new Symbol { SymbolStr = "ℕ", Name = "Double-Struck Capital N" },
+			  new Symbol { SymbolStr = "ℚ", Name = "Double-Struck Capital Q" },
+			  new Symbol { SymbolStr = "ℝ", Name = "Double-Struck Capital R" },
+			  new Symbol { SymbolStr = "ℤ", Name = "Double-Struck Capital Z" }
 			);
 		}
 	}
