@@ -18,10 +18,12 @@ namespace Mausr.Core {
 				LineJoin = LineJoin.Round,
 			};
 
-			float drawingSize = imageSize + 1;
+			float drawingSize = imageSize - 1;
 			float offset = 0;
 
 			if (extraMargin) {
+				// Make sure to fill all available space
+				drawingSize += 2;
 				offset = (float)Math.Ceiling(penSize / 2);
 				drawingSize -= 2 * offset;
 				offset -= 1;

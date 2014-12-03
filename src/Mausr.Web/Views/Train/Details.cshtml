@@ -1,0 +1,94 @@
+﻿@model TrainDetailsViewModel
+@{
+	var settings = Model.TrainSettings;
+
+	ViewBag.Title = "Details of network " + settings.NetName;
+	MyHtml.RequireScript(Links.Scripts.jquery_signalR_2_1_2_js);
+	MyHtml.RequireScript("/SignalR/hubs");
+	MyHtml.RequireScript(Links.Scripts.Mausr_trainer_js);
+}
+
+<h1>@ViewBag.Title</h1>
+
+<h3>Train parameters</h3>
+
+<div class="row">
+	<div class="col-sm-3">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.NetId)</dt>
+			<dd>@Html.DisplayFor(m => settings.NetId)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.NetName)</dt>
+			<dd>@Html.DisplayFor(m => settings.NetName)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.HiddenLayersSizes)</dt>
+			<dd>@string.Join(", ", settings.HiddenLayersSizes.Select(x => x.ToString()))</dd>
+		</dl>
+	</div>
+	<div class="col-sm-3">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.InputImgSizePx) px</dt>
+			<dd>@Html.DisplayFor(m => settings.InputImgSizePx)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.PenThicknessPerc)</dt>
+			<dd>@Html.DisplayFor(m => settings.PenThicknessPerc)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.NormalizeInput)</dt>
+			<dd>@Html.DisplayFor(m => settings.NormalizeInput)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.GenerateExtraInputsByRotation)</dt>
+			<dd>@Html.DisplayFor(m => settings.GenerateExtraInputsByRotation)</dd>
+		</dl>
+	</div>
+	<div class="col-sm-3">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.TestDataSetSizePerc) %</dt>
+			<dd>@Html.DisplayFor(m => settings.TestDataSetSizePerc) %</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.LearnRounds)</dt>
+			<dd>@Html.DisplayFor(m => settings.LearnRounds)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.BatchSize)</dt>
+			<dd>@Html.DisplayFor(m => settings.BatchSize)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.MaxIteratinosPerBatch)</dt>
+			<dd>@Html.DisplayFor(m => settings.MaxIteratinosPerBatch)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.LearningRate)</dt>
+			<dd>@Html.DisplayFor(m => settings.LearningRate)</dd>
+		</dl>
+	</div>
+	<div class="col-sm-3">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.RegularizationLambda)</dt>
+			<dd>@Html.DisplayFor(m => settings.RegularizationLambda)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.MomentumStartPerc) %</dt>
+			<dd>@Html.DisplayFor(m => settings.MomentumStartPerc) %</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.MomentumEndPerc) %</dt>
+			<dd>@Html.DisplayFor(m => settings.MomentumEndPerc) %</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.MinDerivativeMagnitude)</dt>
+			<dd>@Html.DisplayFor(m => settings.MinDerivativeMagnitude)</dd>
+		</dl>
+	</div>
+</div>
+
+<h3>Real-time training data</h3>
+
+
+<div id="msgsContainer" class="well">
+
+</div>
+
+@section scripts {
+	<script>
+		$(function () {
+			new MausrTrainer({
+				netId: '@settings.NetId',
+				msgsContainerId: 'msgsContainer'
+			});
+		});
+	</script>
+}

@@ -153,6 +153,12 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.2.3\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -277,16 +283,22 @@
     <Compile Include="Controllers\SymbolsController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
     <Compile Include="DataContexts\MausrDb.cs" />
+    <Compile Include="ExtsAndHelpers%27\MyHtml.cs" />
+    <Compile Include="ExtsAndHelpers%27\MyUrl.cs" />
+    <Compile Include="ExtsAndHelpers%27\ObjectExts.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\MyHtml.cs" />
     <Compile Include="HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelperExtensions.cs" />
+    <Compile Include="Hubs\ProgressHub.cs" />
+    <Compile Include="Hubs\TrainHub.cs" />
+    <Compile Include="Hubs\TrainingContext.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
+    <Compile Include="Infrastructure\TrainStorageManager.cs" />
     <Compile Include="LearnController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -299,12 +311,16 @@
     <Compile Include="Models\BatchInitViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\CreateSymbolDrawingViewModel.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\JobManager.cs" />
     <Compile Include="Models\LearnBatchViewModel.cs" />
     <Compile Include="Models\LearnInitViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PlotViewModel.cs" />
     <Compile Include="Models\Symbol.cs" />
     <Compile Include="Models\SymbolDrawing.cs" />
+    <Compile Include="Models\TrainDetailsViewModel.cs" />
+    <Compile Include="Models\TrainSettings.cs" />
     <Compile Include="Models\TrainViewModel.cs" />
     <Compile Include="PlotController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
@@ -354,10 +370,13 @@
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <Content Include="Scripts\jquery.signalR-2.1.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Mausr.trainer.js" />
     <Content Include="Scripts\Mausr.painter.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
@@ -423,6 +442,7 @@
     <Content Include="Views\Learn\Done.cshtml" />
     <Content Include="Views\Train\Index.cshtml" />
     <Content Include="Views\Symbols\Collisions.cshtml" />
+    <Content Include="Views\Train\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Shared\EditorTemplates\" />

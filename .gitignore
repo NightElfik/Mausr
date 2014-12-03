@@ -11,6 +11,7 @@ obj/
 /src/Mausr.Web/App_Data/*.zip
 /src/Mausr.Web/App_Data/*.7z
 /src/Mausr.Web/Cache/*
+/src/Mausr.Web/TrainData/*
 
 /Publish
 

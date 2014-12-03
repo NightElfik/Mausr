@@ -6,7 +6,41 @@ using System.Web;
 
 namespace Mausr.Web {
 	public static class MyHtml {
-		
+
+		private const string reqScriptKey = "RequiredScripts";
+
+		/// <summary>
+		/// Registers script path and automatically includes the script at the bottom of the loaded page.
+		/// Redundant scripts with the same path are filtered and included only once.
+		/// Order of scripts with the same order parameter is preserved.
+		/// </summary>
+		/// <param name="path">Local or global path to the script that will be put to "src" attribute of a script tag.</param>
+		/// <param name="order">Order of all included scripts (the lower, the sooner included).</param>
+		public static void RequireScript(string path, LoadingOrder order = LoadingOrder.Default) {
+			var requiredScripts = HttpContext.Current.Items[reqScriptKey] as Dictionary<string, int>;
+			if (requiredScripts == null) {
+				HttpContext.Current.Items[reqScriptKey] = requiredScripts = new Dictionary<string, int>();
+			}
+
+			requiredScripts[path] = (int)order + requiredScripts.Count;
+		}
+
+		public static HtmlString EmitRequiredScripts() {
+			var requiredScripts = HttpContext.Current.Items[reqScriptKey] as Dictionary<string, int>;
+			if (requiredScripts == null) {
+				return new HtmlString("");
+			}
+
+			var sb = new StringBuilder();
+			foreach (var scriptPath in requiredScripts.OrderBy(x => x.Value).Select(x => x.Key)) {
+				sb.Append("<script src='");
+				sb.Append(scriptPath);
+				sb.AppendLine("'></script>");
+			}
+			return new HtmlString(sb.ToString());
+		}
+
+
 		public static void SuccessMessage(string message, params object[] args) {
 			addMessage(Message.Styles.Success, message, args);
 		}
@@ -51,6 +85,7 @@ namespace Mausr.Web {
 		}
 
 	}
+	
 
 	public class Message {
 		public const string DataKey = "StatusMessageKey";
@@ -66,5 +101,13 @@ namespace Mausr.Web {
 			public const string Danger = "danger";
 		}
 	}
+	
+	public enum LoadingOrder {
 
+		VeryFirst = 0,
+		Sooner = 100,
+		Default = 200,
+		Later = 300,
+
+	}
 }

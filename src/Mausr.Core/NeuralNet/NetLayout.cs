@@ -27,6 +27,14 @@ namespace Mausr.Core.NeuralNet {
 			layersSizes = sizes;
 		}
 
+		public NetLayout(int inputSize, IEnumerable<int> hiddenSizes, int outputSize) {
+			var sizes = new List<int>();
+			sizes.Add(inputSize);
+			sizes.AddRange(hiddenSizes);
+			sizes.Add(outputSize);
+			layersSizes = sizes.ToArray();
+		}
+
 
 		public int GetLayerSize(int layerIndex) {
 			Contract.Requires(layerIndex >= 0 && layerIndex < LayersCount);
@@ -43,23 +51,6 @@ namespace Mausr.Core.NeuralNet {
 		public int GetCoefMatrixCols(int coefIndex) {
 			Contract.Requires(coefIndex >= 0 && coefIndex < CoefsCount);
 			return layersSizes[coefIndex + 1];
-		}
-
-
-		public static NetLayout Parse(string str) {
-			var sizesStr = str.Split(new char[] { ' ', '\t', ',', ';', '-'}, StringSplitOptions.RemoveEmptyEntries);
-			if (sizesStr.Length == 0) {
-				return null;
-			}
-
-			int[] sizes = new int[sizesStr.Length];
-			for (int i = 0; i < sizes.Length; i++) {
-				if (!int.TryParse(sizesStr[i], out sizes[i])) {
-					return null;
-				}
-			}
-
-			return new NetLayout(sizes);
 		}
 
 	}

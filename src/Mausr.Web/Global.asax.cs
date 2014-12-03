@@ -52,7 +52,10 @@ namespace Mausr.Web {
 				.InstancePerRequest();
 
 			builder.Register(x => new AppSettingsProvider())
-				.As<AppSettingsProvider>()
+				//.As<AppSettingsProvider>()
+				.SingleInstance();
+
+			builder.RegisterType<TrainStorageManager>()
 				.SingleInstance();
 			
 			var container = builder.Build();
@@ -66,6 +69,7 @@ namespace Mausr.Web {
 		private void checkFileSystem(AppSettingsProvider appSettingsProvider) {
 
 			ensureDirExistsAndIsWritable(appSettingsProvider.SymbolDrawingsCacheDirVirtual);
+			ensureDirExistsAndIsWritable(appSettingsProvider.NetTrainDataDirVirtual);
 
 		}
 

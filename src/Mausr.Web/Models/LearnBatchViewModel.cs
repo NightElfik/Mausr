@@ -17,5 +17,6 @@ namespace Mausr.Web.Models {
 
 		public SymbolDrawing SavedDrawing { get; set; }
 
+
 	}
 }

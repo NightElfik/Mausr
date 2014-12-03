@@ -5,6 +5,7 @@ namespace Mausr.Web.Infrastructure {
 	public class AppSettingsProvider {
 
 		public const string SymbolDrawingsCacheDirKey = "SymbolDrawingsCacheDir";
+		public const string NetTrainDataDirKey = "NetTrainDataDir";
 
 
 		private string p_symbolDrawingsCacheDirVirtual = null;
@@ -24,6 +25,26 @@ namespace Mausr.Web.Infrastructure {
 					p_symbolDrawingsCacheDirAbsolute = HttpContext.Current.Server.MapPath(SymbolDrawingsCacheDirVirtual);
 				}
 				return p_symbolDrawingsCacheDirAbsolute;
+			}
+		}
+
+		private string p_netTrainDataDirVirtual = null;
+		public string NetTrainDataDirVirtual {
+			get {
+				if (p_netTrainDataDirVirtual == null) {
+					p_netTrainDataDirVirtual = ConfigurationManager.AppSettings[NetTrainDataDirKey];
+				}
+				return p_netTrainDataDirVirtual;
+			}
+		}
+
+		private string p_netTrainDataDirAbsolute = null;
+		public string NetTrainDataDirAbsolute {
+			get {
+				if (p_netTrainDataDirAbsolute == null) {
+					p_netTrainDataDirAbsolute = HttpContext.Current.Server.MapPath(NetTrainDataDirVirtual);
+				}
+				return p_netTrainDataDirAbsolute;
 			}
 		}
 
