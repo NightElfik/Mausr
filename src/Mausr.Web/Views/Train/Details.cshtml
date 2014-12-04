@@ -77,6 +77,14 @@
 
 <h3>Real-time training data</h3>
 
+<div class="row">
+	<div class="col-md-12">
+		<a href="#" id="startBtn" class="btn btn-primary">Start training</a>
+		<a href="#" id="stopBtn" class="btn btn-danger">Stop training</a>
+		<span class="label label-info" id="startStopLabel"></span>
+	</div>
+</div>
+
 
 <div id="msgsContainer" class="well">
 
@@ -87,7 +95,13 @@
 		$(function () {
 			new MausrTrainer({
 				netId: '@settings.NetId',
-				msgsContainerId: 'msgsContainer'
+				msgsContainerId: 'msgsContainer',
+				startUrl: '@Url.Action(MVC.Train.StartTraining())',
+				startBtnId: 'startBtn',
+				startLabelId: 'startStopLabel',
+				stopUrl: '@Url.Action(MVC.Train.StopTraining())',
+				stopBtnId: 'stopBtn',
+				stopLabelId: 'startStopLabel'
 			});
 		});
 	</script>

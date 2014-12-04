@@ -1,61 +1,62 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics.Contracts;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using Mausr.Core.Optimization;
 
 namespace Mausr.Core.NeuralNet {
-	public class NetCostFunction : IFunctionWithDerivative {
+	public class NetCostFunction : INetCostFunction {
 
-		private Matrix<double> inputs;
-		private int[] outputIndices;
+		private Net network;
 
-		private Func<double, double> neuronActivateFunction;
-		private Func<double, double> neuronActivateFunctionDerivative;
-		private NetLayout netLayout;
-		private Matrix<double>[] unpackedCoefs;
-		private double regularizationLambda;
+		private Matrix<double> m_inputs;
+		private int[] m_outputIndices;
 
-
+		private Matrix<double>[] m_unpackedCoefs;
+		private double m_regularizationLambda;
+		
 		public int DimensionsCount { get; private set; }
 
 
-		public NetCostFunction(Net network, Matrix<double> inputs, int[] outputIndices, double regularizationLambda) {
-			Contract.Requires(Contract.ForAll(outputIndices, i => i >= 0 && i < network.Layout.OutputSize));
+		public void Initialize(Net network) {
+			this.network = network;
+		}
 
-			neuronActivateFunction = network.NeuronActivationFunc.Evaluate;
-			neuronActivateFunctionDerivative = network.NeuronActivationFunc.Derivative;
-			netLayout = network.Layout;
-			this.inputs = inputs;
-			this.outputIndices = outputIndices;
-			this.regularizationLambda = regularizationLambda;
+		public void SetInputsOutputs(Matrix<double> inputs, int[] outputIndices, double regularizationLambda) {			
+			m_regularizationLambda = regularizationLambda;
+			m_inputs = inputs;
+			m_outputIndices = outputIndices;
 
-			unpackedCoefs = new Matrix<double>[netLayout.CoefsCount];
-			DimensionsCount = 0;
-			for (int i = 0; i < netLayout.CoefsCount; ++i) {
-				unpackedCoefs[i] = new DenseMatrix(netLayout.GetCoefMatrixRows(i), netLayout.GetCoefMatrixCols(i));
-				DimensionsCount += unpackedCoefs[i].RowCount * unpackedCoefs[i].ColumnCount;
-			}
-
+			m_unpackedCoefs = network.Layout.AllocateCoefMatrices();
+			DimensionsCount = m_unpackedCoefs.Sum(x => x.RowCount * x.ColumnCount);
 		}
 
 
-		public double Evaluate(Vector<double> point) {
-			point.UnpackTo(unpackedCoefs);
+		public double Evaluate(Vector<double> point) {	
+			point.UnpackTo(m_unpackedCoefs);
+			return Evaluate(m_unpackedCoefs, m_inputs, m_outputIndices, m_regularizationLambda);		
+		}
 
+		public void Derivate(Vector<double> resultDerivative, Vector<double> point) {
+			point.UnpackTo(m_unpackedCoefs);
+			Derivate(resultDerivative, m_unpackedCoefs, m_inputs, m_outputIndices, m_regularizationLambda);
+		}
+
+
+		public double Evaluate(Matrix<double>[] coefs, Matrix<double> inputs, int[] outputIndices, double regularizationLambda) {
 			Matrix<double> result = inputs;
 
 			// Forward pass.
-			for (int i = 0; i < netLayout.CoefsCount; ++i) {
+			for (int i = 0; i < network.Layout.CoefsCount; ++i) {
 				result = result.InsertColumn(0, DenseVector.Create(result.RowCount, 1));
-				result = result * unpackedCoefs[i];
-				result.MapInplace(neuronActivateFunction);
+				result = result * coefs[i];
+				result.MapInplace(network.NeuronActivationFunc.Evaluate);
 			}
 
 			// Cost function.
 			double value = 0;
 			int samplesCount = inputs.RowCount;
-			Contract.Assert(result.ColumnCount == netLayout.OutputSize);
+			Contract.Assert(result.ColumnCount == network.Layout.OutputSize);
 			var rowNegCostSums = result.FoldByRow((acc, val) => acc + Math.Log(1 - val), 0.0);
 
 			for (int i = 0; i < samplesCount; ++i) {
@@ -70,9 +71,9 @@ namespace Mausr.Core.NeuralNet {
 
 			// Regularization - sum of all coefs except those for bias units (the first row).
 			double regSum = 0;
-			for (int i = 0; i < netLayout.CoefsCount; ++i) {
+			for (int i = 0; i < network.Layout.CoefsCount; ++i) {
 				// Sum all, then subtract the first row.
-				var powM = unpackedCoefs[i].PointwisePower(2);
+				var powM = coefs[i].PointwisePower(2);
 				regSum += powM.ColumnSums().Sum() - powM.Row(0).Sum();
 			}
 
@@ -80,30 +81,30 @@ namespace Mausr.Core.NeuralNet {
 			return value;
 		}
 
-		public void Derivate(Vector<double> resultDerivative, Vector<double> point) {
-			point.UnpackTo(unpackedCoefs);
+		public void Derivate(Vector<double> resultDerivative, Matrix<double>[] coefs,
+				Matrix<double> inputs, int[] outputIndices, double regularizationLambda) { 
 
 			Matrix<double> result = inputs;
 
 			// Activation values with extra column of 1s. Matrix on index i is activation of layer i + 1.
-			var activations = new Matrix<double>[netLayout.CoefsCount];
+			var activations = new Matrix<double>[network.Layout.CoefsCount];
 
 			// Derivations of aftivations. Matrix on index i corresponds to layer i + 1.
-			var deltas = new Matrix<double>[netLayout.CoefsCount];
+			var deltas = new Matrix<double>[network.Layout.CoefsCount];
 
 			// Forward pass - computation of activations.
-			for (int i = 0; i < netLayout.CoefsCount; ++i) {
+			for (int i = 0; i < network.Layout.CoefsCount; ++i) {
 				// Save activations with extra column full of ones - this will be handy afterwards.
 				activations[i] = result.InsertColumn(0, DenseVector.Create(result.RowCount, 1));
-				result = activations[i] * unpackedCoefs[i];
+				result = activations[i] * coefs[i];
 				// Save deltas that will be used later later: δ_i = f'(z_i).
-				deltas[i] = result.Map(neuronActivateFunctionDerivative);
-				result.MapInplace(neuronActivateFunction);
+				deltas[i] = result.Map(network.NeuronActivationFunc.Derivate);
+				result.MapInplace(network.NeuronActivationFunc.Evaluate);
 			}
 
 			// Backward pass - computation of derivatives.
 
-			Contract.Assert(result.ColumnCount == netLayout.OutputSize);
+			Contract.Assert(result.ColumnCount == network.Layout.OutputSize);
 			int samplesCount = inputs.RowCount;
 
 			//
@@ -125,11 +126,13 @@ namespace Mausr.Core.NeuralNet {
 				result[i, outputIndices[i]] -= 1;  // -(t_i - y_i) = y_i - t_i
 			}
 
-			int deltaIndex = netLayout.CoefsCount - 1;
+			int deltaIndex = network.Layout.CoefsCount - 1;
 
 			// δ_i = f'(z_i) * -(t_i - y_i).
 			//deltas[deltaIndex].PointwiseMultiply(result, deltas[deltaIndex]);
-			deltas[deltaIndex] = result;  // WTF, I really do not understand why I have to not include derivative of neuron function.
+			// WTF, I really do not understand why I do not have to include derivative of neuron function here.
+			// Is it because derivative of -log(sgm(x)) is -sgm(x) and it cancels out?
+			deltas[deltaIndex] = result;
 
 			//
 			// Derivative of i-th neuron in non-output layer l is:
@@ -137,7 +140,7 @@ namespace Mausr.Core.NeuralNet {
 			// This can be vectorized as: δ_i^(l) = δ_j^(l+1) * (W^(l))^T .* f'(z_i^(l)).
 			//			
 			for (deltaIndex -= 1; deltaIndex >= 0; --deltaIndex) {
-				var coefsNoBias = unpackedCoefs[deltaIndex + 1].RemoveRow(0);  // Remove bias coeficients.
+				var coefsNoBias = coefs[deltaIndex + 1].RemoveRow(0);  // Remove bias coeficients.
 				var newDelta = deltas[deltaIndex + 1].TransposeAndMultiply(coefsNoBias);  // δ_j^(l+1) * (W^(l))^T.
 				deltas[deltaIndex].PointwiseMultiply(newDelta, deltas[deltaIndex]);  // δ_i^(l) .* f'(z_i^(l).
 			}
@@ -152,29 +155,26 @@ namespace Mausr.Core.NeuralNet {
 			// D = A^T * δ
 			//
 			double regPram = regularizationLambda / samplesCount;
-			var derivatives = new Matrix<double>[netLayout.CoefsCount];
-			for (int i = 0; i < netLayout.CoefsCount; ++i) {
+			var derivatives = new Matrix<double>[network.Layout.CoefsCount];
+			for (int i = 0; i < network.Layout.CoefsCount; ++i) {
 				var derivs = activations[i].TransposeThisAndMultiply(deltas[i]);
 				derivs.Divide(samplesCount, derivs);
 				derivatives[i] = derivs;
 
-
 				// Regularization - regularize all but bias coeficients.
-				var coefs = unpackedCoefs[i];
-				Contract.Assert(derivs.RowCount == coefs.RowCount);
-				Contract.Assert(derivs.ColumnCount == coefs.ColumnCount);
+				var coef = coefs[i];
+				Contract.Assert(derivs.RowCount == coef.RowCount);
+				Contract.Assert(derivs.ColumnCount == coef.ColumnCount);
 
 				int rows = derivs.RowCount, cols = derivs.ColumnCount;
 				for (int r = 1; r < rows; ++r) {
 					for (int c = 0; c < cols; ++c) {
-						derivs[r, c] += regPram * coefs[r, c];
+						derivs[r, c] += regPram * coef[r, c];
 					}
 				}
 			}
 
 			derivatives.PackTo(resultDerivative);
 		}
-
-
 	}
 }

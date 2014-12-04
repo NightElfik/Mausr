@@ -13,17 +13,18 @@ namespace Mausr.Tests.NeuralNet {
 		[TestMethod]
 		public void EvaluateAndNandNoRegularizationTest() {
 			var net = NetBuilder.CreateAndNandNet();
+			var func = net.CostFunction;
 			var inputs = DenseMatrix.OfArray(new double[,] { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } });
 			{
 				var outputIndices = new int[] { 1, 1, 1, 0 };
-				var func = new NetCostFunction(net, inputs, outputIndices, 0);
+				func.SetInputsOutputs(inputs, outputIndices, 0);
 
 				double value = func.Evaluate(net.Coefficients.Pack());
 				Assert.IsTrue(value < 0.001);
 			}
 			{
 				var outputIndices = new int[] { 0, 0, 0, 1 };
-				var func = new NetCostFunction(net, inputs, outputIndices, 0);
+				func.SetInputsOutputs(inputs, outputIndices, 0);
 
 				double value = func.Evaluate(net.Coefficients.Pack());
 				Assert.IsTrue(value > 10);
@@ -33,10 +34,11 @@ namespace Mausr.Tests.NeuralNet {
 		[TestMethod]
 		public void DerivativeAndNandNoRegularizationTest() {
 			var net = NetBuilder.CreateAndNandNet();
+			var func = net.CostFunction;
 			var inputs = DenseMatrix.OfArray(new double[,] { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } });
 			{
 				var outputIndices = new int[] { 1, 1, 1, 0 };
-				var func = new NetCostFunction(net, inputs, outputIndices, 0);
+				func.SetInputsOutputs(inputs, outputIndices, 0);
 				int dims = func.DimensionsCount;
 
 				var rand = new Random(0);
@@ -48,7 +50,7 @@ namespace Mausr.Tests.NeuralNet {
 			}
 			{
 				var outputIndices = new int[] { 0, 0, 0, 1 };
-				var func = new NetCostFunction(net, inputs, outputIndices, 0);
+				func.SetInputsOutputs(inputs, outputIndices, 0);
 				int dims = func.DimensionsCount;
 
 				var rand = new Random(0);
@@ -65,11 +67,11 @@ namespace Mausr.Tests.NeuralNet {
 			var net = NetBuilder.CreateNxorNet();
 			var inputs = DenseMatrix.OfArray(new double[,] { { 0, 0 }, { 1, 1 } });
 			var outputIndices = new int[] { 0, 0 };
-			var func = new NetCostFunction(net, inputs, outputIndices, 0);
-			int dims = func.DimensionsCount;
+			net.CostFunction.SetInputsOutputs(inputs, outputIndices, 0);
+			int dims = net.CostFunction.DimensionsCount;
 
 			var rand = new Random(0);
-			FunctionDerivativeTester.PerformDerivativeTest(func,
+			FunctionDerivativeTester.PerformDerivativeTest(net.CostFunction,
 				Enumerable.Range(0, 100).Select(x =>
 					Enumerable.Range(0, dims).Select(y => rand.NextDouble() * 10 - 5).ToArray()
 				).ToArray()
@@ -79,7 +81,7 @@ namespace Mausr.Tests.NeuralNet {
 
 		[TestMethod]
 		public void DerivativeDeepNetTest() {
-			var net = new Net(new NetLayout(5, 10, 5, 7, 2), new SigomidActivationFunc());
+			var net = new Net(new NetLayout(5, 10, 5, 7, 2), new SigomidActivationFunc(), new NetCostFunction());
 			var inputs = DenseMatrix.OfArray(new double[,] {
 				{ 0, 0, 1, 0, 0 }, 
 				{ 1, 1, 0, 1, 1 }, 
@@ -88,11 +90,11 @@ namespace Mausr.Tests.NeuralNet {
 				{ 0, 1, 0, 1, 0 },
 			});
 			var outputIndices = new int[] { 0, 1, 0, 0, 1 };
-			var func = new NetCostFunction(net, inputs, outputIndices, 0);
-			int dims = func.DimensionsCount;
+			net.CostFunction.SetInputsOutputs(inputs, outputIndices, 0);
+			int dims = net.CostFunction.DimensionsCount;
 
 			var rand = new Random(0);
-			FunctionDerivativeTester.PerformDerivativeTest(func,
+			FunctionDerivativeTester.PerformDerivativeTest(net.CostFunction,
 				Enumerable.Range(0, 20).Select(x =>
 					Enumerable.Range(0, dims).Select(y => rand.NextDouble() * 10 - 5).ToArray()
 				).ToArray()

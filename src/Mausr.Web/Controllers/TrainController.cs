@@ -52,7 +52,6 @@ namespace Mausr.Web.Controllers {
 					&& model.HiddenLayersSizes.All(s => s > 0 && s < 65536);
 				if (hlValid) {
 					if (trainStorageManager.SaveTrainSettings(model.NetId, model.ShallowCloneAs<TrainSettings>())) {
-						startTrainig(model.NetId);
 						return RedirectToAction(Actions.Details(model.NetId));
 					}
 					else {
@@ -78,7 +77,7 @@ namespace Mausr.Web.Controllers {
 			if (trainSettings == null) {
 				return HttpNotFound();
 			}
-			
+
 			var model = new TrainDetailsViewModel() {
 				TrainSettings = trainSettings,
 			};
@@ -86,19 +85,44 @@ namespace Mausr.Web.Controllers {
 			return View(model);
 		}
 
-		private Job startTrainig(string id) {			
-			var job = JobManager.Instance.TryStartJobAsync(id, j => {
-				for (var progress = 0; progress <= 100; progress++) {
-					if (j.CancellationToken.IsCancellationRequested) {
-						return;
-					}
+		[HttpPost]
+		public virtual ActionResult StartTraining(string id) {
+			if (id == null) {
+				return HttpNotFound();
+			}
 
-					Thread.Sleep(200);
-					j.ReportProgress(progress);
-				}
+			if (trainStorageManager.LoadTrainSettings(id) == null) {
+				return HttpNotFound();
+			}
+
+			bool success = startTrainig(id);
+			return Json(new {
+				success = success,
+				message = success ? "Training started successfully." : "Training is already running." 
 			});
+		}
 
-			return job;
+		[HttpPost]
+		public virtual ActionResult StopTraining(string id) {
+			if (id == null) {
+				return HttpNotFound();
+			}
+
+			bool success = stopTrainig(id);
+			return Json(new {
+				success = success,
+				message = success ? "Training was stopped successfully." : "Training is not running." 
+			});
+		}
+
+		private bool startTrainig(string id) {
+			return JobManager.Instance.TryStartJobAsync(id, j => {
+				new NetDbTrainer(id, trainStorageManager, j).TrainNetwork();
+			});
+		}
+
+		private bool stopTrainig(string id) {
+			return JobManager.Instance.StopJob(id);
 		}
 
 		private void initModel(TrainViewModel model) {

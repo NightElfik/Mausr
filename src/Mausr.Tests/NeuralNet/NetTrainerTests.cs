@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Threading;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core;
@@ -28,7 +29,7 @@ namespace Mausr.Tests.NeuralNet {
 			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
 			var trainer = new NetTrainer(net, optimizer, regularizationLambda);
 
-			bool result = trainer.Train(inputs, outputIndices, null);
+			bool result = trainer.Train(inputs, outputIndices, null, CancellationToken.None);
 
 			var actualOutputIndices = trainer.Predict(inputs);
 			CollectionAssert.AreEqual(outputIndices, actualOutputIndices);
@@ -36,38 +37,38 @@ namespace Mausr.Tests.NeuralNet {
 			Assert.IsTrue(result);
 		}
 
-		private void performTrainTestWithPlots(Net net, Matrix<double> inputs, int[] outputIndices,
-				double learningRate, double regularizationLambda, int maxIters, double stepPerPixel) {
-			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
-			var trainer = new NetTrainer(net, optimizer, regularizationLambda);
+		//private void performTrainTestWithPlots(Net net, Matrix<double> inputs, int[] outputIndices,
+		//		double learningRate, double regularizationLambda, int maxIters, double stepPerPixel) {
+		//	var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
+		//	var trainer = new NetTrainer(net, optimizer, regularizationLambda);
 
-			var cf = new NetCostFunction(net, inputs, outputIndices, regularizationLambda);
-			trainer.InitializeCoefs(net);
-			double costBefore = cf.Evaluate(net.Coefficients.Pack());
+		//	var cf = new NetCostFunction(net, inputs, outputIndices, regularizationLambda);
+		//	trainer.InitializeCoefs(net);
+		//	double costBefore = cf.Evaluate(net.Coefficients.Pack());
 
-			var optimizationSteps = new List<Vector<double>>();
-			bool result = trainer.Train(inputs, outputIndices, p => optimizationSteps.Add(p));			
+		//	var optimizationSteps = new List<Vector<double>>();
+		//	bool result = trainer.Train(inputs, outputIndices, p => optimizationSteps.Add(p));			
 
-			new FunctionPlotter()
-				.FunctionPlot(optimizationSteps.Select(pt => cf.Evaluate(pt)).ToArray(), 1024, 512, 0, 2)
-				.Save("err.png", ImageFormat.Png);
+		//	new FunctionPlotter()
+		//		.FunctionPlot(optimizationSteps.Select(pt => cf.Evaluate(pt)).ToArray(), 1024, 512, 0, 2)
+		//		.Save("err.png", ImageFormat.Png);
 
-			int dims = cf.DimensionsCount;
-			var plotOrigin = net.Coefficients.Pack();
-			for (int dx = 0; dx < dims; ++dx) {
-				for (int dy = dx + 1; dy < dims; ++dy) {
-					plotOptimization(cf, plotOrigin, dx, dy, stepPerPixel, optimizationSteps);
-				}
-			}
+		//	int dims = cf.DimensionsCount;
+		//	var plotOrigin = net.Coefficients.Pack();
+		//	for (int dx = 0; dx < dims; ++dx) {
+		//		for (int dy = dx + 1; dy < dims; ++dy) {
+		//			plotOptimization(cf, plotOrigin, dx, dy, stepPerPixel, optimizationSteps);
+		//		}
+		//	}
 
-			double costAfter = cf.Evaluate(net.Coefficients.Pack());
-			Assert.IsTrue(costAfter < costBefore);
+		//	double costAfter = cf.Evaluate(net.Coefficients.Pack());
+		//	Assert.IsTrue(costAfter < costBefore);
 
-			var actualOutputIndices = trainer.Predict(inputs);
-			CollectionAssert.AreEqual(outputIndices, actualOutputIndices);
+		//	var actualOutputIndices = trainer.Predict(inputs);
+		//	CollectionAssert.AreEqual(outputIndices, actualOutputIndices);
 
-			Assert.IsTrue(result);
-		}
+		//	Assert.IsTrue(result);
+		//}
 
 		private void plotOptimization(IFunctionWithDerivative fun, Vector<double> origin, int xDimIndex, int yDimIndex,
 				double stepPerPixel, List<Vector<double>> points) {

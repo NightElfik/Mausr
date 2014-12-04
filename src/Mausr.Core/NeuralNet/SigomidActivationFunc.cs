@@ -8,7 +8,7 @@ namespace Mausr.Core.NeuralNet {
 			return 1.0 / (1.0 + Math.Exp(-value));
 		}
 				
-		public override double Derivative(double value) {
+		public override double Derivate(double value) {
 			double x = 1.0 / (1.0 + Math.Exp(-value));
 			return x * (1.0 - x);
 		}

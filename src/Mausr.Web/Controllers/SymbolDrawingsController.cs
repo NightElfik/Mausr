@@ -70,9 +70,9 @@ namespace Mausr.Web.Controllers {
 				var drawing = sd.RawDrawing;
 				
 				if (rotation != 0) {
-					drawing = new RawDataProcessor().Rotate(drawing, rotation, normalized);
+					new RawDataProcessor().RotateInPlace(drawing, rotation);
 				}
-				else if (normalized) {
+				if (normalized) {
 					new RawDataProcessor().Normalize(drawing);
 				}
 

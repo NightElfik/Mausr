@@ -295,7 +295,6 @@
     </Compile>
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Hubs\ProgressHub.cs" />
-    <Compile Include="Hubs\TrainHub.cs" />
     <Compile Include="Hubs\TrainingContext.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
     <Compile Include="Infrastructure\TrainStorageManager.cs" />
@@ -316,6 +315,7 @@
     <Compile Include="Models\LearnBatchViewModel.cs" />
     <Compile Include="Models\LearnInitViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NetDbTrainer.cs" />
     <Compile Include="Models\PlotViewModel.cs" />
     <Compile Include="Models\Symbol.cs" />
     <Compile Include="Models\SymbolDrawing.cs" />

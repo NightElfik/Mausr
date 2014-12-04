@@ -50,8 +50,13 @@ namespace Mausr.Core {
 		}
 
 
+		public RawDrawing Rotate(RawDrawing drawing, double angleDegrees) {
+			var newDrawing = new RawDrawing(drawing);
+			RotateInPlace(drawing, angleDegrees);
+			return newDrawing;
+		}
 
-		public RawDrawing Rotate(RawDrawing drawing, double angleDegrees, bool normalize) {
+		public void RotateInPlace(RawDrawing drawing, double angleDegrees) {
 
 			float minX = float.PositiveInfinity,
 				minY = float.PositiveInfinity,
@@ -69,13 +74,11 @@ namespace Mausr.Core {
 
 			float ox = (minX + maxX) / 2;
 			float oy = (minY + maxY) / 2;
-
-			var newDrawing = new RawDrawing(drawing);
-
+			
 			float sin = (float)Math.Sin(angleDegrees / 180 * Math.PI);
 			float cos = (float)Math.Cos(angleDegrees / 180 * Math.PI);
 
-			foreach (var line in newDrawing.Lines) {
+			foreach (var line in drawing.Lines) {
 				for (int i = 0; i < line.Length; ++i) {
 					float dx = line[i].X - ox;
 					float dy = line[i].Y - oy;
@@ -83,11 +86,6 @@ namespace Mausr.Core {
 					line[i].Y = sin * dx + cos * dy + oy;
 				}
 			}
-
-			if (normalize) {
-				Normalize(newDrawing);
-			}
-			return newDrawing;
 		}
 
 	}

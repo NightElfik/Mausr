@@ -10,56 +10,49 @@ namespace Mausr.Web.Models {
 		public static readonly JobManager Instance = new JobManager();
 
 
-		private ConcurrentDictionary<string, Job> _runningJobs = new ConcurrentDictionary<string, Job>();
-		private IHubContext _hubContext;
+		private ConcurrentDictionary<string, Job> runningJobs = new ConcurrentDictionary<string, Job>();
+		private IHubContext progressHubContext;
 
 
-		public JobManager() {
-			_hubContext = GlobalHost.ConnectionManager.GetHubContext<ProgressHub>();
+		private JobManager() {
+			progressHubContext = GlobalHost.ConnectionManager.GetHubContext<ProgressHub>();
 		}
 
-		public Job TryStartJobAsync(string jobId, Action<Job> action) {
+		public bool TryStartJobAsync(string jobId, Action<Job> action) {
 			var job = new Job(jobId);
-			var dbJob = _runningJobs.GetOrAdd(job.Id, job);
+			var dbJob = runningJobs.GetOrAdd(job.Id, job);
 			if (dbJob != job) {
-				return dbJob;  // Some job is already running.
+				return false;  // Some job is already running.
 			}
 
 			Task.Factory.StartNew(() => {
 					action(job);
-					job.ReportComplete();
-					_runningJobs.TryRemove(job.Id, out job);
+					job.IsComplete = true;
+					runningJobs.TryRemove(job.Id, out job);
 				},
 				TaskCreationOptions.LongRunning);
-
-			BroadcastJobStatus(job);
-
-			return job;
+			
+			return true;
 		}
 
-		private void BroadcastJobStatus(Job job) {
-			job.ProgressChanged += HandleJobProgressChanged;
-			job.Completed += HandleJobCompleted;
+		public bool StopJob(string id) {
+			Job job;
+			if (runningJobs.TryGetValue(id, out job)) {
+				job.Cancel();
+				return true;
+			}
+
+			return false;
 		}
-
-		private void HandleJobCompleted(object sender, EventArgs e) {
-			var job = (Job)sender;
-
-			_hubContext.Clients.Group(job.Id).jobCompleted(job.Id);
-
-			job.ProgressChanged -= HandleJobProgressChanged;
-			job.Completed -= HandleJobCompleted;
-		}
-
-		private void HandleJobProgressChanged(object sender, EventArgs e) {
-			var job = (Job)sender;
-			_hubContext.Clients.Group(job.Id).progressChanged(job.Id, job.Progress);
-		}
-
+		
 		public Job GetJob(string id) {
 			Job result;
-			return _runningJobs.TryGetValue(id, out result) ? result : null;
+			return runningJobs.TryGetValue(id, out result) ? result : null;
 		}
 
+
+		public dynamic GetClientoObject(Job job) {
+			return progressHubContext.Clients.Group(job.Id);
+		}
 	}
 }

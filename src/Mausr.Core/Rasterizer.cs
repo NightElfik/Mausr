@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -8,9 +9,34 @@ namespace Mausr.Core {
 
 		private static Pen[] pointsColors = new Pen[] { Pens.Red, Pens.Lime, Pens.Yellow };
 
-		public Bitmap Rasterize(RawDrawing drawing, int imageSize, float penSizePerc, bool extraMargin, bool drawPoints) {
-			var img = new Bitmap(imageSize, imageSize, PixelFormat.Format24bppRgb);
+		public int ImageSize { get; set; }
+		public float PenSizePerc { get; set; }
+		public bool ExtraMargin { get; set; }
+		public bool DrawPoints { get; set; }
 
+		
+
+		public Bitmap Rasterize(RawDrawing drawing) {
+			return Rasterize(drawing, ImageSize, PenSizePerc, ExtraMargin, DrawPoints);
+		}
+
+		public void Rasterize(Bitmap img, RawDrawing drawing) {
+			Contract.Requires(img.Width == img.Height);
+
+			Rasterize(img, drawing, PenSizePerc, ExtraMargin, DrawPoints);
+		}
+
+
+		public Bitmap Rasterize(RawDrawing drawing, int imageSize, float penSizePerc, bool extraMargin, bool drawPoints) {
+			Bitmap img = new Bitmap(imageSize, imageSize, PixelFormat.Format24bppRgb);
+			Rasterize(img, drawing, penSizePerc, extraMargin, drawPoints);
+			return img;
+		}
+
+		public void Rasterize(Bitmap img, RawDrawing drawing, float penSizePerc, bool extraMargin, bool drawPoints) {
+			Contract.Requires(img.Width == img.Height);
+
+			int imageSize = img.Width;
 			float penSize = imageSize * penSizePerc;
 			var pen = new Pen(Color.Black, penSize) {
 				StartCap = LineCap.Round,
@@ -66,8 +92,6 @@ namespace Mausr.Core {
 					}
 				}
 			}
-
-			return img;
 		}
 
 	}

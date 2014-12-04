@@ -15,30 +15,38 @@ namespace Mausr.Core.NeuralNet {
 
 		/// <param name="inputs">Matrix with data in rows.</param>
 		public Matrix<double> Evaluate(Matrix<double> inputs) {
+			return Evaluate(inputs, Net.Coefficients);
+		}
+
+		public Matrix<double> Evaluate(Matrix<double> inputs, Matrix<double>[] customCoefs) {
 			Contract.Requires(inputs.ColumnCount == Net.Layout.InputSize);
 			Contract.Ensures(Contract.Result<Matrix<double>>().ColumnCount == Net.Layout.OutputSize);
 
 			Matrix<double> result = inputs;
 
-			for (int i = 0; i < Net.Layout.CoefsCount; ++i) {
-				result = evalStep(i, result);
+			for (int i = 0; i < customCoefs.Length; ++i) {
+				result = evalStep(result, customCoefs[i]);
 			}
 
 			return result;
 		}
 		
 		public int[] PredictFromEvaluated(Matrix<double> outpus) {
-			return outpus.EnumerateRows().Select(row => row.MaximumIndex()).ToArray();
+			return outpus.EnumerateRows().Select(row => Net.MapOutNeuronToOutput(row.MaximumIndex())).ToArray();
 		}
 
 		public int[] Predict(Matrix<double> inputs) {
 			return PredictFromEvaluated(Evaluate(inputs));
 		}
 
+		public int[] Predict(Matrix<double> inputs, Matrix<double>[] customCoefs) {
+			return PredictFromEvaluated(Evaluate(inputs, customCoefs));
+		}
 
-		protected Matrix<double> evalStep(int coefIndex, Matrix<double> input) {
+
+		protected Matrix<double> evalStep(Matrix<double> input, Matrix<double> coefs) {
 			var result = input.InsertColumn(0, DenseVector.Create(input.RowCount, 1));
-			result = result * Net.GetCoefsMatrix(coefIndex);
+			result = result * coefs;
 			result.MapInplace(Net.NeuronActivationFunc.Evaluate);
 			return result;
 		}

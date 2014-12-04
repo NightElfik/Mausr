@@ -133,9 +133,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MathNetExtensions.cs" />
+    <Compile Include="NeuralNet\INetCostFunction.cs" />
     <Compile Include="NeuralNet\Net.cs" />
     <Compile Include="NeuralNet\NetCostFunction.cs" />
     <Compile Include="NeuralNet\NetEvaluator.cs" />
+    <Compile Include="NeuralNet\NetInputConvertor.cs" />
     <Compile Include="NeuralNet\NeuronActivationFunc.cs" />
     <Compile Include="NeuralNet\NetTrainer.cs" />
     <Compile Include="NeuralNet\SigomidActivationFunc.cs" />

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Mausr.Core.NeuralNet {
 	public class NetLayout {
@@ -51,6 +53,14 @@ namespace Mausr.Core.NeuralNet {
 		public int GetCoefMatrixCols(int coefIndex) {
 			Contract.Requires(coefIndex >= 0 && coefIndex < CoefsCount);
 			return layersSizes[coefIndex + 1];
+		}
+
+		public Matrix<double>[] AllocateCoefMatrices() {			
+			var coefs = new Matrix<double>[CoefsCount];
+			for (int i = 0; i < CoefsCount; ++i) {
+				coefs[i] = new DenseMatrix(GetCoefMatrixRows(i), GetCoefMatrixCols(i));
+			}
+			return coefs;
 		}
 
 	}

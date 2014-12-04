@@ -60,6 +60,18 @@ namespace Mausr.Web.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Details);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult StartTraining()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StartTraining);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult StopTraining()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StopTraining);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public TrainController Actions { get { return MVC.Train; } }
@@ -78,6 +90,8 @@ namespace Mausr.Web.Controllers
         {
             public readonly string Index = "Index";
             public readonly string Details = "Details";
+            public readonly string StartTraining = "StartTraining";
+            public readonly string StopTraining = "StopTraining";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -85,6 +99,8 @@ namespace Mausr.Web.Controllers
         {
             public const string Index = "Index";
             public const string Details = "Details";
+            public const string StartTraining = "StartTraining";
+            public const string StopTraining = "StopTraining";
         }
 
 
@@ -101,6 +117,22 @@ namespace Mausr.Web.Controllers
         public ActionParamsClass_Details DetailsParams { get { return s_params_Details; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_Details
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_StartTraining s_params_StartTraining = new ActionParamsClass_StartTraining();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_StartTraining StartTrainingParams { get { return s_params_StartTraining; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_StartTraining
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_StopTraining s_params_StopTraining = new ActionParamsClass_StopTraining();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_StopTraining StopTrainingParams { get { return s_params_StopTraining; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_StopTraining
         {
             public readonly string id = "id";
         }
@@ -159,6 +191,30 @@ namespace Mausr.Web.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Details);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             DetailsOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void StartTrainingOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult StartTraining(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StartTraining);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            StartTrainingOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void StopTrainingOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult StopTraining(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StopTraining);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            StopTrainingOverride(callInfo, id);
             return callInfo;
         }
 

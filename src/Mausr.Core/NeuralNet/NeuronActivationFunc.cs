@@ -11,7 +11,7 @@ namespace Mausr.Core.NeuralNet {
 
 		public abstract double Evaluate(double value);
 
-		public abstract double Derivative(double value);
+		public abstract double Derivate(double value);
 		
 
 		public double Evaluate(Vector<double> point) {
@@ -19,7 +19,7 @@ namespace Mausr.Core.NeuralNet {
 		}
 
 		public void Derivate(Vector<double> resultDerivative, Vector<double> point) {
-			resultDerivative[0] = Derivative(point[0]);
+			resultDerivative[0] = Derivate(point[0]);
 		}
 
 	}

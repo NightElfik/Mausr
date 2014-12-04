@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -12,18 +13,27 @@ namespace Mausr.Core.NeuralNet {
 
 		public NeuronActivationFunc NeuronActivationFunc { get; private set; }
 
+		public INetCostFunction CostFunction { get; private set; }
+
+		/// <summary>
+		/// Maps output index to zero-based neuron index.
+		/// </summary>
+		private Dictionary<int, int> outputToIndexMap;
+
+		/// <summary>
+		/// Maps output neuron index to output index.
+		/// </summary>
+		private int[] indexToOutputMap;
 
 
-		public Net(NetLayout layout, NeuronActivationFunc neuronActivationFunc) {
+
+		public Net(NetLayout layout, NeuronActivationFunc activationFunc, NetCostFunction costFunction) {
 			Layout = layout;
-			NeuronActivationFunc = neuronActivationFunc;
-			Coefficients = new DenseMatrix[layout.CoefsCount];
-		}
+			NeuronActivationFunc = activationFunc;
+			CostFunction = costFunction;
+			Coefficients = layout.AllocateCoefMatrices();
 
-		public void AllocateCoefs() {			
-			for (int i = 0; i < Layout.CoefsCount; ++i) {
-				Coefficients[i] = new DenseMatrix(Layout.GetCoefMatrixRows(i), Layout.GetCoefMatrixCols(i));
-			}
+			costFunction.Initialize(this);
 		}
 
 		public Matrix<double> GetCoefsMatrix(int index) {
@@ -38,6 +48,42 @@ namespace Mausr.Core.NeuralNet {
 			Contract.Requires<ArgumentException>(value.RowCount == Layout.GetCoefMatrixRows(index));
 			Contract.Requires<ArgumentException>(value.ColumnCount == Layout.GetCoefMatrixCols(index));
 			Coefficients[index] = value;
+		}
+
+		public void SetOutputMap(int[] outNeuronIndexToOutputIndexMap) {
+			Contract.Requires<ArgumentException>(outNeuronIndexToOutputIndexMap.Length == Layout.OutputSize);
+
+			int outSize = Layout.OutputSize;
+			indexToOutputMap = new int[outSize];
+
+			Array.Copy(outNeuronIndexToOutputIndexMap, indexToOutputMap, outSize);
+
+			outputToIndexMap = new Dictionary<int, int>();
+			for (int i = 0; i < outSize; ++i) {
+				outputToIndexMap.Add(indexToOutputMap[i], i);
+			}
+		}
+
+		public int MapOutputToOutNeuron(int outputIndex) {
+			Contract.Ensures(Contract.Result<int>() >= 0 && Contract.Result<int>() < Layout.OutputSize);
+
+			if (outputToIndexMap != null) {
+				return outputToIndexMap[outputIndex];
+			}
+			else {
+				return outputIndex;  // Identity by default.
+			}
+		}
+
+		public int MapOutNeuronToOutput(int outNeuronIndex) {
+			Contract.Requires<ArgumentOutOfRangeException>(outNeuronIndex >= 0 && outNeuronIndex < Layout.OutputSize);
+
+			if (indexToOutputMap != null) {
+				return indexToOutputMap[outNeuronIndex];
+			}
+			else {
+				return outNeuronIndex;  // Identity by default.
+			}
 		}
 
 	}

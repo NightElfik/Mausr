@@ -3,62 +3,55 @@ using System.Threading;
 
 namespace Mausr.Web.Models {
 	public class Job {
-		
-		private volatile int _progress;
-		private volatile bool _completed;
-		private CancellationTokenSource _cancellationTokenSource;
 
-		public event EventHandler<EventArgs> ProgressChanged;
-		public event EventHandler<EventArgs> Completed;
-		
+		private CancellationTokenSource cancellationTokenSource;
 
 		public string Id { get; private set; }
 
-		public int Progress {
-			get { return _progress; }
+		private float p_progress = 0;
+		public float Progress {
+			get { return p_progress; }
+			set {
+				if (value == p_progress) {
+					return;
+				}
+
+				p_progress = value;
+				Clients.progressChanged(p_progress);
+			}
 		}
 
+		private bool p_isComplete = false;
 		public bool IsComplete {
-			get { return _completed; }
+			get {
+				return p_isComplete;
+			}
+			set {
+				if (value == p_isComplete) {
+					return;
+				}
+
+				p_isComplete = value;
+				Clients.jobCompleted();
+			}
 		}
+
+
+		public dynamic Clients { get { return JobManager.Instance.GetClientoObject(this); } }
+
 
 		public CancellationToken CancellationToken {
-			get { return _cancellationTokenSource.Token; }
+			get { return cancellationTokenSource.Token; }
 		}
 
 
 		public Job(string id) {
 			Id = id;
-			_cancellationTokenSource = new CancellationTokenSource();
-		}
-
-
-		public void ReportProgress(int progress) {
-			if (_progress != progress) {
-				_progress = progress;
-				OnProgressChanged();
-			}
-		}
-
-		public void ReportComplete() {
-			if (!IsComplete) {
-				_completed = true;
-				OnCompleted();
-			}
-		}
-
-		protected virtual void OnCompleted() {
-			var handler = Completed;
-			if (handler != null) handler(this, EventArgs.Empty);
-		}
-
-		protected virtual void OnProgressChanged() {
-			var handler = ProgressChanged;
-			if (handler != null) handler(this, EventArgs.Empty);
+			cancellationTokenSource = new CancellationTokenSource();
 		}
 
 		public void Cancel() {
-			_cancellationTokenSource.Cancel();
+			cancellationTokenSource.Cancel();
 		}
 	}
 }

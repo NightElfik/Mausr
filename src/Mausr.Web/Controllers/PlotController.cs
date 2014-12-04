@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading;
 using System.Web.Mvc;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -104,29 +105,32 @@ namespace Mausr.Web.Controllers {
 		private ActionResult plot(IFunctionWithDerivative f, PlotViewModel model) {
 
 			List<Tuple<Color, List<Vector<double>>>> points = new List<Tuple<Color, List<Vector<double>>>>();
-			var initPos = new DenseVector(2);
-			initPos[0] = model.InitialX;
-			initPos[1] = model.InitialY;
 			var result = new DenseVector(f.DimensionsCount);
 			{
+				result[0] = model.InitialX;
+				result[1] = model.InitialY;
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkGreen, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.BasicStep, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(result, f, initPos, p => ps.Add(p));
+				sdImpl.Optimize(result, f, p => ps.Add(p), CancellationToken.None);
 			}
 			{
+				result[0] = model.InitialX;
+				result[1] = model.InitialY;
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkRed, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.MomentumStep,
 					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(result, f, initPos, p => ps.Add(p));
+				sdImpl.Optimize(result, f, p => ps.Add(p), CancellationToken.None);
 			}
 			{
+				result[0] = model.InitialX;
+				result[1] = model.InitialY;
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Blue, ps));
 				var sdImpl = new SteepestDescentAdvancedOptmizer(model.MomentumStep,
 					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(result, f, initPos, p => ps.Add(p));
+				sdImpl.Optimize(result, f, p => ps.Add(p), CancellationToken.None);
 			}
 
 			var fp = new FunctionPlotter();
