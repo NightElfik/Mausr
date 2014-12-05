@@ -25,6 +25,7 @@ namespace Mausr.Web.Models {
 		private Matrix<double>[] unpackedCoefs;
 
 		private int iterationId;
+		private int iterationSendInterval = 5;
 
 		private List<float> trainCosts = new List<float>();
 		private List<float> testCosts = new List<float>();
@@ -48,6 +49,7 @@ namespace Mausr.Web.Models {
 
 		public void TrainNetwork() {
 			stopwatch.Reset();
+			stopwatch.Start();
 
 			sendMessage("Loading training settings.");
 			trainSettings = storageManager.LoadTrainSettings(netId);
@@ -136,6 +138,11 @@ namespace Mausr.Web.Models {
 		}
 
 		private void trainIterationCallback(Vector<double> point) {
+			iterationId += 1;
+			if (iterationId % iterationSendInterval != 0) {
+				return;
+			}
+
 			point.UnpackTo(unpackedCoefs);
 
 			double trainCost = network.CostFunction.Evaluate(unpackedCoefs,
@@ -151,15 +158,13 @@ namespace Mausr.Web.Models {
 			float trainPredict = (float)correctTrainPredicts / trainOutIds.Length;
 			trainPredicts.Add(trainPredict);
 
-			var testPredictions = netEvaluator.Predict(trainInputs, unpackedCoefs);
+			var testPredictions = netEvaluator.Predict(testInputs, unpackedCoefs);
 			int correctTestPredicts = testPredictions.Zip(testOutIds, (actual, expected) => actual == expected ? 1 : 0).Sum();
 			float testPredict = (float)correctTestPredicts / testOutIds.Length;
 			testPredicts.Add(testPredict);
 
 			// Notify client.
 			job.Clients.iteration(iterationId, trainCost, testCost, trainPredict, testPredict);
-
-			iterationId += 1;
 		}
 
 

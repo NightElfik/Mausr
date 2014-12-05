@@ -346,10 +346,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Mausr.mdf" />
-    <Content Include="App_Data\Mausr_log.ldf">
-      <DependentUpon>Mausr.mdf</DependentUpon>
-    </Content>
     <Content Include="Css\bootstrap-theme.css" />
     <Content Include="Css\bootstrap-theme.min.css" />
     <Content Include="Css\bootstrap.css" />
@@ -445,6 +441,7 @@
     <Content Include="Views\Train\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

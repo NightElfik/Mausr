@@ -16,7 +16,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				@Html.ActionLink("Mausr", MVC.Home.Index())
+				@Html.ActionLink("Mausr", MVC.Home.Index(), new { @class = "navbar-brand" })
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -34,7 +34,7 @@
 		@RenderBody()
 		<hr />
 		<footer>
-			<p>&copy; @DateTime.Now.Year - Mausr</p>
+			<p>&copy; @DateTime.Now.Year - Marek Fišer</p>
 		</footer>
 	</div>
 

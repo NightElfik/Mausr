@@ -42,7 +42,7 @@ namespace Mausr.Web.Models {
 		public int LearnRounds { get; set; }
 
 		[Required]
-		[Range(1, 65536)]
+		[Range(0, 65536)]
 		[Display(Name = "Batch size")]
 		public int BatchSize { get; set; }
 

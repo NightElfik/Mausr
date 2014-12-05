@@ -131,7 +131,13 @@
 			<div class="col-md-3">
 				@Html.EditorFor(m => m.BatchSize, new { htmlAttributes = new { @class = "form-control" } })
 				@Html.ValidationMessageFor(m => m.BatchSize, "", new { @class = "text-danger" })
-				<p class="text-muted"><small>Number of samples in a batch. There will be as many batches as nedded in every learning round.</small></p>
+				<p class="text-muted">
+					<small>
+						Number of samples in a batch.
+						There will be as many batches as nedded in every learning round.
+						Batch size 0 denotes one batch per round.
+					</small>
+				</p>
 			</div>
 			@Html.LabelFor(m => m.MaxIteratinosPerBatch, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
@@ -212,7 +218,7 @@
 					var url = imgUrls[i].replace('/88/', '/' + $imgSizeInput.val() + '/')
 						.replace('/22/', '/' + $penSizeInput.val() + '/')
 						.replace('/True/', '/' + ($normalizedInput.prop('checked') ? 'True' : 'False') + '/');
-					
+
 					$container.append($('<img src="' + url + '" style="border: 1px solid #AAA; margin: 4px;" />'));
 
 					var rotAngle = parseInt($extraRotationInput.val(), 10);

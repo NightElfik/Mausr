@@ -57,12 +57,24 @@ namespace Mausr.Core.NeuralNet {
 
 		public bool TrainBatch(Matrix<double> inputs, int batchSize, int learnRounds,
 				int[] outputIds, Action<Vector<double>> iterationCallback, CancellationToken ct) {
-			bool status = false;
 			
+			bool status = false;
+			InitializeCoefs(Net);
+
+			if (batchSize == 0) {
+				for (int lr = 0; lr < learnRounds; ++lr) {
+					status = TrainMore(inputs, outputIds, iterationCallback, ct);
+				}
+				return status;
+			}
+
+
 			int[] outIndices = outputIds.Select(x => Net.MapOutputToOutNeuron(x)).ToArray();
 			int batchesConut = (inputs.RowCount + batchSize - 1) / batchSize;
 			var inputBatches = new Matrix<double>[batchSize];
 			var outIndicesBatches = new int[batchSize][];
+
+			var result = Net.Coefficients.Pack();
 
 			// Cut inputs to batches.
 			for (int i = 0; i < batchesConut; ++i) {
@@ -73,8 +85,6 @@ namespace Mausr.Core.NeuralNet {
 				Array.Copy(outIndices, srcIndex, outIndicesBatches[i], 0, samples);
 			}
 
-			InitializeCoefs(Net);
-			var result = Net.Coefficients.Pack();
 
 			for (int lr = 0; lr < learnRounds; ++lr) {
 				for (int i = 0; i < batchesConut; ++i) {
