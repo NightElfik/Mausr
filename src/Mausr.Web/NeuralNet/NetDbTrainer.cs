@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using Mausr.Core;
@@ -7,8 +8,9 @@ using Mausr.Core.NeuralNet;
 using Mausr.Core.Optimization;
 using Mausr.Web.DataContexts;
 using Mausr.Web.Infrastructure;
+using Mausr.Web.Models;
 
-namespace Mausr.Web.Models {
+namespace Mausr.Web.NeuralNet {
 	public class NetDbTrainer {
 
 		private readonly string netId;
@@ -25,7 +27,6 @@ namespace Mausr.Web.Models {
 		private Matrix<double>[] unpackedCoefs;
 
 		private int iterationId;
-		private int iterationSendInterval = 5;
 
 		private List<float> trainCosts = new List<float>();
 		private List<float> testCosts = new List<float>();
@@ -80,11 +81,17 @@ namespace Mausr.Web.Models {
 				prepareInOut(db);
 
 				sendMessage(string.Format("Learning of {0} samples started.", trainInputs.RowCount));
-				trainer.TrainBatch(trainInputs, trainSettings.BatchSize, trainSettings.LearnRounds,
+				bool converged = trainer.TrainBatch(trainInputs, trainSettings.BatchSize, trainSettings.LearnRounds,
 					trainOutIds, trainIterationCallback, job.CancellationToken);
-
+				
+				sendMessage("Training done ({0}converged), saving network.", converged ? "" : "not ");
+				if (!storageManager.SaveNet(netId, network)) {
+					sendMessage("Failed to save the network.");
+				}
 				stopwatch.Stop();
 			}
+			
+			sendMessage("All done.");
 		}
 
 		private void prepareInOut(MausrDb db) {
@@ -113,7 +120,7 @@ namespace Mausr.Web.Models {
 
 			if (trainSettings.NormalizeInput) {
 				foreach (var iad in inputsAndDrawings) {
-					dataProc.Normalize(iad.RawDrawing);
+					dataProc.NormalizeInPlace(iad.RawDrawing);
 				}
 			}
 
@@ -139,7 +146,7 @@ namespace Mausr.Web.Models {
 
 		private void trainIterationCallback(Vector<double> point) {
 			iterationId += 1;
-			if (iterationId % iterationSendInterval != 0) {
+			if (iterationId % trainSettings.TrainEvaluationIters != 0) {
 				return;
 			}
 
@@ -169,7 +176,7 @@ namespace Mausr.Web.Models {
 
 
 		private void sendMessage(string msg, params object[] args) {
-			string timestamp = string.Format("{0:0000.0} ", stopwatch.Elapsed.TotalSeconds);
+			string timestamp = string.Format(CultureInfo.InvariantCulture, "[{0:0000.0}] ", stopwatch.Elapsed.TotalSeconds);
 			job.Clients.message(timestamp + string.Format(msg, args));
 		}
 

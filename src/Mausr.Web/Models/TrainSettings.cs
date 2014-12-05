@@ -82,5 +82,11 @@ namespace Mausr.Web.Models {
 		[Display(Name = "Test data set size")]
 		public int TestDataSetSizePerc { get; set; }
 
+		[Required]
+		[Range(1, 32)]
+		[Display(Name = "Training evaluation interval")]
+		public int TrainEvaluationIters { get; set; }
+
+
 	}
 }

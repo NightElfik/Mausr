@@ -72,6 +72,12 @@ namespace Mausr.Web.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StopTraining);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult SetDefault()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SetDefault);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public TrainController Actions { get { return MVC.Train; } }
@@ -89,26 +95,30 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string TrainNewNet = "TrainNewNet";
             public readonly string Details = "Details";
             public readonly string StartTraining = "StartTraining";
             public readonly string StopTraining = "StopTraining";
+            public readonly string SetDefault = "SetDefault";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string TrainNewNet = "TrainNewNet";
             public const string Details = "Details";
             public const string StartTraining = "StartTraining";
             public const string StopTraining = "StopTraining";
+            public const string SetDefault = "SetDefault";
         }
 
 
-        static readonly ActionParamsClass_Index s_params_Index = new ActionParamsClass_Index();
+        static readonly ActionParamsClass_TrainNewNet s_params_TrainNewNet = new ActionParamsClass_TrainNewNet();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_Index IndexParams { get { return s_params_Index; } }
+        public ActionParamsClass_TrainNewNet TrainNewNetParams { get { return s_params_TrainNewNet; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_Index
+        public class ActionParamsClass_TrainNewNet
         {
             public readonly string model = "model";
         }
@@ -136,6 +146,14 @@ namespace Mausr.Web.Controllers
         {
             public readonly string id = "id";
         }
+        static readonly ActionParamsClass_SetDefault s_params_SetDefault = new ActionParamsClass_SetDefault();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_SetDefault SetDefaultParams { get { return s_params_SetDefault; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_SetDefault
+        {
+            public readonly string id = "id";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -148,9 +166,11 @@ namespace Mausr.Web.Controllers
             {
                 public readonly string Details = "Details";
                 public readonly string Index = "Index";
+                public readonly string TrainNewNet = "TrainNewNet";
             }
             public readonly string Details = "~/Views/Train/Details.cshtml";
             public readonly string Index = "~/Views/Train/Index.cshtml";
+            public readonly string TrainNewNet = "~/Views/Train/TrainNewNet.cshtml";
         }
     }
 
@@ -171,14 +191,25 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.TrainViewModel model);
+        partial void TrainNewNetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Index(Mausr.Web.Models.TrainViewModel model)
+        public override System.Web.Mvc.ActionResult TrainNewNet()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TrainNewNet);
+            TrainNewNetOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void TrainNewNetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.TrainViewModel model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult TrainNewNet(Mausr.Web.Models.TrainViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TrainNewNet);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            IndexOverride(callInfo, model);
+            TrainNewNetOverride(callInfo, model);
             return callInfo;
         }
 
@@ -215,6 +246,18 @@ namespace Mausr.Web.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StopTraining);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             StopTrainingOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void SetDefaultOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult SetDefault(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SetDefault);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            SetDefaultOverride(callInfo, id);
             return callInfo;
         }
 

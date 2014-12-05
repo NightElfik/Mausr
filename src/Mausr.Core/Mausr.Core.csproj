@@ -140,6 +140,7 @@
     <Compile Include="NeuralNet\NetInputConvertor.cs" />
     <Compile Include="NeuralNet\NeuronActivationFunc.cs" />
     <Compile Include="NeuralNet\NetTrainer.cs" />
+    <Compile Include="NeuralNet\Prediction.cs" />
     <Compile Include="NeuralNet\SigomidActivationFunc.cs" />
     <Compile Include="Optimization\NumericDerivator.cs" />
     <Compile Include="Optimization\SteepestDescentAdvancedOptmizer.cs" />

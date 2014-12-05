@@ -23,6 +23,9 @@
 
 			<dt>@Html.DisplayNameFor(m => settings.HiddenLayersSizes)</dt>
 			<dd>@string.Join(", ", settings.HiddenLayersSizes.Select(x => x.ToString()))</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.TrainEvaluationIters)</dt>
+			<dd>@Html.DisplayFor(m => settings.TrainEvaluationIters)</dd>
 		</dl>
 	</div>
 	<div class="col-sm-3">
@@ -86,6 +89,7 @@
 	<div class="col-md-12">
 		<a href="#" id="startBtn" class="btn btn-primary">Start training</a>
 		<a href="#" id="stopBtn" class="btn btn-danger">Stop training</a>
+		<a href="#" id="setAsDefaultBtn" class="btn btn-default">Set as default training</a>
 		<span class="label label-info" id="startStopLabel"></span>
 	</div>
 </div>
@@ -109,7 +113,8 @@
 				startLabelId: 'startStopLabel',
 				stopUrl: '@Url.Action(MVC.Train.StopTraining())',
 				stopBtnId: 'stopBtn',
-				stopLabelId: 'startStopLabel'
+				setAsDefaultUrl: '@Url.Action(MVC.Train.SetDefault())',
+				setAsDefaultBtnId: 'setAsDefaultBtn'
 			});
 		});
 	</script>

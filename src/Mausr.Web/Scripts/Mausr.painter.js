@@ -3,80 +3,102 @@
 function MausrPainter(options) {
 	var self = this;
 
-	this.$mainCanvas = $('#' + options.canvasId);
-	this.$jsonText = $('#' + options.jsonTextId);
-	this.$clearBtn = $('#' + options.clearBtnId);
-	this.$replayCanvas = $('#' + options.replyCanvasId);
-	this.$replayBtn = $('#' + options.replyBtnId);
-	this.$drawnUsingInput = $('#' + options.drawnUsingTouchId);
+	self.predictUrl = options.predictUrl;
+	self.autoPredictDelay = options.autoPredictDelay;
+	self.$predictResults = $('#' + options.predictResultsId);
+	self.predictTimeout = undefined;
 
-	this.context = this.$mainCanvas[0].getContext('2d');
-	this.initContext(this.context);
+	self.$mainCanvas = $('#' + options.canvasId);
+	self.$jsonText = options.jsonTextId ? $('#' + options.jsonTextId) : undefined;
+	self.$clearBtn = $('#' + options.clearBtnId);
+	self.$replayCanvas = options.replyCanvasId ? $('#' + options.replyCanvasId) : undefined;
+	self.$replayBtn = options.replyBtnId ? $('#' + options.replyBtnId) : undefined;
+	self.$drawnUsingTouchInput = options.drawnUsingTouchId ? $('#' + options.drawnUsingTouchId) : undefined;
+	if (self.$drawnUsingTouchInput) {
+		self.$drawnUsingTouchInput.val('False');
+	}
 
-	self.$drawnUsingInput.val('False');
-	this.drawing = false;
+	self.context = self.$mainCanvas[0].getContext('2d');
+	self.initContext(self.context);
 
-	this.currentRefTime;
-	this.currentLine = [];
-	this.allLines = [];
+	self.drawnUsingTouch = false;
+	self.drawing = false;
+
+	self.currentRefTime;
+	self.currentLine = [];
+	self.allLines = [];
 
 
-	this.$mainCanvas.mousedown(function (e) {
+	self.$mainCanvas.mousedown(function (e) {
 		var coords = self.getMousePos(this, e);
 		self.paintStart(coords.x, coords.y);
+		return false;
 	});
 
-	this.$mainCanvas.mousemove(function (e) {
+	self.$mainCanvas.mousemove(function (e) {
 		var coords = self.getMousePos(this, e);
 		self.paintContinue(coords.x, coords.y);
+		return false;
 	});
 
-	this.$mainCanvas.mouseup(function (e) {
+	self.$mainCanvas.mouseup(function (e) {
 		var coords = self.getMousePos(this, e);
 		self.paintEnd(coords.x, coords.y);
+		return false;
 	});
 
-	this.$mainCanvas.mouseleave(function (e) {
+	self.$mainCanvas.mouseleave(function (e) {
 		var coords = self.getMousePos(this, e);
 		self.paintEnd(coords.x, coords.y);
+		return false;
 	});
 
-	this.$mainCanvas.bind('touchstart', function (e) {
+	self.$mainCanvas.bind('touchstart', function (e) {
 		e.preventDefault();
-		self.$drawnUsingInput.val('True');
+		self.drawnUsingTouch = true;
+		if (self.$drawnUsingTouchInput) {
+			self.$drawnUsingTouchInput.val('True');
+		}
 		var coords = self.getTouchPos(this, e.originalEvent);
 		self.paintStart(coords.x, coords.y);
 		return false;
 	});
 
-	this.$mainCanvas.bind('touchmove', function (e) {
+	self.$mainCanvas.bind('touchmove', function (e) {
 		e.preventDefault();
 		var coords = self.getTouchPos(this, e.originalEvent);
 		self.paintContinue(coords.x, coords.y);
 		return false;
 	});
 
-	this.$mainCanvas.bind('touchend', function (e) {
+	self.$mainCanvas.bind('touchend', function (e) {
 		e.preventDefault();
 		self.paintEnd();
 		return false;
 	});
 
-	this.$clearBtn.click(function () {
+	self.$clearBtn.click(function () {
 		self.drawing = false;
-		self.$drawnUsingInput.val('False');
+		self.drawnUsingTouch = false;
+		if (self.$drawnUsingTouchInput) {
+			self.$drawnUsingTouchInput.val('False');
+		}
 		self.currentLine = [];
 		self.allLines = [];
 		self.redraw();
-		self.$jsonText.text("");
+		if (self.$jsonText) {
+			self.$jsonText.text("");
+		}
 		return false;
 	});
 
-	this.$replayBtn.click(function () {
-		self.$replayCanvas.show();
-		self.replay(self.$replayCanvas[0], self.allLines);
-		return false;
-	});
+	if (self.$replayBtn) {
+		this.$replayBtn.click(function () {
+			self.$replayCanvas.show();
+			self.replay(self.$replayCanvas[0], self.allLines);
+			return false;
+		});
+	}
 };
 
 MausrPainter.prototype.getMousePos = function (canvas, e) {
@@ -109,26 +131,30 @@ MausrPainter.prototype.now = function (x) {
 };
 
 MausrPainter.prototype.startLine = function (x, y) {
-	if (this.allLines.length == 0) {
-		this.currentRefTime = this.now();
+	var self = this;
+
+	if (self.allLines.length == 0) {
+		self.currentRefTime = self.now();
 	}
-	this.currentLine = [];
-	this.allLines.push(this.currentLine);
-	this.addPtToCurrLine(x, y);
+	self.currentLine = [];
+	self.allLines.push(self.currentLine);
+	self.addPtToCurrLine(x, y);
 };
 
 MausrPainter.prototype.addPtToCurrLine = function (x, y) {
+	var self = this;
 	this.currentLine.push({
-		x: x / this.context.canvas.width,
-		y: y / this.context.canvas.height,
-		t: this.now() - this.currentRefTime
+		x: x / self.context.canvas.width,
+		y: y / self.context.canvas.height,
+		t: self.now() - self.currentRefTime
 	});
 };
 
 MausrPainter.prototype.distSqToLastPoint = function (x, y) {
-	assert(this.currentLine.length > 0);
+	var self = this;
+	assert(self.currentLine.length > 0);
 
-	var lastPt = this.currentLine[this.currentLine.length - 1];
+	var lastPt = self.currentLine[self.currentLine.length - 1];
 	var dx = x - lastPt.x;
 	var dy = y - lastPt.y;
 
@@ -136,71 +162,81 @@ MausrPainter.prototype.distSqToLastPoint = function (x, y) {
 }
 
 MausrPainter.prototype.paintStart = function (x, y) {
-	if (this.drawing) {
+	var self = this;
+	if (self.drawing) {
 		return;
 	}
 
-	this.drawing = true;
+	self.drawing = true;
 
-	this.startLine(x, y);
-	this.redraw();
+	self.startLine(x, y);
+	self.redraw();
 };
 
 MausrPainter.prototype.paintContinue = function (x, y) {
-	if (!this.drawing) {
+	var self = this;
+	if (!self.drawing) {
 		return;
 	}
 
-	var distSq = this.distSqToLastPoint(x, y);
+	var distSq = self.distSqToLastPoint(x, y);
 	if (distSq < MausrPainter.MIN_SAMPLE_DIST_SQ) {
 		return;
 	}
 
-	this.addPtToCurrLine(x, y);
-	this.redraw();
+	self.addPtToCurrLine(x, y);
+	self.redraw();
 };
 
 MausrPainter.prototype.paintEnd = function (x, y) {
-	if (!this.drawing) {
+	var self = this;
+	if (!self.drawing) {
 		return;
 	}
 
-	this.drawing = false;
+	self.drawing = false;
 
 	if (x && y) {
-		this.addPtToCurrLine(x, y);
+		self.addPtToCurrLine(x, y);
 	}
-	this.redraw();
-	this.exportText();
+	self.redraw();
+	self.exportText();
+	if (self.predictUrl) {
+		self.startPredictTimeout();
+	}
 };
 
 MausrPainter.prototype.redraw = function () {
+	var self = this;
 	// Clears the canvas
-	var width = this.context.canvas.width;
-	var height = this.context.canvas.height;
-	this.context.clearRect(0, 0, width, height);
+	var width = self.context.canvas.width;
+	var height = self.context.canvas.height;
+	self.context.clearRect(0, 0, width, height);
 
-	if (this.allLines.length > 0) {
-		this.context.beginPath();
+	if (self.allLines.length > 0) {
+		self.context.beginPath();
 
-		for (var l = 0; l < this.allLines.length; l++) {
-			var line = this.allLines[l];
+		for (var l = 0; l < self.allLines.length; l++) {
+			var line = self.allLines[l];
 			assert(line.length > 0);
 
-			this.context.moveTo(line[0].x * width, line[0].y * height);
+			self.context.moveTo(line[0].x * width, line[0].y * height);
 
 			for (var i = 1; i < line.length; i += 1) {
 				var pt = line[i];
-				this.context.lineTo(pt.x * width, pt.y * height);
+				self.context.lineTo(pt.x * width, pt.y * height);
 			}
 		}
 
-		this.context.stroke();
+		self.context.stroke();
 	}
 };
 
 MausrPainter.prototype.exportText = function () {
-	this.$jsonText.text(JSON.stringify(this.allLines));
+	var self = this;
+	if (self.$jsonText) {
+		self.$jsonText.text(JSON.stringify(self.allLines));
+	}
 };
 
 
@@ -266,4 +302,38 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 	};
 
 	step();
+};
+
+MausrPainter.prototype.startPredictTimeout = function () {
+	var self = this;
+	if (self.predictTimeout) {
+		clearTimeout(self.predictTimeout);
+	}
+	self.predictTimeout = setTimeout(function () { self.predict(); }, self.autoPredictDelay);
+};
+
+MausrPainter.prototype.predict = function () {
+	var self = this;
+	var linesData = JSON.stringify(self.allLines);
+	$.ajax({
+		url: self.predictUrl,
+		method: 'POST',
+		data: { JsonData: linesData, DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False' },
+		success: function (data) {
+			self.$predictResults.empty();
+			for (var i = 0; i < data.length; ++i) {
+				self.showResult(data[i]);
+			}
+		}
+	});
+};
+
+MausrPainter.prototype.showResult = function (result) {
+	var self = this;
+	
+	self.$predictResults.append($('<div class="thumbnail" />')
+		.append($('<h2>' + result.Symbol + '</h3>'))
+		.append($('<p>' + result.SymbolName + '</p>'))
+		.append($('<p>' + (Math.round(result.Rating * 1000) / 10) + '%</p>'))
+	);
 };

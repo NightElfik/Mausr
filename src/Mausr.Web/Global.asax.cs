@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Mausr.Web.DataContexts;
 using Mausr.Web.Infrastructure;
+using Mausr.Web.NeuralNet;
 
 namespace Mausr.Web {
 	public class MvcApplication : HttpApplication {
@@ -51,12 +52,21 @@ namespace Mausr.Web {
 				//.As<Idb>()
 				.InstancePerRequest();
 
-			builder.Register(x => new AppSettingsProvider())
-				//.As<AppSettingsProvider>()
+			var appSettings = new AppSettingsProvider();
+			builder.Register(x => appSettings)
+				.As<AppSettingsProvider>()
 				.SingleInstance();
 
-			builder.RegisterType<TrainStorageManager>()
+			var tsm = new TrainStorageManager(appSettings);
+			builder.Register(x => tsm)
+				.As<TrainStorageManager>()
 				.SingleInstance();
+
+			var evaluator = new CurrentEvaluator(tsm);
+			builder.Register(x => evaluator)
+				.As<CurrentEvaluator>()
+				.SingleInstance();
+			
 			
 			var container = builder.Build();
 			return new AutofacDependencyResolver(container);

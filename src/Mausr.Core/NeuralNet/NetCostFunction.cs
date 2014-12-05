@@ -1,18 +1,23 @@
 ﻿using System;
-using System.Linq;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Mausr.Core.NeuralNet {
+	[Serializable]
 	public class NetCostFunction : INetCostFunction {
-
+		
 		private Net network;
 
+		[NonSerialized]
 		private Matrix<double> m_inputs;
+		[NonSerialized]
 		private int[] m_outputIndices;
-
+		
+		[NonSerialized]
 		private Matrix<double>[] m_unpackedCoefs;
+		[NonSerialized]
 		private double m_regularizationLambda;
 		
 		public int DimensionsCount { get; private set; }

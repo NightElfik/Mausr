@@ -315,13 +315,16 @@
     <Compile Include="Models\LearnBatchViewModel.cs" />
     <Compile Include="Models\LearnInitViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\NetDbTrainer.cs" />
+    <Compile Include="Models\TrainIndexViewModel.cs" />
+    <Compile Include="NeuralNet\NetDbTrainer.cs" />
     <Compile Include="Models\PlotViewModel.cs" />
+    <Compile Include="Models\PredictModel.cs" />
     <Compile Include="Models\Symbol.cs" />
     <Compile Include="Models\SymbolDrawing.cs" />
     <Compile Include="Models\TrainDetailsViewModel.cs" />
     <Compile Include="Models\TrainSettings.cs" />
     <Compile Include="Models\TrainViewModel.cs" />
+    <Compile Include="NeuralNet\CurrentEvaluator.cs" />
     <Compile Include="PlotController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -436,9 +439,10 @@
     <Content Include="Views\Learn\Index.cshtml" />
     <Content Include="Views\Learn\Batch.cshtml" />
     <Content Include="Views\Learn\Done.cshtml" />
-    <Content Include="Views\Train\Index.cshtml" />
+    <Content Include="Views\Train\TrainNewNet.cshtml" />
     <Content Include="Views\Symbols\Collisions.cshtml" />
     <Content Include="Views\Train\Details.cshtml" />
+    <Content Include="Views\Train\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

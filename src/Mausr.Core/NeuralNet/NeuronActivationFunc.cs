@@ -3,6 +3,7 @@ using MathNet.Numerics.LinearAlgebra;
 using Mausr.Core.Optimization;
 
 namespace Mausr.Core.NeuralNet {
+	[Serializable]
 	public abstract class NeuronActivationFunc : IFunctionWithDerivative {
 		
 		public int DimensionsCount {

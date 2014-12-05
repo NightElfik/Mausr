@@ -7,34 +7,45 @@ using Mausr.Core.Optimization;
 using Mausr.Web.DataContexts;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
+using Mausr.Web.NeuralNet;
 
 namespace Mausr.Web.Controllers {
 	public partial class TrainController : Controller {
 
 		protected readonly MausrDb db;
 		protected readonly TrainStorageManager trainStorageManager;
+		protected readonly CurrentEvaluator evaluator;
 
 
-		public TrainController(MausrDb db, TrainStorageManager trainStorageManager) {
+		public TrainController(MausrDb db, TrainStorageManager trainStorageManager, CurrentEvaluator evaluator) {
 			this.db = db;
 			this.trainStorageManager = trainStorageManager;
+			this.evaluator = evaluator;
 		}
 
 		public virtual ActionResult Index() {
+			return View(new TrainIndexViewModel() {
+				AllNets = trainStorageManager.LoadAllSavedNets(),
+				DefaultNet = trainStorageManager.LoadDefaultNetName(),
+			});
+		}
+
+		public virtual ActionResult TrainNewNet() {
 			var model = new TrainViewModel() {
 				InputImgSizePx = 20,
-				PenThicknessPerc = 8,
+				PenThicknessPerc = 14,
 				GenerateExtraInputsByRotation = 10,
 				NormalizeInput = true,
-				LearnRounds = 2,
-				BatchSize = 128,
-				MaxIteratinosPerBatch = 256,
-				RegularizationLambda = 0.1,
-				LearningRate = 0.1,
+				LearnRounds = 1,
+				BatchSize = 0,
+				MaxIteratinosPerBatch = 400,
+				RegularizationLambda = 0.5,
+				LearningRate = 0.4,
 				MomentumStartPerc = 60,
-				MomentumEndPerc = 99,
-				MinDerivativeMagnitude = 1e-4,
+				MomentumEndPerc = 90,
+				MinDerivativeMagnitude = 1e-3,
 				TestDataSetSizePerc = 10,
+				TrainEvaluationIters = 5,
 			};
 
 			initModel(model);
@@ -43,9 +54,9 @@ namespace Mausr.Web.Controllers {
 		}
 
 		[HttpPost]
-		public virtual ActionResult Index(TrainViewModel model) {
+		public virtual ActionResult TrainNewNet(TrainViewModel model) {
 			if (ModelState.IsValid) {
-				model.NetId = trainStorageManager.CreateSafeNetName(model.NetName);
+				model.NetId = trainStorageManager.CreateSafeNetId(model.NetName);
 
 				model.HiddenLayersSizes = parseInts(model.HiddenLayersSizesStr);
 				bool hlValid = model.HiddenLayersSizes != null
@@ -112,6 +123,19 @@ namespace Mausr.Web.Controllers {
 			return Json(new {
 				success = success,
 				message = success ? "Training was stopped successfully." : "Training is not running." 
+			});
+		}
+
+		[HttpPost]
+		public virtual ActionResult SetDefault(string id) {
+			if (id == null) {
+				return HttpNotFound();
+			}
+
+			bool success = evaluator.SetDefaultNetwork(id);
+			return Json(new {
+				success = success,
+				message = success ? "Default network was set successfully." : "Failed to set default network." 
 			});
 		}
 

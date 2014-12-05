@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 
 namespace Mausr.Core.NeuralNet {
+	[Serializable]
 	public class SigomidActivationFunc : NeuronActivationFunc {
 		
 		public override double Evaluate(double value) {

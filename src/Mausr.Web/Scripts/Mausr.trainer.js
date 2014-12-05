@@ -3,27 +3,29 @@
 function MausrTrainer(options) {
 	var self = this;
 
-	this.netId = options.netId;
-	this.$msgsContainer = $('#' + options.msgsContainerId);
+	self.netId = options.netId;
+	self.$msgsContainer = $('#' + options.msgsContainerId);
 
-	this.costChartId = options.costChartId;
-	this.predictChartId = options.predictChartId;
+	self.costChartId = options.costChartId;
+	self.predictChartId = options.predictChartId;
 
-	this.startUrl = options.startUrl;
-	this.$startBtn = $('#' + options.startBtnId);
-	this.$startLabel = $('#' + options.startLabelId);
+	self.startUrl = options.startUrl;
+	self.$startBtn = $('#' + options.startBtnId);
+	self.$startLabel = $('#' + options.startLabelId);
 
-	this.stopUrl = options.stopUrl;
-	this.$stopBtn = $('#' + options.stopBtnId);
-	this.$stopLabel = $('#' + options.stopLabelId);
+	self.stopUrl = options.stopUrl;
+	self.$stopBtn = $('#' + options.stopBtnId);
+
+	self.setAsDefaultUrl = options.setAsDefaultUrl;
+	self.$setAsDefaultBtn = $('#' + options.setAsDefaultBtnId);
 
 
-	this.hubProxy = $.connection.progressHub;
-	this.hubProxy.logging = true;
+	self.hubProxy = $.connection.progressHub;
+	self.hubProxy.logging = true;
 
-	this.costChart;
-	this.costChartData;
-	this.costChartOptions = {
+	self.costChart = undefined;
+	self.costChartData = undefined;
+	self.costChartOptions = {
 		width: 500,
 		height: 563,
 		hAxis: {
@@ -35,9 +37,9 @@ function MausrTrainer(options) {
 		},
 	};
 
-	this.predictChart;
-	this.predictChartData;
-	this.predictChartOptions = {
+	self.predictChart = undefined;
+	self.predictChartData = undefined;
+	self.predictChartOptions = {
 		width: 500,
 		height: 563,
 		hAxis: {
@@ -51,7 +53,7 @@ function MausrTrainer(options) {
 	google.load('visualization', '1', { packages: ['corechart'] });
 	google.setOnLoadCallback(function () { self.initChart(); });
 
-	this.$startBtn.click(function (e) {
+	self.$startBtn.click(function (e) {
 		self.$startLabel.text("Sending start request ...");
 		$.ajax({
 			url: self.startUrl,
@@ -64,29 +66,42 @@ function MausrTrainer(options) {
 		return false;
 	});
 
-	this.$stopBtn.click(function (e) {
-		self.$stopLabel.text("Sending stop request ...");
+	self.$stopBtn.click(function (e) {
+		self.$startLabel.text("Sending stop request ...");
 		$.ajax({
 			url: self.stopUrl,
 			method: 'POST',
 			data: { id: self.netId },
 			success: function (data) {
-				self.$stopLabel.text(data.message);
+				self.$startLabel.text(data.message);
 			}
 		});
 		return false;
 	});
 
-	this.hubProxy.client.progressChanged = function (progress) {
+	self.$setAsDefaultBtn.click(function (e) {
+		self.$startLabel.text("Sending request ...");
+		$.ajax({
+			url: self.setAsDefaultUrl,
+			method: 'POST',
+			data: { id: self.netId },
+			success: function (data) {
+				self.$startLabel.text(data.message);
+			}
+		});
+		return false;
+	});
+
+	self.hubProxy.client.progressChanged = function (progress) {
 		self.message('Progress: ' + (progress * 100) + ' %');
 	};
 
-	this.hubProxy.client.jobCompleted = function () {
+	self.hubProxy.client.jobCompleted = function () {
 		self.message('Completed!', 'success');
 		//$.connection.hub.stop();
 	};
 
-	this.hubProxy.client.iteration = function (iterationId, trainCost, testCost, trainPredict, testPredict) {
+	self.hubProxy.client.iteration = function (iterationId, trainCost, testCost, trainPredict, testPredict) {
 		self.addChartsPoints(iterationId, trainCost, testCost, trainPredict, testPredict);
 		self.redrawCharts();
 	};
@@ -104,16 +119,16 @@ function MausrTrainer(options) {
 		});
 	});
 
-	this.hubProxy.client.message = function (message) {
+	self.hubProxy.client.message = function (message) {
 		self.message(message);
 	};
 
-	//this.hub.client.fail = function (message) {
+	//self.hub.client.fail = function (message) {
 	//	self.message(message, 'danger');
 	//	self.stop();
 	//};
 
-	//this.hub.client.done = function (message) {
+	//self.hub.client.done = function (message) {
 	//	self.message(message, 'success');
 	//	self.stop();
 	//};
@@ -121,15 +136,17 @@ function MausrTrainer(options) {
 };
 
 MausrTrainer.prototype.message = function (message, type) {
+	var self = this;
 	var msg = $('<p />').text(message);
 	if (type) {
 		msg.addClass('alert').addClass('alert-' + type);
 	}
-	this.$msgsContainer.prepend(msg);
+	self.$msgsContainer.prepend(msg);
 };
 
 MausrTrainer.prototype.stop = function () {
-	this.message('Client stopped.', 'info');
+	var self = this;
+	self.message('Client stopped.', 'info');
 };
 
 MausrTrainer.prototype.initChart = function () {

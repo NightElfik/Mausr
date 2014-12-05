@@ -11,7 +11,7 @@
 		<br />
 		<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
 	</div>
-	<div class="col-sm-8">
+	<div class="col-sm-8" id="results">
 	</div>
 </div>
 
@@ -25,8 +25,9 @@
 			new MausrPainter({
 				canvasId: 'canvas',
 				clearBtnId: 'clearBtn',
-				autoPredict: true,
-				autoPredictDelay: 500
+				predictUrl: '@Url.Action(MVC.Home.Predict())',
+				autoPredictDelay: 500,
+				predictResultsId: 'results'
 			});
 		});
 	</script>

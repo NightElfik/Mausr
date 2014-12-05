@@ -5,6 +5,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Mausr.Core.NeuralNet {
+	[Serializable]
 	public class NetLayout {
 
 		private int[] layersSizes;
@@ -19,7 +20,7 @@ namespace Mausr.Core.NeuralNet {
 		public int CoefsCount { get { return layersSizes.Length - 1; } }
 
 
-
+			
 		/// <summary>
 		/// Initializes net layout with layers sizes.
 		/// Directly uses the given array without a copy.

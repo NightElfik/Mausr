@@ -5,6 +5,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Mausr.Core.NeuralNet {
+	[Serializable]
 	public class Net {
 
 		public Matrix<double>[] Coefficients { get; private set; }

@@ -73,7 +73,7 @@ namespace Mausr.Web.Controllers {
 					new RawDataProcessor().RotateInPlace(drawing, rotation);
 				}
 				if (normalized) {
-					new RawDataProcessor().Normalize(drawing);
+					new RawDataProcessor().NormalizeInPlace(drawing);
 				}
 
 				var img = new Rasterizer().Rasterize(drawing, imageSize, penSizePerc / 100f, normalized, decorated);

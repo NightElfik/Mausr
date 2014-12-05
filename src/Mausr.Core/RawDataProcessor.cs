@@ -18,7 +18,7 @@ namespace Mausr.Core {
 		/// Centers and expands the drawing to [0, 1] rectanlge.
 		/// </summary>
 		/// <param name="drawing"></param>
-		public void Normalize(RawDrawing drawing) {
+		public void NormalizeInPlace(RawDrawing drawing) {
 
 			float minX = float.PositiveInfinity,
 				minY = float.PositiveInfinity,

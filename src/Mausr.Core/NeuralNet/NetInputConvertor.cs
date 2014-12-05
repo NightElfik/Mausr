@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
@@ -21,6 +21,7 @@ namespace Mausr.Core.NeuralNet {
 				stuff[otherI] = tempI;
 			}
 		}
+
 
 		public Matrix<double> CreateInputsMatrix(IEnumerable<RawDrawing> rawDrawings, Rasterizer rasterizer) {
 			var inputVectors = new List<Vector<double>>();
