@@ -14,7 +14,13 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label">Total symbols count</label>
 			<div class="col-md-3">
-				<p class="form-control-static">@Model.SymbolsCount</p>
+				<p class="form-control-static">@Model.Symbols.Count</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Symbols</label>
+			<div class="col-md-9">
+				<p class="form-control-static">@string.Join(", ", Model.Symbols.Select(x => x.SymbolStr))</p>
 			</div>
 		</div>
 

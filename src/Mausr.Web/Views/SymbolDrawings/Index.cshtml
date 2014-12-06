@@ -1,12 +1,15 @@
-﻿@model IEnumerable<IGrouping<Symbol, SymbolDrawing>>
+﻿@model IPagination<IGrouping<Symbol, SymbolDrawing>>
 
 @{
 	ViewBag.Title = "Symbol drawings";
 	int imageSize = 128;
 	int penSize = 4;
+	var pagination = Model.Html();
 }
 
 <h1>@ViewBag.Title</h1>
+
+@pagination
 
 @foreach (var group in Model) {
 	<div class="row">
@@ -23,3 +26,5 @@
 		}
 	</div>
 }
+
+@pagination

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Mausr.Web.Models {
 	public class LearnInitViewModel {
 
-		public int SymbolsCount { get; set; }
+		public IList<Symbol> Symbols { get; set; }
 
 	}
 }

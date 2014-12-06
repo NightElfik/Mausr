@@ -22,7 +22,7 @@ namespace Mausr.Web.Controllers {
 		[HttpGet]
 		public virtual ActionResult Index() {
 			return View(new LearnInitViewModel() {
-				SymbolsCount = db.Symbols.Count(),
+				Symbols = db.Symbols.ToList(),
 			});
 		}
 

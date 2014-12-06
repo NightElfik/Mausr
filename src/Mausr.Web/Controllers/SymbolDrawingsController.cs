@@ -27,9 +27,13 @@ namespace Mausr.Web.Controllers {
 		}
 
 
-		public virtual ActionResult Index() {
-			var groups = db.SymbolDrawings.GroupBy(x => x.Symbol).ToList();
-			return View(groups);
+		public virtual ActionResult Index(int? page = null) {
+			var query = db.SymbolDrawings
+				.GroupBy(x => x.Symbol)
+				.OrderBy(x => x.Key.SymbolId);
+			var keys = query.Select(x => x.Key.SymbolStr).ToList();
+			var items = query.ToPagination(page, 1, i => Url.Action(Actions.Index(i)), 4, i => keys[i - 1]);
+			return View(items);
 		}
 
 
