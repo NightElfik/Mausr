@@ -11,6 +11,34 @@ using Mausr.Core.Optimization;
 namespace Mausr.Core.Plot {
 	public class FunctionPlotter {
 
+		public Bitmap AutoContourPlot(IFunctionWithDerivative funcition, List<Tuple<Color, List<Vector<double>>>> pointGroups,
+				float marginPerc, int xDimIndex, int yDimIndex, int imgWidth, int imgHeight, int contoursCount, double scalePower) {
+
+			double minX = double.PositiveInfinity,
+				minY = double.PositiveInfinity,
+				maxX = double.NegativeInfinity,
+				maxY = double.NegativeInfinity;
+
+			foreach (var group in pointGroups) {
+				foreach (var pt in group.Item2) {
+					minX = Math.Min(minX, pt[xDimIndex]);
+					minY = Math.Min(minY, pt[yDimIndex]);
+					maxX = Math.Max(maxX, pt[xDimIndex]);
+					maxY = Math.Max(maxY, pt[yDimIndex]);
+				}
+			}
+
+			double w = maxX - minX;
+			double h = maxY - minY;
+			var origin = new DenseVector(funcition.DimensionsCount);
+			origin[xDimIndex] = minX + w / 2;
+			origin[yDimIndex] = minY + h / 2;
+
+			double stepPerPixel = Math.Max(w / imgWidth, h / imgHeight) * (1 + marginPerc);
+			return ContourPlot(funcition, origin, xDimIndex, yDimIndex, imgWidth, imgHeight,
+				stepPerPixel, contoursCount, scalePower, pointGroups);
+		}
+
 		public Bitmap ContourPlot(IFunctionWithDerivative funcition, Vector<double> origin, int xDimIndex, int yDimIndex,
 				int imgWidth, int imgHeight, double stepPerPixel, int contoursCount, double scalePower,
 				List<Tuple<Color, List<Vector<double>>>> pointGroups) {

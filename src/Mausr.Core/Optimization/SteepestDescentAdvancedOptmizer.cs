@@ -5,6 +5,9 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Mausr.Core.Optimization {
+	/// <summary>
+	/// Gradient descent with momentum using Nesterov & Sutskever method.
+	/// </summary>
 	public class SteepestDescentAdvancedOptmizer : IGradientBasedOptimizer {
 
 		private double step;

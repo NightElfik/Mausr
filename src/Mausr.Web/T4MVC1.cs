@@ -25,6 +25,8 @@ using T4MVC;
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public static partial class MVC
 {
+    static readonly AdministrationClass s_Administration = new AdministrationClass();
+    public static AdministrationClass Administration { get { return s_Administration; } }
     public static Mausr.Web.Controllers.AccountController Account = new Mausr.Web.Controllers.T4MVC_AccountController();
     public static Mausr.Web.Controllers.HomeController Home = new Mausr.Web.Controllers.T4MVC_HomeController();
     public static Mausr.Web.Controllers.LearnController Learn = new Mausr.Web.Controllers.T4MVC_LearnController();
@@ -38,6 +40,16 @@ public static partial class MVC
 
 namespace T4MVC
 {
+    [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+    public class AdministrationClass
+    {
+        public readonly string Name = "Administration";
+        public Mausr.Web.Areas.Administration.Controllers.SymbolDrawingsController SymbolDrawings = new Mausr.Web.Areas.Administration.Controllers.T4MVC_SymbolDrawingsController();
+        public Mausr.Web.Areas.Administration.Controllers.SymbolsController Symbols = new Mausr.Web.Areas.Administration.Controllers.T4MVC_SymbolsController();
+        public Mausr.Web.Areas.Administration.Controllers.UsersController Users = new Mausr.Web.Areas.Administration.Controllers.T4MVC_UsersController();
+        public T4MVC.Administration.DefaultController Default = new T4MVC.Administration.DefaultController();
+        public T4MVC.Administration.SharedController Shared = new T4MVC.Administration.SharedController();
+    }
 }
 
 namespace T4MVC
@@ -91,6 +103,7 @@ namespace Links
         public static readonly string Mausr_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.min.js") ? Url("Mausr.min.js") : Url("Mausr.js");
         public static readonly string Mausr_painter_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.painter.min.js") ? Url("Mausr.painter.min.js") : Url("Mausr.painter.js");
         public static readonly string Mausr_trainer_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.trainer.min.js") ? Url("Mausr.trainer.min.js") : Url("Mausr.trainer.js");
+        public static readonly string modernizr_2_6_2_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/modernizr-2.6.2.min.js") ? Url("modernizr-2.6.2.min.js") : Url("modernizr-2.6.2.js");
         public static readonly string npm_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/npm.min.js") ? Url("npm.min.js") : Url("npm.js");
         public static readonly string respond_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.min.js") ? Url("respond.min.js") : Url("respond.js");
         public static readonly string respond_matchmedia_addListener_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.matchmedia.addListener.min.js") ? Url("respond.matchmedia.addListener.min.js") : Url("respond.matchmedia.addListener.js");

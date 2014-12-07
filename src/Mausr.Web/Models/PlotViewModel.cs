@@ -4,21 +4,12 @@ namespace Mausr.Web.Models {
 	public class PlotViewModel {
 
 		[Required]
-		public double OriginX { get; set; }
-
-		[Required]
-		public double OriginY { get; set; }
-
-		[Required]
-		[Range(32, 4096)]
+		[Range(32, 1024)]
 		public int Width { get; set; }
 
 		[Required]
-		[Range(32, 4096)]
+		[Range(32, 1024)]
 		public int Height { get; set; }
-
-		[Required]
-		public double StepPerPixel { get; set; }
 
 		[Required]
 		[Range(1, 128)]
@@ -38,7 +29,7 @@ namespace Mausr.Web.Models {
 		[Required]
 		public double MinDerivMagn { get; set; }
 
-		[Range(1, 8192)]
+		[Range(1, 2048)]
 		public int MaxIters { get; set; }
 
 

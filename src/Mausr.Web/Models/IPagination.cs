@@ -83,17 +83,17 @@ namespace Mausr.Web.Models {
 
 			renderElipsis(sb, 2, PageNumber - Advance - 1);
 
-			for (int i = Math.Max(1, PageNumber - Advance); i <= PageNumber + Advance && i < TotalPages; ++i) {
+			for (int i = Math.Max(1, PageNumber - Advance); i <= PageNumber + Advance && i <= TotalPages; ++i) {
 				sb.Append(pageLi(i));
 			}
 			
-			renderElipsis(sb, PageNumber + Advance + 1, TotalCount - 1);
+			renderElipsis(sb, PageNumber + Advance + 1, TotalPages - 1);
 
 			if (PageNumber + Advance < TotalPages) {
 				sb.Append(pageLi(TotalPages));
 			}
 
-			sb.AppendFormat("<li><a href='{1}'><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>",
+			sb.AppendFormat("<li{0}><a href='{1}'><span aria-hidden='true'>&raquo;</span><span class='sr-only'>Next</span></a></li>",
 				IsLastPage ? " class='disabled'" : "",
 				IsLastPage ? urlFunc(PageNumber) : urlFunc(PageNumber + 1));
 			sb.Append("</ul></nav>");

@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,7 +27,21 @@
 					<li>@Html.ActionLink("Train", MVC.Train.Index())</li>
 				</ul>
 				@Html.Partial("_LoginPartial")
+
+				@if (User.IsInRole(RolesHelper.Admin)) {
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>@Html.ActionLink("Users", MVC.Administration.Users.Index())</li>
+								<li>@Html.ActionLink("Symbols", MVC.Administration.Symbols.Index())</li>
+								<li>@Html.ActionLink("Drawings", MVC.Administration.SymbolDrawings.Index())</li>
+							</ul>
+						</li>
+					</ul>
+				}
 			</div>
+
 		</div>
 	</div>
 	<div class="container body-content">

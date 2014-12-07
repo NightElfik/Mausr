@@ -205,19 +205,15 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
-                public readonly string AddPhoneNumber = "AddPhoneNumber";
                 public readonly string ChangePassword = "ChangePassword";
                 public readonly string Index = "Index";
                 public readonly string ManageLogins = "ManageLogins";
                 public readonly string SetPassword = "SetPassword";
-                public readonly string VerifyPhoneNumber = "VerifyPhoneNumber";
             }
-            public readonly string AddPhoneNumber = "~/Views/Manage/AddPhoneNumber.cshtml";
             public readonly string ChangePassword = "~/Views/Manage/ChangePassword.cshtml";
             public readonly string Index = "~/Views/Manage/Index.cshtml";
             public readonly string ManageLogins = "~/Views/Manage/ManageLogins.cshtml";
             public readonly string SetPassword = "~/Views/Manage/SetPassword.cshtml";
-            public readonly string VerifyPhoneNumber = "~/Views/Manage/VerifyPhoneNumber.cshtml";
         }
     }
 

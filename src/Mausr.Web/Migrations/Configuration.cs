@@ -4,6 +4,8 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using Mausr.Web.DataContexts;
 using Mausr.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Mausr.Web.Migrations {
 
@@ -13,6 +15,27 @@ namespace Mausr.Web.Migrations {
 		}
 
 		protected override void Seed(MausrDb db) {
+
+			if (!db.Roles.Any(r => r.Name == RolesHelper.Admin)) {
+				var store = new RoleStore<IdentityRole>(db);
+				var manager = new RoleManager<IdentityRole>(store);
+				var role = new IdentityRole { Name = RolesHelper.Admin };
+
+				manager.Create(role);
+			}
+
+			if (!db.Users.Any(u => u.UserName == "NightElfik")) {
+				var store = new UserStore<ApplicationUser>(db);
+				var manager = new UserManager<ApplicationUser>(store);
+				var user = new ApplicationUser {
+					UserName = "NightElfik",
+					Email = "NightElfik@mausr.com",
+				};
+
+				manager.Create(user, "ChangeItAsap!");
+				manager.AddToRole(user.Id, RolesHelper.Admin);
+			}
+
 			// Turn on case-sensitive (binary) comparison.
 			// Default locale is case insensitive and treats symbols Σ, ς, and σ as identical.
 			db.Database.ExecuteSqlCommand(

@@ -8,7 +8,14 @@
 
 <div class="row">
 	<div class="col-md-6">
-		<img src="@Url.Action(ar.AddRouteValues(Model))" alt="Plot" class="img-thumbnail img-responsive" />
+		<h3>Plot</h3>
+		<img src="@Url.Action(ar.AddRouteValues(Model))" alt="Plot" class="img-thumbnail center-block img-responsive" />
+		<h4>Legend</h4>
+		<ul>
+			<li>Green: basic gradient descent</li>
+			<li>Red: gradient descent with momentum</li>
+			<li>Blue: gradient descent with momentum using Nesterov & Sutskever method</li>
+		</ul>
 	</div>
 	<div class="col-md-6">
 		<form action="" class="form-horizontal" role="form" method="post">
@@ -74,18 +81,6 @@
 			<hr />
 			<h4>Image parameters</h4>
 			<div class="form-group">
-				@Html.LabelFor(m => m.OriginX, new { @class = "col-md-3 control-label" })
-				<div class="col-md-3">
-					@Html.TextBoxFor(m => m.OriginX, new { @class = "form-control" })
-					@Html.ValidationMessageFor(m => m.OriginX, "", new { @class = "text-danger" })
-				</div>
-				@Html.LabelFor(m => m.OriginY, new { @class = "col-md-3 control-label" })
-				<div class="col-md-3">
-					@Html.TextBoxFor(m => m.OriginY, new { @class = "form-control" })
-					@Html.ValidationMessageFor(m => m.OriginY, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="form-group">
 				@Html.LabelFor(m => m.Width, new { @class = "col-md-3 control-label" })
 				<div class="col-md-3">
 					@Html.TextBoxFor(m => m.Width, new { @class = "form-control" })
@@ -95,13 +90,6 @@
 				<div class="col-md-3">
 					@Html.TextBoxFor(m => m.Height, new { @class = "form-control" })
 					@Html.ValidationMessageFor(m => m.Height, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.StepPerPixel, new { @class = "col-md-3 control-label" })
-				<div class="col-md-3">
-					@Html.TextBoxFor(m => m.StepPerPixel, new { @class = "form-control" })
-					@Html.ValidationMessageFor(m => m.StepPerPixel, "", new { @class = "text-danger" })
 				</div>
 			</div>
 			<div class="form-group">

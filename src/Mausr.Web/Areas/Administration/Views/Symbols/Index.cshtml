@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Symbol>
+
+@{
+	ViewBag.Title = "Symbols";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<ul>
+	<li>@Html.ActionLink("Create New", MVC.Administration.Symbols.Create())</li>
+	<li>@Html.ActionLink("Collisions", MVC.Administration.Symbols.Collisions())</li>
+</ul>
+
+<table class="table">
+	<tr>
+		<th>@Html.DisplayNameFor(m => m.SymbolId)</th>
+		<th>@Html.DisplayNameFor(m => m.SymbolStr)</th>
+		<th>@Html.DisplayNameFor(m => m.Name)</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model) {
+		<tr>
+			<td>@Html.DisplayFor(m => item.SymbolId)</td>
+			<td>@Html.DisplayFor(m => item.SymbolStr)</td>
+			<td>@Html.DisplayFor(m => item.Name)</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.SymbolId }) |
+				@Html.ActionLink("Details", "Details", new { id = item.SymbolId }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.SymbolId })
+			</td>
+		</tr>
+	}
+
+</table>

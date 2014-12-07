@@ -1,35 +1,24 @@
-﻿@model IEnumerable<Symbol>
+﻿@model IPagination<Symbol>
 
 @{
 	ViewBag.Title = "Symbols";
+	var pagination = Model.Html();
 }
 
 <h1>@ViewBag.Title</h1>
 
+<p>
+	This page lists all symbols that arecurrently in the database and system can be trained to recognize given the training data.
+</p>
+
+@pagination
+
 <ul>
-	<li>@Html.ActionLink("Create New", MVC.Symbols.Create())</li>
-	<li>@Html.ActionLink("Collisions", MVC.Symbols.Collisions())</li>
+	@foreach (var item in Model) {
+		<li>
+			@Html.DisplayFor(m => item.SymbolStr) (@Html.DisplayFor(m => item.Name))
+		</li>
+	}
 </ul>
 
-<table class="table">
-	<tr>
-		<th>@Html.DisplayNameFor(m => m.SymbolId)</th>
-		<th>@Html.DisplayNameFor(m => m.SymbolStr)</th>
-		<th>@Html.DisplayNameFor(m => m.Name)</th>
-		<th></th>
-	</tr>
-
-	@foreach (var item in Model) {
-		<tr>
-			<td>@Html.DisplayFor(m => item.SymbolId)</td>
-			<td>@Html.DisplayFor(m => item.SymbolStr)</td>
-			<td>@Html.DisplayFor(m => item.Name)</td>
-			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.SymbolId }) |
-				@Html.ActionLink("Details", "Details", new { id = item.SymbolId }) |
-				@Html.ActionLink("Delete", "Delete", new { id = item.SymbolId })
-			</td>
-		</tr>
-	}
-
-</table>
+@pagination

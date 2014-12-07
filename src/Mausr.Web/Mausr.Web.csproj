@@ -269,16 +269,35 @@
     <Compile Include="AccountController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Administration.DefaultController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Administration.SharedController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Administration.SymbolDrawingsController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Administration.SymbolsController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Administration.UsersController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
+    <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\LearnController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlotController.cs" />
+    <Compile Include="Areas\Administration\Controllers\SymbolDrawingsController.cs" />
+    <Compile Include="Areas\Administration\Controllers\SymbolsController.cs" />
     <Compile Include="Controllers\SymbolDrawingsController.cs" />
     <Compile Include="Controllers\SymbolsController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
@@ -308,7 +327,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BatchDoneViewModel.cs" />
     <Compile Include="Models\BatchInitViewModel.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\CreateSymbolDrawingViewModel.cs" />
     <Compile Include="Models\IPagination.cs" />
     <Compile Include="Models\Job.cs" />
@@ -330,6 +349,7 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RolesHelper.cs" />
     <Compile Include="SharedController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -350,6 +370,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="Css\bootstrap-theme.css" />
     <Content Include="Css\bootstrap-theme.min.css" />
     <Content Include="Css\bootstrap.css" />
@@ -366,6 +387,12 @@
     <Content Include="Css\bootstrap.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Administration\Views\web.config" />
+    <Content Include="Areas\Administration\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Administration\Views\Users\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Users\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Users\Index.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -378,6 +405,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Mausr.trainer.js" />
     <Content Include="Scripts\Mausr.painter.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -415,12 +443,10 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="T4MVC.tt">
@@ -428,25 +454,30 @@
       <LastGenOutput>T4MVC1.cs</LastGenOutput>
     </Content>
     <Content Include="T4MVC.tt.hooks.t4" />
-    <Content Include="Views\Symbols\Create.cshtml" />
-    <Content Include="Views\Symbols\Delete.cshtml" />
-    <Content Include="Views\Symbols\Details.cshtml" />
-    <Content Include="Views\Symbols\Edit.cshtml" />
-    <Content Include="Views\Symbols\Index.cshtml" />
-    <Content Include="Views\SymbolDrawings\Delete.cshtml" />
-    <Content Include="Views\SymbolDrawings\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Symbols\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Symbols\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\Symbols\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Symbols\Edit.cshtml" />
+    <Content Include="Areas\Administration\Views\Symbols\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\SymbolDrawings\Delete.cshtml" />
+    <Content Include="Areas\Administration\Views\SymbolDrawings\Index.cshtml" />
     <Content Include="Views\Plot\Plot.cshtml" />
     <Content Include="Views\Plot\Index.cshtml" />
     <Content Include="Views\Learn\Index.cshtml" />
     <Content Include="Views\Learn\Batch.cshtml" />
     <Content Include="Views\Learn\Done.cshtml" />
     <Content Include="Views\Train\TrainNewNet.cshtml" />
-    <Content Include="Views\Symbols\Collisions.cshtml" />
+    <Content Include="Areas\Administration\Views\Symbols\Collisions.cshtml" />
     <Content Include="Views\Train\Details.cshtml" />
     <Content Include="Views\Train\Index.cshtml" />
+    <Content Include="Views\Symbols\Index.cshtml" />
+    <Content Include="Views\SymbolDrawings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Areas\Administration\Views\Default\" />
+    <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

@@ -9,10 +9,6 @@
 
 <h1>@ViewBag.Title</h1>
 
-<p>
-	This page lists all training data for every symbol.
-</p>
-
 @pagination
 
 @foreach (var group in Model) {
@@ -23,6 +19,9 @@
 			<div class="pull-left">
 				<img src="@Url.Action(MVC.SymbolDrawings.Img(item.SymbolDrawingId, imageSize, penSize, 0, false, true))"
 					 width="@imageSize" height="@imageSize" />
+				<p class="small">@item.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
+				<p class="small">Drawn using @(item.DrawnUsingTouch ? "touch" : "mouse")</p>
+				@Html.ActionLink("Delete", "Delete", new { id = item.SymbolDrawingId })
 			</div>
 		}
 	</div>

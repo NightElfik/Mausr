@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using Mausr.Core;
+﻿using System.Data.Entity;
 using Mausr.Web.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Newtonsoft.Json;
 
 namespace Mausr.Web.DataContexts {
 	public class MausrDb : IdentityDbContext<ApplicationUser> {
@@ -23,6 +17,7 @@ namespace Mausr.Web.DataContexts {
 		public DbSet<Symbol> Symbols { get; set; }
 
 		public DbSet<SymbolDrawing> SymbolDrawings { get; set; }
+
 
 
 	}
