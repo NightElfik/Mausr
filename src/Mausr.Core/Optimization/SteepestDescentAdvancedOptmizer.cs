@@ -25,22 +25,13 @@ namespace Mausr.Core.Optimization {
 		}
 
 
-		//public bool Optimize(Vector<double> result, IFunctionWithDerivative function,
-		//		Vector<double> initialPosition, Action<Vector<double>> iterationCallback) {
-		//	Contract.Requires(result.Count == function.DimensionsCount);
-		//	Contract.Requires(initialPosition.Count == function.DimensionsCount);
-
-		//	initialPosition.CopyTo(result);
-
-		//	return Optimize(result, function, iterationCallback);
-		//}
-
 		public bool Optimize(Vector<double> resultAndInitPosition, IFunctionWithDerivative function,
 				Action<Vector<double>> iterationCallback, CancellationToken ct) {
 			Contract.Requires(resultAndInitPosition.Count == function.DimensionsCount);
 
 			var derivative = new DenseVector(function.DimensionsCount);
 			var prevStep = new DenseVector(function.DimensionsCount);
+			var position = new DenseVector(function.DimensionsCount);
 
 			bool converged = false;
 			int i = 0;
@@ -49,7 +40,9 @@ namespace Mausr.Core.Optimization {
 					break;
 				}
 
-				converged = performStep(resultAndInitPosition, i, function, resultAndInitPosition, derivative, prevStep);				
+				resultAndInitPosition.CopyTo(position);
+
+				converged = performStep(resultAndInitPosition, i, function, position, derivative, prevStep);				
 				if (iterationCallback != null) {
 					iterationCallback(resultAndInitPosition.Clone());
 				}
@@ -70,6 +63,7 @@ namespace Mausr.Core.Optimization {
 			bool converged = false;
 
 			double momentum = momentumStart + (momentumEnd - momentumStart) * ((double)iteration / maxIters);
+			// Compute derivative take step to point + momentum * prevStep and compute derivative there.
 			prevStep.Multiply(momentum, prevStep);
 			prevStep.Add(point, result);
 			function.Derivate(derivative, result);
@@ -78,12 +72,12 @@ namespace Mausr.Core.Optimization {
 				converged = true;
 			}
 
+			// Scale derivative and subtract from result to take "correction" step.
 			derivative.Multiply(step, derivative);
 			result.Subtract(derivative, result);	
-		
+			
+			// Conpute prevStep as (result - point).
 			result.Subtract(point, prevStep);
-
-			LastIterationsCount = iteration;
 			return converged;
 		}
 

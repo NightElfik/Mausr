@@ -47,7 +47,7 @@ namespace Mausr.Web.Models {
 		public int BatchSize { get; set; }
 
 		[Required]
-		[Range(10, 65536)]
+		[Range(10, 1024)]
 		[Display(Name = "Max iterations per batch")]
 		public int MaxIteratinosPerBatch { get; set; }
 
