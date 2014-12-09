@@ -12,6 +12,7 @@ using Mausr.Core.Plot;
 using Mausr.Web.Models;
 
 namespace Mausr.Web.Controllers {
+	[Authorize(Roles = RolesHelper.Trainer)]
 	public partial class PlotController : Controller {
 
 		public virtual ActionResult Index() {

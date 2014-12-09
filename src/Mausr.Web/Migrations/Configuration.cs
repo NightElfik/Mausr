@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System.Data.Entity.Migrations;
 using System.Linq;
 using Mausr.Web.DataContexts;
 using Mausr.Web.Models;
@@ -20,7 +18,13 @@ namespace Mausr.Web.Migrations {
 				var store = new RoleStore<IdentityRole>(db);
 				var manager = new RoleManager<IdentityRole>(store);
 				var role = new IdentityRole { Name = RolesHelper.Admin };
+				manager.Create(role);
+			}
 
+			if (!db.Roles.Any(r => r.Name == RolesHelper.Trainer)) {
+				var store = new RoleStore<IdentityRole>(db);
+				var manager = new RoleManager<IdentityRole>(store);
+				var role = new IdentityRole { Name = RolesHelper.Trainer };
 				manager.Create(role);
 			}
 
@@ -34,6 +38,19 @@ namespace Mausr.Web.Migrations {
 
 				manager.Create(user, "ChangeItAsap!");
 				manager.AddToRole(user.Id, RolesHelper.Admin);
+				manager.AddToRole(user.Id, RolesHelper.Trainer);
+			}
+
+			if (!db.Users.Any(u => u.UserName == "TrainTester")) {
+				var store = new UserStore<ApplicationUser>(db);
+				var manager = new UserManager<ApplicationUser>(store);
+				var user = new ApplicationUser {
+					UserName = "TrainTester",
+					Email = "TrainTester@mausr.com",
+				};
+
+				manager.Create(user, "PleaseDoN0tShare");
+				manager.AddToRole(user.Id, RolesHelper.Trainer);
 			}
 
 			// Turn on case-sensitive (binary) comparison.

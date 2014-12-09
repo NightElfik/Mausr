@@ -5,7 +5,7 @@
 
 		<ul class="nav navbar-nav navbar-right">
 			<li>
-				@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", MVC.Manage.Index())
+				@Html.ActionLink("Logged in as " + User.Identity.GetUserName(), MVC.Manage.Index())
 			</li>
 			<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
 		</ul>

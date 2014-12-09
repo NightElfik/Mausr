@@ -17,7 +17,7 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 
 
 		public virtual ActionResult Index() {
-			return View(db.Users.ToList());
+			return View(db.Users.Include(u => u.Roles).ToList());
 		}
 
 		public virtual ActionResult Details(string id) {
@@ -45,7 +45,7 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public virtual ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser) {
+		public virtual ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser) {
 			if (ModelState.IsValid) {
 				db.Entry(applicationUser).State = EntityState.Modified;
 				db.SaveChanges();

@@ -10,6 +10,7 @@ using Mausr.Web.Models;
 using Mausr.Web.NeuralNet;
 
 namespace Mausr.Web.Controllers {
+	[Authorize(Roles = RolesHelper.Trainer)]
 	public partial class TrainController : Controller {
 
 		protected readonly MausrDb db;
