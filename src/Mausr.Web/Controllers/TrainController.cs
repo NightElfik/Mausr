@@ -4,7 +4,7 @@ using System.Threading;
 using System.Web.Mvc;
 using Mausr.Core.NeuralNet;
 using Mausr.Core.Optimization;
-using Mausr.Web.DataContexts;
+using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 using Mausr.Web.NeuralNet;

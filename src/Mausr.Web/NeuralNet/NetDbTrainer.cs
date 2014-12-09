@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using Mausr.Core;
 using Mausr.Core.NeuralNet;
 using Mausr.Core.Optimization;
-using Mausr.Web.DataContexts;
-using Mausr.Web.Infrastructure;
+using Mausr.Web.Entities;
 using Mausr.Web.Models;
 
 namespace Mausr.Web.NeuralNet {
@@ -110,7 +108,7 @@ namespace Mausr.Web.NeuralNet {
 			var dbInputs = db.SymbolDrawings.ToList();
 
 			var baseInputsAndDrawings = dbInputs
-				.Select(i => new { SymbolId = i.Symbol.SymbolId, RawDrawing = i.RawDrawing })
+				.Select(sd => new { SymbolId = sd.Symbol.SymbolId, RawDrawing = sd.GetRawDrawing() })
 				.ToList();
 
 			var inputsAndDrawings = baseInputsAndDrawings.ToList();

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Mausr.Core;
-using Mausr.Web.DataContexts;
+using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 
@@ -44,7 +44,7 @@ namespace Mausr.Web.Controllers {
 			string filePath = Path.Combine(appSettingsProvider.SymbolDrawingsCacheDirAbsolute, fileName);
 
 			if (!System.IO.File.Exists(filePath)) {
-				var drawing = sd.RawDrawing;
+				var drawing = sd.GetRawDrawing();
 
 				if (rotation != 0) {
 					new RawDataProcessor().RotateInPlace(drawing, rotation);

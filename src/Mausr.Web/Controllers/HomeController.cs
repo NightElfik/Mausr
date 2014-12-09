@@ -2,13 +2,15 @@
 using System.Linq;
 using System.Web.Mvc;
 using Mausr.Core;
-using Mausr.Web.DataContexts;
+using Mausr.Web.Entities;
 using Mausr.Web.Models;
 using Mausr.Web.NeuralNet;
 using Newtonsoft.Json;
 
 namespace Mausr.Web.Controllers {
 	public partial class HomeController : Controller {
+
+		const int GUID_CHECK_WINDOW_SECONDS = 60;
 		
 		protected readonly MausrDb db;
 		protected readonly CurrentEvaluator evaluator;
@@ -40,23 +42,49 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 			
-			RawDrawing drawing;
+			RawDrawing rawDrawing;
 			try {
 				var lines = JsonConvert.DeserializeObject<RawPoint[][]>(model.JsonData);
-				drawing = new RawDrawing() { Lines = lines };
+				rawDrawing = new RawDrawing() { Lines = lines };
 			}
 			catch (Exception ex) {
 				return HttpNotFound();
 			}
 
-			var predictions = evaluator.PredictTopN(drawing, 10, 0.05);
-			var results = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
-				SymbolId = p.OutputId,
-				Symbol = s.SymbolStr,
-				SymbolName = s.Name,
+			var predictions = evaluator.PredictTopN(rawDrawing, 10, 0.05);
+			var rawResults = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
+				Symbol = s,
 				Rating = (float)p.NeuronOutputValue,
-			});
-			return Json(results);
+			}).ToList();
+
+			var minTime = DateTime.UtcNow.AddSeconds(-GUID_CHECK_WINDOW_SECONDS);
+
+			var drawing = db.Drawings
+				.Where(d => d.ClientGuid == model.Guid && DateTime.Compare(d.DrawnDateTime, minTime) > 0)
+				.FirstOrDefault();
+
+			if (drawing == null) {
+				drawing = new Drawing();
+				drawing.DrawnDateTime = DateTime.UtcNow;
+				db.Drawings.Add(drawing);
+			}
+
+			var firstResult = rawResults.FirstOrDefault();
+			
+			drawing.ClientGuid = model.Guid;
+			drawing.TopSymbol = firstResult == null ? null : firstResult.Symbol;
+			drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Rating;
+			drawing.DrawnUsingTouch = model.DrawnUsingTouch;
+			drawing.SetRawDrawing(rawDrawing);
+
+			db.SaveChanges();
+
+			return Json(rawResults.Select(x => new {
+				SymbolId = x.Symbol.SymbolId,
+				Symbol = x.Symbol.SymbolStr,
+				SymbolName = x.Symbol.Name,
+				Rating = x.Rating,
+			}));
 		}
 	}
 }

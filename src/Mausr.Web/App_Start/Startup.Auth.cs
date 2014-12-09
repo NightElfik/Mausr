@@ -1,5 +1,5 @@
 ﻿using System;
-using Mausr.Web.DataContexts;
+using Mausr.Web.Entities;
 using Mausr.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;

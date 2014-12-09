@@ -3,13 +3,13 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Mvc;
 using Mausr.Core;
-using Mausr.Web.DataContexts;
+using Mausr.Web.Entities;
 using Mausr.Web.Models;
 using Newtonsoft.Json;
 
 namespace Mausr.Web.Controllers {
+	[Authorize(Roles = RolesHelper.Teacher)]
 	public partial class TeachController : Controller {
-
 
 		protected readonly MausrDb db;
 
@@ -129,12 +129,11 @@ namespace Mausr.Web.Controllers {
 
 			var sd = new SymbolDrawing() {
 				Symbol = symbol,
-				RawDrawing = drawing,
 				CreatedDateTime = DateTime.UtcNow,
 				DrawnUsingTouch = drawnUsingTouch,
 			};
 
-
+			sd.SetRawDrawing(drawing);
 			sd = db.SymbolDrawings.Add(sd);
 			db.SaveChanges();
 

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mausr.Web.Models {
+namespace Mausr.Web.Entities {
 	public class Symbol {
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,6 +18,8 @@ namespace Mausr.Web.Models {
 
 
 		public virtual ICollection<SymbolDrawing> SymbolDrawings { get; set; }
+
+		public virtual ICollection<Drawing> Drawings { get; set; }
 
 	}
 }

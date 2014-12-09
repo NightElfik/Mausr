@@ -234,10 +234,10 @@ namespace Mausr.Web.Areas.Administration.Controllers
         }
 
         [NonAction]
-        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.Symbol symbol);
+        partial void CreateOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Entities.Symbol symbol);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Create(Mausr.Web.Models.Symbol symbol)
+        public override System.Web.Mvc.ActionResult Create(Mausr.Web.Entities.Symbol symbol)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Create);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "symbol", symbol);
@@ -258,10 +258,10 @@ namespace Mausr.Web.Areas.Administration.Controllers
         }
 
         [NonAction]
-        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.Symbol symbol);
+        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Entities.Symbol symbol);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Edit(Mausr.Web.Models.Symbol symbol)
+        public override System.Web.Mvc.ActionResult Edit(Mausr.Web.Entities.Symbol symbol)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "symbol", symbol);

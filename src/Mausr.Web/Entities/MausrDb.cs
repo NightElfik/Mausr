@@ -2,7 +2,7 @@
 using Mausr.Web.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Mausr.Web.DataContexts {
+namespace Mausr.Web.Entities {
 	public class MausrDb : IdentityDbContext<ApplicationUser> {
 		public MausrDb()
 			: base("MausrConnection", throwIfV1Schema: false) {
@@ -18,7 +18,7 @@ namespace Mausr.Web.DataContexts {
 
 		public DbSet<SymbolDrawing> SymbolDrawings { get; set; }
 
-
+		public DbSet<Drawing> Drawings { get; set; }
 
 	}
 }

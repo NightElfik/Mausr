@@ -337,7 +337,11 @@ MausrPainter.prototype.predict = function () {
 	$.ajax({
 		url: self.predictUrl,
 		method: 'POST',
-		data: { JsonData: linesData, DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False' },
+		data: {
+			JsonData: linesData,
+			DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False',
+			Giud: self.generateGuid()
+		},
 		success: function (data) {
 			self.$spinner.hide();
 			self.$predictResults.empty();
@@ -353,11 +357,20 @@ MausrPainter.prototype.predict = function () {
 
 MausrPainter.prototype.showResult = function (result) {
 	var self = this;
-	
+
 	self.$predictResults.append($('<li />')
 		.append($('<div class="cont" />')
 			.append($('<h2>' + result.Symbol + '</h3>'))
 			.append($('<p>' + result.SymbolName + '</p>'))
 			.append($('<p>Confidence: ' + (Math.round(result.Rating * 1000) / 10) + '%</p>')))
 	);
+};
+
+MausrPainter.prototype.generateGuid = function () {
+	var d = Date.now();
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+		var r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	});
 };

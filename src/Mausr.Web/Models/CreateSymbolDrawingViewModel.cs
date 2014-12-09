@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Mausr.Web.Entities;
 
 namespace Mausr.Web.Models {
 	[Bind(Exclude="Symbols")]

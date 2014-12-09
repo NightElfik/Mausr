@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Mausr.Web.Entities;
 
 namespace Mausr.Web.Models {
 	public class TeachBatchViewModel : BatchInitViewModel {

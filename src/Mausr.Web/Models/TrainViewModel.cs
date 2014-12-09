@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Mausr.Web.Entities;
 using Mausr.Web.NeuralNet;
 
 namespace Mausr.Web.Models {

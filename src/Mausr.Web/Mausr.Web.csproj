@@ -301,7 +301,8 @@
     <Compile Include="Controllers\SymbolDrawingsController.cs" />
     <Compile Include="Controllers\SymbolsController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
-    <Compile Include="DataContexts\MausrDb.cs" />
+    <Compile Include="Entities\Drawing.cs" />
+    <Compile Include="Entities\MausrDb.cs" />
     <Compile Include="ExtsAndHelpers%27\MyHtml.cs" />
     <Compile Include="ExtsAndHelpers%27\MyUrl.cs" />
     <Compile Include="ExtsAndHelpers%27\ObjectExts.cs" />
@@ -337,8 +338,8 @@
     <Compile Include="NeuralNet\NetDbTrainer.cs" />
     <Compile Include="Models\PlotViewModel.cs" />
     <Compile Include="Models\PredictModel.cs" />
-    <Compile Include="Models\Symbol.cs" />
-    <Compile Include="Models\SymbolDrawing.cs" />
+    <Compile Include="Entities\Symbol.cs" />
+    <Compile Include="Entities\SymbolDrawing.cs" />
     <Compile Include="Models\TrainDetailsViewModel.cs" />
     <Compile Include="NeuralNet\TrainSettings.cs" />
     <Compile Include="Models\TrainViewModel.cs" />
