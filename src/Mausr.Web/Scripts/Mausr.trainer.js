@@ -15,9 +15,12 @@ function MausrTrainer(options) {
 
 	self.stopUrl = options.stopUrl;
 	self.$stopBtn = $('#' + options.stopBtnId);
+	self.$cancelBtn = $('#' + options.cancelBtnId);
 
 	self.setAsDefaultUrl = options.setAsDefaultUrl;
 	self.$setAsDefaultBtn = $('#' + options.setAsDefaultBtnId);
+
+	self.trainData = options.trainData;
 
 
 	self.hubProxy = $.connection.progressHub;
@@ -26,8 +29,8 @@ function MausrTrainer(options) {
 	self.costChart = undefined;
 	self.costChartData = undefined;
 	self.costChartOptions = {
-		width: 500,
-		height: 563,
+		width: '100%',
+		height: 450,
 		hAxis: {
 			title: 'Iterations'
 		},
@@ -35,19 +38,23 @@ function MausrTrainer(options) {
 			title: 'Cost (log scale)',
 			logScale: true
 		},
+		chartArea: { left: 78, top: 10, width: '84%', height: '80%' },
+		legend: { position: 'bottom' }
 	};
 
 	self.predictChart = undefined;
 	self.predictChartData = undefined;
 	self.predictChartOptions = {
-		width: 500,
-		height: 563,
+		width: '100%',
+		height: 450,
 		hAxis: {
 			title: 'Iterations'
 		},
 		vAxis: {
 			title: 'Predict success'
 		},
+		chartArea: { left: 78, top: 10, width: '84%', height: '80%' },
+		legend: { position: 'bottom' }
 	};
 
 	google.load('visualization', '1', { packages: ['corechart'] });
@@ -61,6 +68,7 @@ function MausrTrainer(options) {
 			data: { id: self.netId },
 			success: function (data) {
 				self.$startLabel.text(data.message);
+				self.reset();
 			}
 		});
 		return false;
@@ -71,7 +79,20 @@ function MausrTrainer(options) {
 		$.ajax({
 			url: self.stopUrl,
 			method: 'POST',
-			data: { id: self.netId },
+			data: { id: self.netId, cancel: "False" },
+			success: function (data) {
+				self.$startLabel.text(data.message);
+			}
+		});
+		return false;
+	});
+
+	self.$cancelBtn.click(function (e) {
+		self.$startLabel.text("Sending cancel request ...");
+		$.ajax({
+			url: self.stopUrl,
+			method: 'POST',
+			data: { id: self.netId, cancel: "True" },
 			success: function (data) {
 				self.$startLabel.text(data.message);
 			}
@@ -135,6 +156,13 @@ function MausrTrainer(options) {
 
 };
 
+MausrTrainer.prototype.reset = function () {
+	var self = this;
+	self.$msgsContainer.empty();
+	self.trainData = undefined;
+	self.initChart();
+};
+
 MausrTrainer.prototype.message = function (message, type) {
 	var self = this;
 	var msg = $('<p />').text(message);
@@ -164,6 +192,19 @@ MausrTrainer.prototype.initChart = function () {
 	self.predictChartData.addColumn('number', 'X');
 	self.predictChartData.addColumn('number', 'Train');
 	self.predictChartData.addColumn('number', 'Test');
+
+	if (self.trainData) {
+		var ticks = self.trainData.IteraionNumbers;
+		var trainCosts = self.trainData.TrainCosts;
+		var testCosts = self.trainData.TestCosts;
+		var trainPredicts = self.trainData.TrainPredicts;
+		var testPredicts = self.trainData.TestPredicts;
+		for (var i = 0; i < ticks.length; ++i) {
+			self.addChartsPoints(ticks[i], trainCosts[i], testCosts[i], trainPredicts[i], testPredicts[i]);
+		}
+	}
+
+	self.redrawCharts();
 };
 
 

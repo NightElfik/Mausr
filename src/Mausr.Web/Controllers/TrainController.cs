@@ -92,6 +92,7 @@ namespace Mausr.Web.Controllers {
 
 			var model = new TrainDetailsViewModel() {
 				TrainSettings = trainSettings,
+				TrainData = trainStorageManager.LoadTrainData(id),
 			};
 
 			return View(model);
@@ -115,15 +116,18 @@ namespace Mausr.Web.Controllers {
 		}
 
 		[HttpPost]
-		public virtual ActionResult StopTraining(string id) {
+		public virtual ActionResult StopTraining(string id, bool? cancel = null) {
 			if (id == null) {
 				return HttpNotFound();
 			}
 
-			bool success = stopTrainig(id);
+			bool cancelValue = cancel ?? true;
+			bool success = stopTrainig(id, cancelValue);
 			return Json(new {
 				success = success,
-				message = success ? "Training was stopped successfully." : "Training is not running." 
+				message = success
+					? string.Format("Training was {0} successfully.", cancelValue ? "canceled" : "stopped")
+					: "Training is not running." 
 			});
 		}
 
@@ -146,8 +150,8 @@ namespace Mausr.Web.Controllers {
 			});
 		}
 
-		private bool stopTrainig(string id) {
-			return JobManager.Instance.StopJob(id);
+		private bool stopTrainig(string id, bool cancel) {
+			return JobManager.Instance.StopJob(id, cancel);
 		}
 
 		private void initModel(TrainViewModel model) {

@@ -28,11 +28,7 @@ namespace Mausr.Web.NeuralNet {
 
 		private int iterationId;
 
-		private List<float> trainCosts = new List<float>();
-		private List<float> testCosts = new List<float>();
-
-		private List<float> trainPredicts = new List<float>();
-		private List<float> testPredicts = new List<float>();
+		private TrainData trainData;
 
 		private Matrix<double> trainInputs;
 		private int[] trainOutNeuronIndices;
@@ -62,6 +58,8 @@ namespace Mausr.Web.NeuralNet {
 			using (var db = MausrDb.Create()) {
 				sendMessage("Initializing learning environment.");
 				iterationId = 0;
+				trainData = new TrainData();
+
 				int inputSize = trainSettings.InputImgSizePx * trainSettings.InputImgSizePx;
 				int outputSize = db.Symbols.Count();
 
@@ -83,11 +81,24 @@ namespace Mausr.Web.NeuralNet {
 				sendMessage(string.Format("Learning of {0} samples started.", trainInputs.RowCount));
 				bool converged = trainer.TrainBatch(trainInputs, trainSettings.BatchSize, trainSettings.LearnRounds,
 					trainOutIds, trainIterationCallback, job.CancellationToken);
-				
-				sendMessage("Training done ({0}converged), saving network.", converged ? "" : "not ");
-				if (!storageManager.SaveNet(netId, network)) {
-					sendMessage("Failed to save the network.");
+
+				if (job.CancellationToken.IsCancellationRequested) {
+					sendMessage("Training {0}.", job.Canceled ? "canceled" : "stopped");
 				}
+				else {
+					sendMessage("Training done ({0}converged).", converged ? "" : "not ");
+				}
+
+				if (!job.Canceled) {
+					sendMessage("Saving trained data.");
+					if (!storageManager.SaveNet(netId, network)) {
+						sendMessage("Failed to save the network.");
+					}
+					if (!storageManager.SaveTrainData(netId, trainData)) {
+						sendMessage("Failed to save training data.");
+					}
+				}
+
 				stopwatch.Stop();
 			}
 			
@@ -150,25 +161,26 @@ namespace Mausr.Web.NeuralNet {
 				return;
 			}
 
+			trainData.IteraionNumbers.Add(iterationId);
 			point.UnpackTo(unpackedCoefs);
 
 			double trainCost = network.CostFunction.Evaluate(unpackedCoefs,
 				trainInputs, trainOutNeuronIndices, trainSettings.RegularizationLambda);
-			trainCosts.Add((float)trainCost);
+			trainData.TrainCosts.Add((float)trainCost);
 
 			double testCost = network.CostFunction.Evaluate(unpackedCoefs,
 				testInputs, testOutNeuronIndices, trainSettings.RegularizationLambda);
-			testCosts.Add((float)testCost);
+			trainData.TestCosts.Add((float)testCost);
 
 			var trainPredictions = netEvaluator.Predict(trainInputs, unpackedCoefs);
 			int correctTrainPredicts = trainPredictions.Zip(trainOutIds, (actual, expected) => actual == expected ? 1 : 0).Sum();
 			float trainPredict = (float)correctTrainPredicts / trainOutIds.Length;
-			trainPredicts.Add(trainPredict);
+			trainData.TrainPredicts.Add(trainPredict);
 
 			var testPredictions = netEvaluator.Predict(testInputs, unpackedCoefs);
 			int correctTestPredicts = testPredictions.Zip(testOutIds, (actual, expected) => actual == expected ? 1 : 0).Sum();
 			float testPredict = (float)correctTestPredicts / testOutIds.Length;
-			testPredicts.Add(testPredict);
+			trainData.TestPredicts.Add(testPredict);
 
 			// Notify client.
 			job.Clients.iteration(iterationId, trainCost, testCost, trainPredict, testPredict);

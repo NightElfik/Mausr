@@ -315,7 +315,8 @@
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Hubs\ProgressHub.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
-    <Compile Include="Infrastructure\TrainStorageManager.cs" />
+    <Compile Include="NeuralNet\TrainData.cs" />
+    <Compile Include="NeuralNet\TrainStorageManager.cs" />
     <Compile Include="LearnController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -341,7 +342,7 @@
     <Compile Include="Models\Symbol.cs" />
     <Compile Include="Models\SymbolDrawing.cs" />
     <Compile Include="Models\TrainDetailsViewModel.cs" />
-    <Compile Include="Models\TrainSettings.cs" />
+    <Compile Include="NeuralNet\TrainSettings.cs" />
     <Compile Include="Models\TrainViewModel.cs" />
     <Compile Include="NeuralNet\CurrentEvaluator.cs" />
     <Compile Include="PlotController.generated.cs">

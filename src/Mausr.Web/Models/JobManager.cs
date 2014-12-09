@@ -35,10 +35,10 @@ namespace Mausr.Web.Models {
 			return true;
 		}
 
-		public bool StopJob(string id) {
+		public bool StopJob(string id, bool cancel) {
 			Job job;
 			if (runningJobs.TryGetValue(id, out job)) {
-				job.Cancel();
+				job.Stop(cancel);
 				return true;
 			}
 

@@ -36,6 +36,8 @@ namespace Mausr.Web.Models {
 			}
 		}
 
+		public bool Canceled { get; private set; }
+
 
 		public dynamic Clients { get { return JobManager.Instance.GetClientoObject(this); } }
 
@@ -46,11 +48,13 @@ namespace Mausr.Web.Models {
 
 
 		public Job(string id) {
+			Canceled = false;
 			Id = id;
 			cancellationTokenSource = new CancellationTokenSource();
 		}
 
-		public void Cancel() {
+		public void Stop(bool cancel) {
+			Canceled = cancel;
 			cancellationTokenSource.Cancel();
 		}
 	}

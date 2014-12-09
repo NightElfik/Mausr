@@ -6,25 +6,10 @@ namespace Mausr.Web.Hubs {
 	[Authorize(Roles = RolesHelper.Trainer)]
 	public class ProgressHub : Hub {
 
-		public async Task<bool> TrackJob(string jobId) {
-			await Groups.Add(Context.ConnectionId, jobId);
-			return JobManager.Instance.GetJob(jobId) != null;
+		public async Task<bool> TrackJob(string id) {
+			await Groups.Add(Context.ConnectionId, id);
+			return JobManager.Instance.GetJob(id) != null;
 		}
-
-		public void CancelJob(string jobId) {
-			var job = JobManager.Instance.GetJob(jobId);
-			if (job != null) {
-				job.Cancel();
-			}
-		}
-
-		//public void ProgressChanged(string jobId, int progress) {
-		//	Clients.Group(jobId).progressChanged(jobId, progress);
-		//}
-
-		//public void JobCompleted(string jobId) {
-		//	Clients.Group(jobId).jobCompleted(jobId);
-		//}
 
 	}
 }

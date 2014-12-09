@@ -145,6 +145,7 @@ namespace Mausr.Web.Controllers
         public class ActionParamsClass_StopTraining
         {
             public readonly string id = "id";
+            public readonly string cancel = "cancel";
         }
         static readonly ActionParamsClass_SetDefault s_params_SetDefault = new ActionParamsClass_SetDefault();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -238,14 +239,15 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void StopTrainingOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+        partial void StopTrainingOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id, bool? cancel);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult StopTraining(string id)
+        public override System.Web.Mvc.ActionResult StopTraining(string id, bool? cancel)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StopTraining);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            StopTrainingOverride(callInfo, id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "cancel", cancel);
+            StopTrainingOverride(callInfo, id, cancel);
             return callInfo;
         }
 

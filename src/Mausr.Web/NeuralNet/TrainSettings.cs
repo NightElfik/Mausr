@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Mausr.Web.Models {
+namespace Mausr.Web.NeuralNet {
 	public class TrainSettings {
 		
 		[Display(Name = "Network ID")]
