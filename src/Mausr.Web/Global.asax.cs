@@ -79,6 +79,7 @@ namespace Mausr.Web {
 		private void checkFileSystem(AppSettingsProvider appSettingsProvider) {
 
 			ensureDirExistsAndIsWritable(appSettingsProvider.SymbolDrawingsCacheDirVirtual);
+			ensureDirExistsAndIsWritable(appSettingsProvider.DrawingsCacheDirVirtual);
 			ensureDirExistsAndIsWritable(appSettingsProvider.NetTrainDataDirVirtual);
 
 		}

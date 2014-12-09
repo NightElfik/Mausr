@@ -7,8 +7,6 @@ using System.Drawing.Imaging;
 namespace Mausr.Core {
 	public class Rasterizer {
 
-		private static Pen[] pointsColors = new Pen[] { Pens.Red, Pens.Lime, Pens.Yellow };
-
 		public int ImageSize { get; set; }
 		public float PenSizePerc { get; set; }
 		public bool ExtraMargin { get; set; }
@@ -54,6 +52,8 @@ namespace Mausr.Core {
 				drawingSize -= 2 * offset;
 				offset -= 1;
 			}
+
+			var pointsColors = new Pen[] { Pens.Red, Pens.Lime, Pens.Yellow };
 
 			using (var g = Graphics.FromImage(img)) {
 				g.Clear(Color.White);

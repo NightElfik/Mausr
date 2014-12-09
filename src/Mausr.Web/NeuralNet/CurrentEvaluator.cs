@@ -54,8 +54,8 @@ namespace Mausr.Web.NeuralNet {
 				return null;
 			}
 
-			dataProcessor.NormalizeInPlace(drawing);
-			var img = rasterizer.Rasterize(drawing, TrainSettings.InputImgSizePx, TrainSettings.PenThicknessPerc / 100f, true, false);
+			var normDrawing = dataProcessor.Normalize(drawing);
+			var img = rasterizer.Rasterize(normDrawing, TrainSettings.InputImgSizePx, TrainSettings.PenThicknessPerc / 100f, true, false);
 			var input = inputConvertor.ImageToVector(img);
 			return Evaluator.PredictTopN(input, predictionsCount, minActivation);
 		}

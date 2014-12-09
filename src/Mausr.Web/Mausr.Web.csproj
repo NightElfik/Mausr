@@ -292,6 +292,7 @@
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DrawingsController.cs" />
     <Compile Include="Controllers\TeachController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -301,6 +302,9 @@
     <Compile Include="Controllers\SymbolDrawingsController.cs" />
     <Compile Include="Controllers\SymbolsController.cs" />
     <Compile Include="Controllers\TrainController.cs" />
+    <Compile Include="DrawingsController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Drawing.cs" />
     <Compile Include="Entities\MausrDb.cs" />
     <Compile Include="ExtsAndHelpers%27\MyHtml.cs" />
@@ -421,7 +425,9 @@
     <Content Include="Scripts\_references.js" />
     <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Scripts\Mausr.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -479,6 +485,7 @@
     <Content Include="Views\Train\Index.cshtml" />
     <Content Include="Views\Symbols\Index.cshtml" />
     <Content Include="Views\SymbolDrawings\Index.cshtml" />
+    <Content Include="Views\Drawings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

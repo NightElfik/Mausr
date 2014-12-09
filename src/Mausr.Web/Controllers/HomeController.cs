@@ -71,6 +71,7 @@ namespace Mausr.Web.Controllers {
 
 			var firstResult = rawResults.FirstOrDefault();
 			
+			// TODO: fix problems with image cache.
 			drawing.ClientGuid = model.Guid;
 			drawing.TopSymbol = firstResult == null ? null : firstResult.Symbol;
 			drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Rating;

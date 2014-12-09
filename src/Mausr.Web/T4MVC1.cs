@@ -28,6 +28,7 @@ public static partial class MVC
     static readonly AdministrationClass s_Administration = new AdministrationClass();
     public static AdministrationClass Administration { get { return s_Administration; } }
     public static Mausr.Web.Controllers.AccountController Account = new Mausr.Web.Controllers.T4MVC_AccountController();
+    public static Mausr.Web.Controllers.DrawingsController Drawings = new Mausr.Web.Controllers.T4MVC_DrawingsController();
     public static Mausr.Web.Controllers.HomeController Home = new Mausr.Web.Controllers.T4MVC_HomeController();
     public static Mausr.Web.Controllers.ManageController Manage = new Mausr.Web.Controllers.T4MVC_ManageController();
     public static Mausr.Web.Controllers.PlotController Plot = new Mausr.Web.Controllers.T4MVC_PlotController();

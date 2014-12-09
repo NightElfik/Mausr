@@ -14,6 +14,13 @@ namespace Mausr.Core {
 				.ToArray();
 		}
 
+
+		public RawDrawing Normalize(RawDrawing drawing) {
+			var newDrawing = new RawDrawing(drawing);
+			NormalizeInPlace(newDrawing);
+			return newDrawing;
+		}
+
 		/// <summary>
 		/// Centers and expands the drawing to [0, 1] rectanlge.
 		/// </summary>

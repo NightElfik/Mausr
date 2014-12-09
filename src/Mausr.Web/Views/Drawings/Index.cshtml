@@ -1,0 +1,27 @@
+﻿@model IPagination<Drawing>
+
+@{
+	ViewBag.Title = "Drawings";
+	int imageSize = 128;
+	int penSize = 4;
+	var pagination = Model.Html();
+}
+
+<h1>@ViewBag.Title</h1>
+
+@pagination
+
+
+<div class="row">
+	<div class="col-md-12">
+		@foreach (var drawing in Model) {
+			<div class="pull-left">
+				<img src="@Url.Action(MVC.Drawings.Img(drawing.DrawingId, imageSize, penSize, false, true))"
+					 width="@imageSize" height="@imageSize" />
+			</div>
+		}
+	</div>
+</div>
+
+@pagination
+

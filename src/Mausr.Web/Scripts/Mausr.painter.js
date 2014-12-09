@@ -23,6 +23,7 @@ function MausrPainter(options) {
 	self.initContext(self.context);
 
 	self.drawnUsingTouch = false;
+	self.guid = self.generateGuid();
 	self.drawing = false;
 
 	self.replayTimeout = undefined;
@@ -84,6 +85,7 @@ function MausrPainter(options) {
 		self.stopReplay();
 		self.drawing = false;
 		self.drawnUsingTouch = false;
+		self.guid = self.generateGuid();
 		if (self.$drawnUsingTouchInput) {
 			self.$drawnUsingTouchInput.val('False');
 		}
@@ -340,7 +342,7 @@ MausrPainter.prototype.predict = function () {
 		data: {
 			JsonData: linesData,
 			DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False',
-			Giud: self.generateGuid()
+			Giud: self.guid
 		},
 		success: function (data) {
 			self.$spinner.hide();
