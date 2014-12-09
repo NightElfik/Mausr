@@ -1,0 +1,25 @@
+﻿@model TeachInitViewModel
+
+@{
+	ViewBag.Title = "Teaching introduction";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<h3>Instructions</h3>
+<ol>
+	<li>Do not attempt to draw symbols you are not familiar with. Use skip button to skip them.</li>
+	<li>Drawings does not have to be perfect but please do not submit particuraly ugly drawings. Clear the canvas and draw the symbol again.</li>
+	<li>Relative size and position of drawn symbols within the canvas does not matter.</li>
+</ol>
+
+<h3>Stats</h3>
+<dl class="dl-horizontal">
+	<dt>Total symbols count</dt>
+	<dd>@Model.Symbols.Count</dd>
+
+	<dt>Symbols</dt>
+	<dd>@string.Join(", ", Model.Symbols.Select(x => x.SymbolStr))</dd>
+</dl>
+
+@Html.ActionLink("Start teaching all", MVC.Teach.StartTeachingAll(), new { @class = "btn btn-primary" })

@@ -13,10 +13,15 @@
 
 @pagination
 
-<ul>
+
+
+<ul class="symbolSearchResults">
 	@foreach (var item in Model) {
 		<li>
-			@Html.DisplayFor(m => item.SymbolStr) (@Html.DisplayFor(m => item.Name))
+			<div class="cont">
+				<h2>@Html.DisplayFor(m => item.SymbolStr)</h2>
+				<p>@Html.DisplayFor(m => item.Name)</p>
+			</div>
 		</li>
 	}
 </ul>

@@ -23,10 +23,10 @@ using System.Web.Routing;
 using T4MVC;
 namespace Mausr.Web.Controllers
 {
-    public partial class LearnController
+    public partial class TeachController
     {
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        protected LearnController(Dummy d) { }
+        protected TeachController(Dummy d) { }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         protected RedirectToRouteResult RedirectToAction(ActionResult result)
@@ -68,13 +68,13 @@ namespace Mausr.Web.Controllers
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public LearnController Actions { get { return MVC.Learn; } }
+        public TeachController Actions { get { return MVC.Teach; } }
         [GeneratedCode("T4MVC", "2.0")]
         public readonly string Area = "";
         [GeneratedCode("T4MVC", "2.0")]
-        public readonly string Name = "Learn";
+        public readonly string Name = "Teach";
         [GeneratedCode("T4MVC", "2.0")]
-        public const string NameConst = "Learn";
+        public const string NameConst = "Teach";
 
         static readonly ActionNamesClass s_actions = new ActionNamesClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -83,7 +83,7 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
-            public readonly string IndexPost = "Index";
+            public readonly string StartTeachingAll = "StartTeachingAll";
             public readonly string Batch = "Batch";
             public readonly string BatchPost = "Batch";
             public readonly string Done = "Done";
@@ -93,7 +93,7 @@ namespace Mausr.Web.Controllers
         public class ActionNameConstants
         {
             public const string Index = "Index";
-            public const string IndexPost = "Index";
+            public const string StartTeachingAll = "StartTeachingAll";
             public const string Batch = "Batch";
             public const string BatchPost = "Batch";
             public const string Done = "Done";
@@ -130,16 +130,16 @@ namespace Mausr.Web.Controllers
                 public readonly string Done = "Done";
                 public readonly string Index = "Index";
             }
-            public readonly string Batch = "~/Views/Learn/Batch.cshtml";
-            public readonly string Done = "~/Views/Learn/Done.cshtml";
-            public readonly string Index = "~/Views/Learn/Index.cshtml";
+            public readonly string Batch = "~/Views/Teach/Batch.cshtml";
+            public readonly string Done = "~/Views/Teach/Done.cshtml";
+            public readonly string Index = "~/Views/Teach/Index.cshtml";
         }
     }
 
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-    public partial class T4MVC_LearnController : Mausr.Web.Controllers.LearnController
+    public partial class T4MVC_TeachController : Mausr.Web.Controllers.TeachController
     {
-        public T4MVC_LearnController() : base(Dummy.Instance) { }
+        public T4MVC_TeachController() : base(Dummy.Instance) { }
 
         [NonAction]
         partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
@@ -153,13 +153,13 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void IndexPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void StartTeachingAllOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult IndexPost()
+        public override System.Web.Mvc.ActionResult StartTeachingAll()
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.IndexPost);
-            IndexPostOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StartTeachingAll);
+            StartTeachingAllOverride(callInfo);
             return callInfo;
         }
 
@@ -176,10 +176,10 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void BatchPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.LearnBatchViewModel model);
+        partial void BatchPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.TeachBatchViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult BatchPost(Mausr.Web.Models.LearnBatchViewModel model)
+        public override System.Web.Mvc.ActionResult BatchPost(Mausr.Web.Models.TeachBatchViewModel model)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.BatchPost);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);

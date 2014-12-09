@@ -18,6 +18,7 @@ namespace Mausr.Web {
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Css/bootstrap.css",
+					  "~/Css/font-awesome.css",
 					  "~/Css/site.css"));
 
 #if DEBUG

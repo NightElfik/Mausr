@@ -6,13 +6,14 @@ function MausrPainter(options) {
 	self.predictUrl = options.predictUrl;
 	self.autoPredictDelay = options.autoPredictDelay;
 	self.$predictResults = $('#' + options.predictResultsId);
+	self.$spinner = options.spinnerId ? $('#' + options.spinnerId) : undefined;
 	self.predictTimeout = undefined;
 
 	self.$mainCanvas = $('#' + options.canvasId);
 	self.$jsonText = options.jsonTextId ? $('#' + options.jsonTextId) : undefined;
 	self.$clearBtn = $('#' + options.clearBtnId);
-	self.$replayCanvas = options.replyCanvasId ? $('#' + options.replyCanvasId) : undefined;
-	self.$replayBtn = options.replyBtnId ? $('#' + options.replyBtnId) : undefined;
+	self.$replayCanvas = options.replayCanvasId ? $('#' + options.replayCanvasId) : undefined;
+	self.$replayBtn = options.replayBtnId ? $('#' + options.replayBtnId) : undefined;
 	self.$drawnUsingTouchInput = options.drawnUsingTouchId ? $('#' + options.drawnUsingTouchId) : undefined;
 	if (self.$drawnUsingTouchInput) {
 		self.$drawnUsingTouchInput.val('False');
@@ -23,6 +24,8 @@ function MausrPainter(options) {
 
 	self.drawnUsingTouch = false;
 	self.drawing = false;
+
+	self.replayTimeout = undefined;
 
 	self.currentRefTime;
 	self.currentLine = [];
@@ -78,6 +81,7 @@ function MausrPainter(options) {
 	});
 
 	self.$clearBtn.click(function () {
+		self.stopReplay();
 		self.drawing = false;
 		self.drawnUsingTouch = false;
 		if (self.$drawnUsingTouchInput) {
@@ -89,6 +93,7 @@ function MausrPainter(options) {
 		if (self.$jsonText) {
 			self.$jsonText.text("");
 		}
+		self.$predictResults.empty();
 		return false;
 	});
 
@@ -102,10 +107,11 @@ function MausrPainter(options) {
 };
 
 MausrPainter.prototype.getMousePos = function (canvas, e) {
-	var rect = canvas.getBoundingClientRect();
+	//var rect = canvas.getBoundingClientRect();
+	var pos = $(canvas).offset();
 	return {
-		x: e.clientX - rect.left,
-		y: e.clientY - rect.top
+		x: e.clientX - pos.left,
+		y: e.clientY - pos.top
 	};
 };
 
@@ -241,8 +247,12 @@ MausrPainter.prototype.exportText = function () {
 
 
 MausrPainter.prototype.replay = function (canvas, lines) {
+	var self = this;
+
+	self.stopReplay();
 	var context = canvas.getContext("2d");
-	this.initContext(context);
+	self.initContext(context);
+	self.currentRefTime = self.now();
 
 	var width = context.canvas.width;
 	var height = context.canvas.height;
@@ -298,10 +308,18 @@ MausrPainter.prototype.replay = function (canvas, lines) {
 		var dt = newT - time;
 		time = newT;
 
-		setTimeout(step, dt);
+		self.replayTimeout = setTimeout(step, dt);
 	};
 
 	step();
+};
+
+MausrPainter.prototype.stopReplay = function () {
+	var self = this;
+	if (self.replayTimeout) {
+		clearTimeout(self.replayTimeout);
+		self.replayTimeout = undefined;
+	}
 };
 
 MausrPainter.prototype.startPredictTimeout = function () {
@@ -315,15 +333,20 @@ MausrPainter.prototype.startPredictTimeout = function () {
 MausrPainter.prototype.predict = function () {
 	var self = this;
 	var linesData = JSON.stringify(self.allLines);
+	self.$spinner.show();
 	$.ajax({
 		url: self.predictUrl,
 		method: 'POST',
 		data: { JsonData: linesData, DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False' },
 		success: function (data) {
+			self.$spinner.hide();
 			self.$predictResults.empty();
 			for (var i = 0; i < data.length; ++i) {
 				self.showResult(data[i]);
 			}
+		},
+		error: function () {
+			self.$spinner.hide();
 		}
 	});
 };
@@ -331,9 +354,10 @@ MausrPainter.prototype.predict = function () {
 MausrPainter.prototype.showResult = function (result) {
 	var self = this;
 	
-	self.$predictResults.append($('<div class="thumbnail" />')
-		.append($('<h2>' + result.Symbol + '</h3>'))
-		.append($('<p>' + result.SymbolName + '</p>'))
-		.append($('<p>' + (Math.round(result.Rating * 1000) / 10) + '%</p>'))
+	self.$predictResults.append($('<li />')
+		.append($('<div class="cont" />')
+			.append($('<h2>' + result.Symbol + '</h3>'))
+			.append($('<p>' + result.SymbolName + '</p>'))
+			.append($('<p>Confidence: ' + (Math.round(result.Rating * 1000) / 10) + '%</p>')))
 	);
 };

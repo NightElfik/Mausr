@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-static-top">
+	<div class="navbar navbar-default navbar-static-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,7 +22,6 @@
 				<ul class="nav navbar-nav">
 					<li>@Html.ActionLink("Symbols", MVC.Symbols.Index())</li>
 					<li>@Html.ActionLink("Drawings", MVC.SymbolDrawings.Index())</li>
-					<li>@Html.ActionLink("Learn", MVC.Learn.Index())</li>
 				</ul>
 				@Html.Partial("_LoginPartial")
 
@@ -39,17 +38,28 @@
 					</ul>
 				}
 
-			@if (User.IsInRole(RolesHelper.Trainer)) {
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Trainer <span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li>@Html.ActionLink("Train", MVC.Train.Index())</li>
-							<li>@Html.ActionLink("Plots", MVC.Plot.Index())</li>
-						</ul>
-					</li>
-				</ul>
-			}
+				@if (User.IsInRole(RolesHelper.Trainer)) {
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Trainer <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>@Html.ActionLink("Train", MVC.Train.Index())</li>
+								<li>@Html.ActionLink("Test plots", MVC.Plot.Index())</li>
+							</ul>
+						</li>
+					</ul>
+				}
+
+				@if (User.IsInRole(RolesHelper.Teacher)) {
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Teacher <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>@Html.ActionLink("Teach", MVC.Teach.Index())</li>
+							</ul>
+						</li>
+					</ul>
+				}
 			</div>
 
 		</div>

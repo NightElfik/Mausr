@@ -1,4 +1,5 @@
-﻿using System.Drawing.Imaging;
+﻿using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -20,13 +21,13 @@ namespace Mausr.Web.Controllers {
 		}
 
 
-		public virtual ActionResult Index(int? page = null) {
-			var query = db.SymbolDrawings
-				.GroupBy(x => x.Symbol)
-				.OrderBy(x => x.Key.SymbolId);
-			var keys = query.Select(x => x.Key.SymbolStr).ToList();
-			var items = query.ToPagination(page, 1, i => Url.Action(Actions.Index(i)), 4, i => keys[i - 1]);
-			return View(items);
+		public virtual ActionResult Index(int? id = null) {
+			return View(new SymbolDrawingsViewModel() {
+				Symbols = db.Symbols.ToList(),
+				Drawings = id == null
+					? new List<SymbolDrawing>()
+					: db.SymbolDrawings.Where(d => d.Symbol.SymbolId == id.Value).ToList()
+			});
 		}
 
 

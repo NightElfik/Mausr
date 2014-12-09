@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Mausr.Web.Models {
-	public class LearnBatchViewModel : BatchInitViewModel {
+	public class TeachBatchViewModel : BatchInitViewModel {
 						
 		[Required]
 		public string JsonData { get; set; }

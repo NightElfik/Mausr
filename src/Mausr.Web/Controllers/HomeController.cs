@@ -49,7 +49,7 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 
-			var predictions = evaluator.PredictTopN(drawing, 10, 0.1);
+			var predictions = evaluator.PredictTopN(drawing, 10, 0.05);
 			var results = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
 				SymbolId = p.OutputId,
 				Symbol = s.SymbolStr,

@@ -29,11 +29,11 @@ public static partial class MVC
     public static AdministrationClass Administration { get { return s_Administration; } }
     public static Mausr.Web.Controllers.AccountController Account = new Mausr.Web.Controllers.T4MVC_AccountController();
     public static Mausr.Web.Controllers.HomeController Home = new Mausr.Web.Controllers.T4MVC_HomeController();
-    public static Mausr.Web.Controllers.LearnController Learn = new Mausr.Web.Controllers.T4MVC_LearnController();
     public static Mausr.Web.Controllers.ManageController Manage = new Mausr.Web.Controllers.T4MVC_ManageController();
     public static Mausr.Web.Controllers.PlotController Plot = new Mausr.Web.Controllers.T4MVC_PlotController();
     public static Mausr.Web.Controllers.SymbolDrawingsController SymbolDrawings = new Mausr.Web.Controllers.T4MVC_SymbolDrawingsController();
     public static Mausr.Web.Controllers.SymbolsController Symbols = new Mausr.Web.Controllers.T4MVC_SymbolsController();
+    public static Mausr.Web.Controllers.TeachController Teach = new Mausr.Web.Controllers.T4MVC_TeachController();
     public static Mausr.Web.Controllers.TrainController Train = new Mausr.Web.Controllers.T4MVC_TrainController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
@@ -123,6 +123,9 @@ namespace Links
              
         public static readonly string bootstrap_css_map = Url("bootstrap.css.map");
         public static readonly string bootstrap_min_css = Url("bootstrap.min.css");
+        public static readonly string font_awesome_css = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/font-awesome.min.css") ? Url("font-awesome.min.css") : Url("font-awesome.css");
+             
+        public static readonly string font_awesome_min_css = Url("font-awesome.min.css");
         public static readonly string Site_css = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Site.min.css") ? Url("Site.min.css") : Url("Site.css");
              
     }

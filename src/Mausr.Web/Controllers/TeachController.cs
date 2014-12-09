@@ -8,27 +8,24 @@ using Mausr.Web.Models;
 using Newtonsoft.Json;
 
 namespace Mausr.Web.Controllers {
-	public partial class LearnController : Controller {
+	public partial class TeachController : Controller {
 
 
 		protected readonly MausrDb db;
 
 
-		public LearnController(MausrDb db) {
+		public TeachController(MausrDb db) {
 			this.db = db;
 		}
 
 
-		[HttpGet]
 		public virtual ActionResult Index() {
-			return View(new LearnInitViewModel() {
+			return View(new TeachInitViewModel() {
 				Symbols = db.Symbols.ToList(),
 			});
 		}
 
-		[HttpPost]
-		[ActionName("Index")]
-		public virtual ActionResult IndexPost() {
+		public virtual ActionResult StartTeachingAll() {
 			var rand = new Random();
 			var batchInitModel = new BatchInitViewModel() {
 				BatchNumber = rand.Next(),
@@ -43,7 +40,7 @@ namespace Mausr.Web.Controllers {
 				return RedirectToAction(Actions.Index());
 			}
 
-			var batchModel = new LearnBatchViewModel() {
+			var batchModel = new TeachBatchViewModel() {
 				BatchNumber = model.BatchNumber,
 				SymbolNumber = model.SymbolNumber,
 				SymbolsCount = db.Symbols.Count(),
@@ -68,7 +65,7 @@ namespace Mausr.Web.Controllers {
 
 		[HttpPost]
 		[ActionName("Batch")]
-		public virtual ActionResult BatchPost(LearnBatchViewModel model) {
+		public virtual ActionResult BatchPost(TeachBatchViewModel model) {
 			if (ModelState.IsValid) {
 				var symbol = getSymbol(model.BatchNumber, model.SymbolNumber);
 				if (symbol != null) {

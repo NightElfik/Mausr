@@ -28,6 +28,13 @@ namespace Mausr.Web.Migrations {
 				manager.Create(role);
 			}
 
+			if (!db.Roles.Any(r => r.Name == RolesHelper.Teacher)) {
+				var store = new RoleStore<IdentityRole>(db);
+				var manager = new RoleManager<IdentityRole>(store);
+				var role = new IdentityRole { Name = RolesHelper.Teacher };
+				manager.Create(role);
+			}
+
 			if (!db.Users.Any(u => u.UserName == "NightElfik")) {
 				var store = new UserStore<ApplicationUser>(db);
 				var manager = new UserManager<ApplicationUser>(store);
@@ -39,18 +46,32 @@ namespace Mausr.Web.Migrations {
 				manager.Create(user, "ChangeItAsap!");
 				manager.AddToRole(user.Id, RolesHelper.Admin);
 				manager.AddToRole(user.Id, RolesHelper.Trainer);
+				manager.AddToRole(user.Id, RolesHelper.Teacher);
 			}
 
-			if (!db.Users.Any(u => u.UserName == "TrainTester")) {
+			if (!db.Users.Any(u => u.UserName == "Trainer")) {
 				var store = new UserStore<ApplicationUser>(db);
 				var manager = new UserManager<ApplicationUser>(store);
 				var user = new ApplicationUser {
-					UserName = "TrainTester",
-					Email = "TrainTester@mausr.com",
+					UserName = "Trainer",
+					Email = "Trainer@mausr.com",
 				};
 
 				manager.Create(user, "PleaseDoN0tShare");
 				manager.AddToRole(user.Id, RolesHelper.Trainer);
+				manager.AddToRole(user.Id, RolesHelper.Teacher);
+			}
+
+			if (!db.Users.Any(u => u.UserName == "Teacher")) {
+				var store = new UserStore<ApplicationUser>(db);
+				var manager = new UserManager<ApplicationUser>(store);
+				var user = new ApplicationUser {
+					UserName = "Teacher",
+					Email = "Teacher@mausr.com",
+				};
+
+				manager.Create(user, "DontShareP1ease");
+				manager.AddToRole(user.Id, RolesHelper.Teacher);
 			}
 
 			// Turn on case-sensitive (binary) comparison.

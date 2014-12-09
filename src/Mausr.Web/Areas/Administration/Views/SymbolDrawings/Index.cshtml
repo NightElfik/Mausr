@@ -1,30 +1,35 @@
-﻿@model IPagination<IGrouping<Symbol, SymbolDrawing>>
+﻿@model SymbolDrawingsViewModel
 
 @{
 	ViewBag.Title = "Symbol drawings";
 	int imageSize = 128;
 	int penSize = 4;
-	var pagination = Model.Html();
+	var firstDrawing = Model.Drawings.FirstOrDefault();
+	int activeSymbolId = firstDrawing == null ? -1 : firstDrawing.Symbol.SymbolId;
 }
 
 <h1>@ViewBag.Title</h1>
 
-@pagination
+<div class="row">
+	<div class="col-md-12 buttonsList">
+		@foreach (var symbol in Model.Symbols) {
+			@Html.ActionLink(symbol.SymbolStr, MVC.Administration.SymbolDrawings.Index(symbol.SymbolId),
+					new { @class = "btn btn-default btn-sm" + (symbol.SymbolId == activeSymbolId ? " btn-primary" : "") })
+		}
+	</div>
+</div>
 
-@foreach (var group in Model) {
-	<div class="row">
-		<hr />
-		<h4>@group.Key.SymbolStr: @group.Key.Name</h4>
-		@foreach (var item in group) {
+<div class="row">
+	<div class="col-md-12">
+		@foreach (var drawing in Model.Drawings) {
 			<div class="pull-left">
-				<img src="@Url.Action(MVC.SymbolDrawings.Img(item.SymbolDrawingId, imageSize, penSize, 0, false, true))"
+				<img src="@Url.Action(MVC.SymbolDrawings.Img(drawing.SymbolDrawingId, imageSize, penSize, 0, false, true))"
 					 width="@imageSize" height="@imageSize" />
-				<p class="small">@item.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
-				<p class="small">Drawn using @(item.DrawnUsingTouch ? "touch" : "mouse")</p>
-				@Html.ActionLink("Delete", "Delete", new { id = item.SymbolDrawingId })
+				<p class="small">@drawing.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
+				<p class="small">Drawn using @(drawing.DrawnUsingTouch ? "touch" : "mouse")</p>
+				@Html.ActionLink("Delete", "Delete", new { id = drawing.SymbolDrawingId })
 			</div>
 		}
 	</div>
-}
+</div>
 
-@pagination

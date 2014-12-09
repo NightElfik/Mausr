@@ -292,7 +292,7 @@
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\LearnController.cs" />
+    <Compile Include="Controllers\TeachController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PlotController.cs" />
@@ -315,11 +315,9 @@
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Hubs\ProgressHub.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
+    <Compile Include="Models\SymbolDrawingsViewModel.cs" />
     <Compile Include="NeuralNet\TrainData.cs" />
     <Compile Include="NeuralNet\TrainStorageManager.cs" />
-    <Compile Include="LearnController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="ManageController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
@@ -332,8 +330,8 @@
     <Compile Include="Models\IPagination.cs" />
     <Compile Include="Models\Job.cs" />
     <Compile Include="Models\JobManager.cs" />
-    <Compile Include="Models\LearnBatchViewModel.cs" />
-    <Compile Include="Models\LearnInitViewModel.cs" />
+    <Compile Include="Models\TeachBatchViewModel.cs" />
+    <Compile Include="Models\TeachInitViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\TrainIndexViewModel.cs" />
     <Compile Include="NeuralNet\NetDbTrainer.cs" />
@@ -365,11 +363,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="TeachController.generated.cs">
+      <DependentUpon>T4MVC.tt</DependentUpon>
+    </Compile>
     <Compile Include="TrainController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Css\font-awesome.css" />
+    <Content Include="Css\font-awesome.min.css" />
     <Content Include="Css\bootstrap-theme.css" />
     <Content Include="Css\bootstrap-theme.min.css" />
     <Content Include="Css\bootstrap.css" />
@@ -392,6 +395,11 @@
     <Content Include="Areas\Administration\Views\Users\Details.cshtml" />
     <Content Include="Areas\Administration\Views\Users\Edit.cshtml" />
     <Content Include="Areas\Administration\Views\Users\Index.cshtml" />
+    <Content Include="Fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -461,9 +469,9 @@
     <Content Include="Areas\Administration\Views\SymbolDrawings\Index.cshtml" />
     <Content Include="Views\Plot\Plot.cshtml" />
     <Content Include="Views\Plot\Index.cshtml" />
-    <Content Include="Views\Learn\Index.cshtml" />
-    <Content Include="Views\Learn\Batch.cshtml" />
-    <Content Include="Views\Learn\Done.cshtml" />
+    <Content Include="Views\Teach\Index.cshtml" />
+    <Content Include="Views\Teach\Batch.cshtml" />
+    <Content Include="Views\Teach\Done.cshtml" />
     <Content Include="Views\Train\TrainNewNet.cshtml" />
     <Content Include="Areas\Administration\Views\Symbols\Collisions.cshtml" />
     <Content Include="Views\Train\Details.cshtml" />

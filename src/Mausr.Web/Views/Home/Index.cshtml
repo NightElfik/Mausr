@@ -1,5 +1,5 @@
 ﻿@{
-	ViewBag.Title = "Draw a lowercase greek symbol";
+	ViewBag.Title = "Draw a symbol below";
 	int imageSize = 256;
 }
 
@@ -7,11 +7,15 @@
 
 <div class="row">
 	<div class="col-sm-4">
-		<canvas id="canvas" class="img-thumbnail center-block" width="@imageSize" height="@imageSize"></canvas>
+		<div class="canvasContainer">
+			<canvas id="canvas" class="center-block" width="@imageSize" height="@imageSize"></canvas>
+		</div>
 		<br />
 		<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
 	</div>
-	<div class="col-sm-8" id="results">
+	<div class="col-sm-8">
+		<i id="spinner" class="fa fa-cog fa-spin fa-5x" style="display: none;"></i>
+		<ul id="results" class="symbolSearchResults"></ul>
 	</div>
 </div>
 
@@ -26,8 +30,9 @@
 				canvasId: 'canvas',
 				clearBtnId: 'clearBtn',
 				predictUrl: '@Url.Action(MVC.Home.Predict())',
-				autoPredictDelay: 500,
-				predictResultsId: 'results'
+				autoPredictDelay: 800,
+				predictResultsId: 'results',
+				spinnerId: 'spinner'
 			});
 		});
 	</script>

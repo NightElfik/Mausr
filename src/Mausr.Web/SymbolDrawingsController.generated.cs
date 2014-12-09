@@ -94,7 +94,7 @@ namespace Mausr.Web.Controllers
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_Index
         {
-            public readonly string page = "page";
+            public readonly string id = "id";
         }
         static readonly ActionParamsClass_Img s_params_Img = new ActionParamsClass_Img();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -131,14 +131,14 @@ namespace Mausr.Web.Controllers
         public T4MVC_SymbolDrawingsController() : base(Dummy.Instance) { }
 
         [NonAction]
-        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? page);
+        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Index(int? page)
+        public override System.Web.Mvc.ActionResult Index(int? id)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "page", page);
-            IndexOverride(callInfo, page);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            IndexOverride(callInfo, id);
             return callInfo;
         }
 

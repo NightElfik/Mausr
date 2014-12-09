@@ -1,24 +1,60 @@
 ﻿/*body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+	padding-top: 50px;
+	padding-bottom: 20px;
 }*/
 
 /* Set padding to keep content from hitting the edges */
 /*.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 }*/
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 /*.dl-horizontal dt {
-    white-space: normal;
+	white-space: normal;
 }*/
 
 /* Set width on the form input elements since they're 100% wide by default */
 /*input,
 select,
 textarea {
-    max-width: 280px;
+	max-width: 280px;
 }*/
+
+.canvasContainer canvas {
+	border: 1px solid #ccc;
+}
+
+.symbolSearchResults {
+	margin: 0;
+	padding: 0;
+}
+
+.symbolSearchResults li {
+	vertical-align: top;
+	display: -moz-inline-box;
+	display: inline-block;
+}
+
+.symbolSearchResults h2 {
+	font-size: 5em;
+	text-shadow: 1px 1px 2px #AAA;
+}
+
+.symbolSearchResults .cont {
+	margin: 0.2em;
+	width: 200px;
+	border: 1px solid #ccc;
+	background-color: #f8f8f8;
+	text-align: center;
+}
+
+.symbolSearchResults .cont:hover {
+	background-color: #EEE;
+}
+
+.buttonsList .btn{
+	margin: 1px;
+}

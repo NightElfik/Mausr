@@ -16,7 +16,7 @@ namespace Mausr.Web.Controllers {
 		public virtual ActionResult Index(int? page) {
 			return View(db.Symbols
 				.OrderBy(x => x.SymbolStr)
-				.ToPagination(page, 30, p => Url.Action(Actions.Index(p)))
+				.ToPagination(page, 20, p => Url.Action(Actions.Index(p)))
 			);
 		}
 	}

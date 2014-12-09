@@ -1,0 +1,72 @@
+﻿@model TeachBatchViewModel
+
+@{
+	ViewBag.Title = "Teaching";
+	int imageSize = 256;
+}
+
+<h1>Teaching: @Model.Symbol.SymbolStr <small>@Model.Symbol.Name</small></h1>
+
+@using (Html.BeginForm()) {
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		@Html.HiddenFor(m => m.DrawnUsingTouch)
+
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<div class="canvasContainer">
+					<canvas id="canvas" class="center-block" width="@imageSize" height="@imageSize"></canvas>
+				</div>
+			</div>
+
+			<div class="form-group col-sm-6">
+				<input type="submit" value="Save drawing" class="btn btn-primary btn-lg btn-block" />
+				<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear canvas</a>
+				<a class="btn btn-default btn-lg btn-block" id="replayBtn" href="#" role="button">Replay</a>
+				@(Html.ActionLink("Skip this symbol", MVC.Teach.Batch().AddRouteValues(new BatchInitViewModel() {
+					BatchNumber = Model.BatchNumber,
+					SymbolNumber = Model.SymbolNumber + 1,
+				}), new { @class = "btn btn-default btn-lg btn-block", role = "button" }))
+
+				@if (Model.SavedDrawing != null) {
+					<div class="alert alert-success" style="margin-top: 6px;">
+						<a href="#" class="close" data-dismiss="alert">&times;</a>
+						<strong>Success!</strong> Drawing of '@Model.SavedDrawing.Symbol.SymbolStr' was successfully saved under ID @Model.SavedDrawing.SymbolDrawingId.
+					</div>
+				}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group  col-sm-12">
+				@Html.TextAreaFor(m => m.JsonData, 10, 40, new { @class = "hidden" })
+				@Html.ValidationMessageFor(model => model.JsonData, "", new { @class = "text-danger" })
+			</div>
+		</div>
+	</div>
+}
+
+<p>Symbol: @(Model.SymbolNumber + 1) / @Model.SymbolsCount, Batch ID: @Model.BatchNumber</p>
+
+@{
+	MyHtml.RequireScript(Links.Scripts.Mausr_js);
+	MyHtml.RequireScript(Links.Scripts.Mausr_painter_js);
+}
+@section scripts {
+	<script>
+		$(function () {
+			new MausrPainter({
+				canvasId: 'canvas',
+				jsonTextId: '@Html.NameFor(m => m.JsonData)',
+				clearBtnId: 'clearBtn',
+				drawnUsingTouchId: '@Html.NameFor(m => m.DrawnUsingTouch)',
+				replayBtnId: 'replayBtn',
+				replayCanvasId: 'canvas'
+			});
+		});
+	</script>
+}
+
+
