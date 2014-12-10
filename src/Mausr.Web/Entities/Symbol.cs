@@ -15,6 +15,8 @@ namespace Mausr.Web.Entities {
 
 		[Required]
 		public string Name { get; set; }
+				
+		public string HtmlEntity { get; set; }
 
 
 		public virtual ICollection<SymbolDrawing> SymbolDrawings { get; set; }

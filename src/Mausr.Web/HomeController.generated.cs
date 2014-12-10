@@ -77,6 +77,8 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string About = "About";
+            public readonly string Contact = "Contact";
             public readonly string Predict = "Predict";
         }
 
@@ -84,6 +86,8 @@ namespace Mausr.Web.Controllers
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string About = "About";
+            public const string Contact = "Contact";
             public const string Predict = "Predict";
         }
 
@@ -129,6 +133,28 @@ namespace Mausr.Web.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
             IndexOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void AboutOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult About()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.About);
+            AboutOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ContactOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Contact()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Contact);
+            ContactOverride(callInfo);
             return callInfo;
         }
 

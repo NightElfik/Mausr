@@ -6,16 +6,17 @@
 <h1>@ViewBag.Title</h1>
 
 <div class="row">
-	<div class="col-sm-5">
+	<div class="col-lg-3 col-md-4 col-sm-5 col-xs-6">
 		<div class="canvasContainer">
 			<canvas id="canvas" class="center-block" width="@imageSize" height="@imageSize"></canvas>
 		</div>
 		<br />
 		<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
 	</div>
-	<div class="col-sm-7">
+	<div class="col-lg-9 col-md-8 col-sm-7 col-xs-6">
 		<i id="spinner" class="fa fa-cog fa-spin fa-5x" style="display: none;"></i>
 		<ul id="results" class="symbolSearchResults"></ul>
+		<p id="duration" class=""></p>
 	</div>
 </div>
 
@@ -32,7 +33,8 @@
 				predictUrl: '@Url.Action(MVC.Home.Predict())',
 				autoPredictDelay: 800,
 				predictResultsId: 'results',
-				spinnerId: 'spinner'
+				spinnerId: 'spinner',
+				durationId: 'duration'
 			});
 		});
 	</script>

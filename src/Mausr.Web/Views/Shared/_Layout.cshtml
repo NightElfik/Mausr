@@ -20,6 +20,7 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
+					<li>@Html.ActionLink("About", MVC.Home.About())</li>
 					<li>@Html.ActionLink("Symbols", MVC.Symbols.Index())</li>
 					<li>@Html.ActionLink("Drawings", MVC.SymbolDrawings.Index())</li>
 				</ul>
@@ -44,6 +45,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Trainer <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li>@Html.ActionLink("Train", MVC.Train.Index())</li>
+								<li>@Html.ActionLink("Drawings", MVC.Drawings.Index())</li>
 								<li>@Html.ActionLink("Test plots", MVC.Plot.Index())</li>
 							</ul>
 						</li>
@@ -56,7 +58,6 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Teacher <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li>@Html.ActionLink("Teach", MVC.Teach.Index())</li>
-								<li>@Html.ActionLink("Drawings", MVC.Drawings.Index())</li>
 							</ul>
 						</li>
 					</ul>
@@ -68,8 +69,17 @@
 	<div class="container body-content">
 		@RenderBody()
 		<hr />
-		<footer>
-			<p>&copy; @DateTime.Now.Year - Marek Fišer</p>
+		<footer class="row">
+			<div class="col-md-3"><p>&copy; @DateTime.Now.Year - Marek Fišer</p></div>
+			<div class="col-md-3">
+				<ul class="list-unstyled">
+					<li>@Html.ActionLink("Symbol recognition", MVC.Home.Index())</li>
+					<li>@Html.ActionLink("About Mausr", MVC.Home.About())</li>
+					<li>@Html.ActionLink("Contact", MVC.Home.Contact())</li>
+				</ul>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3"></div>
 		</footer>
 	</div>
 

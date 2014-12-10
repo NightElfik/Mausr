@@ -11,11 +11,11 @@ using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 
 namespace Mausr.Web.Controllers {
-	[Authorize(Roles = RolesHelper.Teacher)]
+	[Authorize(Roles = RolesHelper.Trainer)]
 	public partial class DrawingsController : Controller {
 
 		const int pageSize = 20;
-		
+
 		protected readonly MausrDb db;
 		protected readonly AppSettingsProvider appSettingsProvider;
 
@@ -40,9 +40,7 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 
-			string fileName = string.Format("{0}-s{1}-p{2}-d{3}-n{4}.png",
-				id, imageSize, penSizePerc, decorated ? 1 : 0, normalized ? 1 : 0);
-			string filePath = Path.Combine(appSettingsProvider.DrawingsCacheDirAbsolute, fileName);
+			string filePath = getCachePath(id, imageSize, penSizePerc, normalized, decorated);
 
 			if (!System.IO.File.Exists(filePath)) {
 				var drawing = sd.GetRawDrawing();
@@ -56,6 +54,23 @@ namespace Mausr.Web.Controllers {
 			}
 
 			return File(filePath, "image/png");
+		}
+
+		[NonAction]
+		public void ClearCachedImage(int id) {
+			var files = Directory.EnumerateFiles(appSettingsProvider.DrawingsCacheDirAbsolute, string.Format("{0}-*.png", id));
+			foreach (var filePath in files) {
+				try {
+					System.IO.File.Delete(filePath);
+				}
+				catch { }
+			}
+		}
+
+		private string getCachePath(int id, int imageSize, int penSizePerc, bool normalized, bool decorated) {
+			string fileName = string.Format("{0}-s{1}-p{2}-d{3}-n{4}.png",
+				id, imageSize, penSizePerc, decorated ? 1 : 0, normalized ? 1 : 0);
+			return Path.Combine(appSettingsProvider.DrawingsCacheDirAbsolute, fileName);
 		}
 	}
 }

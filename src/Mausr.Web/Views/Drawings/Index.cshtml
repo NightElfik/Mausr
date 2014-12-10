@@ -5,6 +5,7 @@
 	int imageSize = 128;
 	int penSize = 4;
 	var pagination = Model.Html();
+	var ic = System.Globalization.CultureInfo.InvariantCulture;
 }
 
 <h1>@ViewBag.Title</h1>
@@ -18,6 +19,10 @@
 			<div class="pull-left">
 				<img src="@Url.Action(MVC.Drawings.Img(drawing.DrawingId, imageSize, penSize, false, true))"
 					 width="@imageSize" height="@imageSize" />
+				<p>
+					@(drawing.TopSymbol != null ? drawing.TopSymbol.SymbolStr : "")
+					(@(drawing.TopSymbolScore != null ? Math.Round(drawing.TopSymbolScore.Value * 100, 1).ToString(ic) : "")%)
+				</p>
 			</div>
 		}
 	</div>

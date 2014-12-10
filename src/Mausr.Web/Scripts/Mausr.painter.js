@@ -7,6 +7,7 @@ function MausrPainter(options) {
 	self.autoPredictDelay = options.autoPredictDelay;
 	self.$predictResults = $('#' + options.predictResultsId);
 	self.$spinner = options.spinnerId ? $('#' + options.spinnerId) : undefined;
+	self.$duration = options.durationId ? $('#' + options.durationId) : undefined;
 	self.predictTimeout = undefined;
 
 	self.$mainCanvas = $('#' + options.canvasId);
@@ -88,6 +89,9 @@ function MausrPainter(options) {
 		self.guid = self.generateGuid();
 		if (self.$drawnUsingTouchInput) {
 			self.$drawnUsingTouchInput.val('False');
+		}
+		if (self.$duration) {
+			self.$duration.hide();
 		}
 		self.currentLine = [];
 		self.allLines = [];
@@ -347,9 +351,12 @@ MausrPainter.prototype.predict = function () {
 		success: function (data) {
 			self.$spinner.hide();
 			self.$predictResults.empty();
-			for (var i = 0; i < data.length; ++i) {
-				self.showResult(data[i]);
+			var results = data.Results;
+			for (var i = 0; i < results.length; ++i) {
+				self.showResult(results[i]);
 			}
+			self.$duration.text("Query took " + Math.round(data.Duration) + " ms.");
+			self.$duration.show();
 		},
 		error: function () {
 			self.$spinner.hide();
@@ -360,11 +367,15 @@ MausrPainter.prototype.predict = function () {
 MausrPainter.prototype.showResult = function (result) {
 	var self = this;
 
+	var entity = result.HtmlEntity.length == 0 ? '' : '<code>&amp;' + result.HtmlEntity + ';</code> or ';
+
 	self.$predictResults.append($('<li />')
 		.append($('<div class="cont" />')
 			.append($('<h2>' + result.Symbol + '</h3>'))
 			.append($('<p>' + result.SymbolName + '</p>'))
-			.append($('<p>Confidence: ' + (Math.round(result.Rating * 1000) / 10) + '%</p>')))
+			.append($('<p>HTML: ' + entity + '<code>&amp;#' + result.UtfCode + ';</code></p>'))
+			.append($('<p>UTF: <code>U+' + result.UtfCode.toString(16) + '</code></p>'))
+			.append($('<p class="conf">Confidence: ' + (Math.round(result.Rating * 1000) / 10) + '%</p>')))
 	);
 };
 

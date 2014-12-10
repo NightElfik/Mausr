@@ -22,7 +22,7 @@ namespace Mausr.Web.Entities {
 		
 		[Required]
 		[Display(Name = "Drawn using touch")]
-		public virtual bool DrawnUsingTouch { get; set; }
+		public bool DrawnUsingTouch { get; set; }
 					
 		
 			

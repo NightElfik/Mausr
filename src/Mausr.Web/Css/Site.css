@@ -1,7 +1,7 @@
-﻿/*body {
-	padding-top: 50px;
-	padding-bottom: 20px;
-}*/
+﻿body {
+	min-width: 600px;
+	padding-bottom: 200px;
+}
 
 /* Set padding to keep content from hitting the edges */
 /*.body-content {
@@ -54,6 +54,20 @@ textarea {
 .symbolSearchResults .cont:hover {
 	background-color: #EEE;
 }
+
+.symbolSearchResults h2 {
+	margin: 4px 0;
+}
+
+.symbolSearchResults p {
+	margin: 1px;
+}
+
+.symbolSearchResults .conf {
+	font-size: 0.8em;
+	color: #AAA;
+}
+
 
 .buttonsList .btn{
 	margin: 1px;

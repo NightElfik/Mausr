@@ -1,7 +1,50 @@
 ﻿@{
-    ViewBag.Title = "About";
+	ViewBag.Title = "About Mausr";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="jumbotron">
+	<h1>@ViewBag.Title</h1>
+	<p>
+		Have you ever wanted to easily find any unicode symbol like →, ×, ≠, ℝ, or »?
+		Mausr is (will be) the ultimate answer to this question.
+		Just sketch it and half a second later your symbol is right in front of you ready for copy-paste.
+		@Html.ActionLink("Give it a try!", MVC.Home.Index())
+	</p>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<p>
+			Mausr stands for <i>Marek's Unicode Symbols Recognizer</i> and I created it because I was frustrated by googling unicode symbols around.
+			First it was only small C# program but then I realized that it can be actually usefull for everybody.
+			So I extended the library with simple web interface and after few weeks the first version was published.
+		</p>
+		<p>
+			Mausr is currenlty in early alpha version and contains only a bunch of symbols.
+			I am hoping to add more and more over the time.
+			The problem with adding new symbols is the need of training data.
+			Somebody has to draw every symbol at least 20 times before it is searchable.
+			And some symbols are heavily biased by handwriting of certain person so training data has to be from meny different persons.
+			Over time I am hoping that users using the web will produce plenty of training data and categorizing can be done by one person (probably me).
+		</p>
+	</div>
+	<div class="col-md-6">
+		<p>
+			The core library uses neural networks for recognition.
+			Data are gathered as vector painting to reduce bandwidth.
+			Server reconstructs drawing and runs the image through trained neural network.
+			The server is able to train new networks and the training process is highly customizable.
+		</p>
+	</div>
+</div>
+
+<div class="row">
+	<h3>Questions? Comments? Suggestions?</h3>
+	<div class="col-md-6">
+		<p>
+			I am happy to hear any kind of feedback!
+			Please feel free to contact me through this @Html.ActionLink("contact form", MVC.Home.Contact()).
+		</p>
+	</div>
+</div>
+
