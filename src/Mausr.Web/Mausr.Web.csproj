@@ -135,6 +135,12 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc5.3.3.3\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.1\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Glimpse.Ado">
       <HintPath>..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
     </Reference>
@@ -149,6 +155,9 @@
     </Reference>
     <Reference Include="Glimpse.Mvc5">
       <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\packages\MathNet.Numerics.3.2.3\lib\net40\MathNet.Numerics.dll</HintPath>
@@ -310,6 +319,7 @@
     <Compile Include="ExtsAndHelpers%27\MyHtml.cs" />
     <Compile Include="ExtsAndHelpers%27\MyUrl.cs" />
     <Compile Include="ExtsAndHelpers%27\ObjectExts.cs" />
+    <Compile Include="Infrastructure\ICaptcha.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -320,6 +330,8 @@
     <Compile Include="HtmlHelperExtensions.cs" />
     <Compile Include="Hubs\ProgressHub.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
+    <Compile Include="Infrastructure\Logger.cs" />
+    <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\SymbolDrawingsViewModel.cs" />
     <Compile Include="NeuralNet\TrainData.cs" />
     <Compile Include="NeuralNet\TrainStorageManager.cs" />

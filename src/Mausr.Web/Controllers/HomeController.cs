@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Mausr.Core;
 using Mausr.Web.Entities;
@@ -12,14 +14,21 @@ using Newtonsoft.Json;
 namespace Mausr.Web.Controllers {
 	public partial class HomeController : Controller {
 
-		const int GUID_CHECK_WINDOW_SECONDS = 60;
+		private const int GUID_CHECK_WINDOW_SECONDS = 60;
+
+		private static readonly Regex CleanNameRegex = new Regex(@"[^a-zA-Z0-9!#$%&'*+-/=?^_{|}~(),:;\[\] ]+",
+			RegexOptions.Compiled);
+		private static readonly Regex CleanSubjectRegex = new Regex(@"[^a-zA-Z0-9!#$%&'*+-/=?^_{|}~(),:;@\[\]]+",
+			RegexOptions.Compiled);
 
 		protected readonly MausrDb db;
 		protected readonly CurrentEvaluator evaluator;
+		protected readonly ICaptcha captcha;
 
-		public HomeController(MausrDb db, CurrentEvaluator evaluator) {
+		public HomeController(MausrDb db, CurrentEvaluator evaluator, ICaptcha captcha) {
 			this.db = db;
 			this.evaluator = evaluator;
+			this.captcha = captcha;
 		}
 
 		public virtual ActionResult Index() {
@@ -27,10 +36,6 @@ namespace Mausr.Web.Controllers {
 		}
 
 		public virtual ActionResult About() {
-			return View();
-		}
-
-		public virtual ActionResult Contact() {
 			return View();
 		}
 
@@ -98,5 +103,56 @@ namespace Mausr.Web.Controllers {
 				Duration = (float)sw.Elapsed.TotalMilliseconds,
 			});
 		}
+
+		[HttpGet]
+		public virtual ActionResult Contact() {
+			return View(new ContactModel() {
+				Captcha = captcha
+			});
+		}
+
+		[HttpPost]
+		public virtual ActionResult Contact(ContactModel model) {
+			model.Captcha = captcha;
+			if (!ModelState.IsValid) {
+				return View(model);
+			}
+
+			if (!captcha.Validate(ControllerContext.HttpContext)) {
+				ModelState.AddModelError("", "Capthca invalid.");
+				return View(model);
+			}
+
+			string email = model.Email == null ? null : model.Email.Trim();
+			string rawName = model.Name.Trim();
+			string subejct = model.Subject.Trim();
+			string body = model.Message.Trim();
+
+			string cleanName = CleanNameRegex.Replace(rawName, "_");
+			string from = string.Format("\"{0}\" <{1}>", cleanName, email == null ? "null" : email);
+			string cleanSubject = CleanSubjectRegex.Replace(subejct, "_");
+
+			Logger.LogInfo<HomeController>("Contact message sent\n\tfrom: {0} <{1}>\n\tsubj: {2}\n\tmsg: {3}\n",
+				rawName, email == null ? "null" : email, subejct, body);
+
+			try {
+				WebMail.Send("mausr@marekfiser.cz", cleanSubject + " [Mausr.com]", body, email == null ? null : from);
+
+				ViewBag.Message = "E-mail sent successfully.";
+				return View();
+			}
+			catch (Exception ex) {
+				Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Failed to send e-mail", ex));
+				ModelState.AddModelError("", "Failed to send e-mail.");
+			}
+
+			return View(model);
+		}
+
+		public virtual ActionResult TestMail() {
+			WebMail.Send("web@marekfiser.cz", "MarekFiser.com - test", "test");
+			return HttpNotFound();
+		}
+
 	}
 }

@@ -9,6 +9,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core.Optimization;
 using Mausr.Core.Plot;
+using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 
 namespace Mausr.Web.Controllers {
@@ -42,6 +43,8 @@ namespace Mausr.Web.Controllers {
 					MomentumEnd = 0.9,
 				};
 			}
+
+			Logger.LogInfo<PlotController>("Rosenbrock function plot shown.");
 
 			ViewBag.Name = "Rosenbrock function";
 			ViewBag.ViewAction = MVC.Plot.RosenbrockFunctionPlot();
@@ -81,6 +84,9 @@ namespace Mausr.Web.Controllers {
 					MomentumEnd = 0.9,
 				};
 			}
+			
+			
+			Logger.LogInfo<PlotController>("Crazy sin cos function plot shown.");
 
 			ViewBag.Name = "Crazy sin cos function";
 			ViewBag.ViewAction = MVC.Plot.CrazySinCosFunctionPlot();

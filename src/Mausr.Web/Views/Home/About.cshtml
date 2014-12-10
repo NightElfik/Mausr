@@ -20,20 +20,24 @@
 			So I extended the library with simple web interface and after few weeks the first version was published.
 		</p>
 		<p>
-			Mausr is currenlty in early alpha version and contains only a bunch of symbols.
-			I am hoping to add more and more over the time.
-			The problem with adding new symbols is the need of training data.
-			Somebody has to draw every symbol at least 20 times before it is searchable.
-			And some symbols are heavily biased by handwriting of certain person so training data has to be from meny different persons.
-			Over time I am hoping that users using the web will produce plenty of training data and categorizing can be done by one person (probably me).
+			Mausr is currenlty in alpha version and contains only a bunch of symbols.
+			I am hoping to add more over the time.
+			The problem with adding new symbols is the need for training data.
+			Somebody has to draw every symbol at least 20 times before it is somewhat searchable.
+			Some symbols are heavily biased by handwriting style so training data has to be from many different persons.
 		</p>
 	</div>
 	<div class="col-md-6">
 		<p>
-			The core library uses neural networks for recognition.
-			Data are gathered as vector painting to reduce bandwidth.
-			Server reconstructs drawing and runs the image through trained neural network.
-			The server is able to train new networks and the training process is highly customizable.
+			The core library uses neural networks for the recognition.
+			Data are gathered as 2D points and sent to server is this compact form to reduce bandwidth.
+			Server reconstructs the drawing in desired resolution and runs the image through trained neural network.
+			Then top 8 results are returned to the client (only results with at least 5% confidence are considered).
+		</p>
+		<p>
+			The training process is highly customizable and done on the server too.
+			The training interface is web based and offers real-time feedback of error measurements of the trained neural network.
+			This interface is not publicly accessible because it is very computationally expensive and my web server not built for this tasks.
 		</p>
 	</div>
 </div>

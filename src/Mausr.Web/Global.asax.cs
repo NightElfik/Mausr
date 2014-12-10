@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -12,6 +14,7 @@ using Mausr.Web.NeuralNet;
 
 namespace Mausr.Web {
 	public class MvcApplication : HttpApplication {
+
 		protected void Application_Start() {
 
 			var resolver = buildDependencyResolver();
@@ -21,9 +24,15 @@ namespace Mausr.Web {
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
-			
+
 			var asp = resolver.GetService<AppSettingsProvider>();
 			checkFileSystem(asp);
+			
+			Logger.LogInfo<MvcApplication>("App started.");
+		}
+		
+		protected void Application_End() {
+			Logger.LogInfo<MvcApplication>("App ended.");
 		}
 
 
@@ -66,8 +75,12 @@ namespace Mausr.Web {
 			builder.Register(x => evaluator)
 				.As<CurrentEvaluator>()
 				.SingleInstance();
-			
-			
+
+			var captcha = new ReCaptcha(appSettings.RecaptchaPublic, appSettings.RecaptchaPrivate);
+			builder.Register(x => captcha)
+				.As<ICaptcha>()
+				.SingleInstance();
+
 			var container = builder.Build();
 			return new AutofacDependencyResolver(container);
 		}
@@ -81,6 +94,44 @@ namespace Mausr.Web {
 			ensureDirExistsAndIsWritable(appSettingsProvider.SymbolDrawingsCacheDirVirtual);
 			ensureDirExistsAndIsWritable(appSettingsProvider.DrawingsCacheDirVirtual);
 			ensureDirExistsAndIsWritable(appSettingsProvider.NetTrainDataDirVirtual);
+
+			{
+				// Checks whether ELMAH's error logs directory exists and is writable.
+				// This is not elegant solution but better than nothing (I can not find better solution).
+				var section = WebConfigurationManager.OpenWebConfiguration("/").GetSection("elmah/errorLog") as DefaultSection;
+				string rawXml = section.SectionInformation.GetRawXml();
+
+				const string start = "logPath=\"";
+				const string end = "\"";
+				int startI = rawXml.IndexOf(start) + start.Length;
+				int endI = rawXml.IndexOf(end, startI);
+				string errReportDirPath = rawXml.Substring(startI, endI - startI);
+				if (errReportDirPath.Length == 0) {
+					throw new Exception(string.Format("Invalid logging dir '{0}', fix the config or the parsing of the path.",
+						errReportDirPath));
+				}
+
+				ensureDirExistsAndIsWritable(errReportDirPath);
+			}
+
+			{
+				// Checks whether Log4Net's error logs directory exists and is writable.
+				// This is not elegant solution but better than nothing (I can not find better solution).
+				var section = WebConfigurationManager.OpenWebConfiguration("/").GetSection("log4net") as DefaultSection;
+				string rawXml = section.SectionInformation.GetRawXml();
+
+				const string start = "<file value=\"";
+				const string end = "/";
+				int startI = rawXml.IndexOf(start) + start.Length;
+				int endI = rawXml.IndexOf(end, startI);
+				string errReportDirPath = rawXml.Substring(startI, endI - startI);
+				if (errReportDirPath.Length == 0) {
+					throw new Exception(string.Format("Invalid logging dir '{0}', fix the config or the parsing of the path.",
+						errReportDirPath));
+				}
+
+				ensureDirExistsAndIsWritable(errReportDirPath);
+			}
 
 		}
 

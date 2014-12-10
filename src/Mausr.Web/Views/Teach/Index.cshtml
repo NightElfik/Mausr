@@ -8,9 +8,17 @@
 
 <h3>Instructions</h3>
 <ol>
-	<li>Do not attempt to draw symbols you are not familiar with. Use skip button to skip them.</li>
-	<li>Drawings does not have to be perfect but please do not submit particuraly ugly drawings. Clear the canvas and draw the symbol again.</li>
-	<li>Relative size and position of drawn symbols within the canvas does not matter.</li>
+	<li>
+		Please do not attempt to draw symbols that you are not familiar with and are not obvious, for example, greek letters.
+		Use skip button to skip them.
+	</li>
+	<li>
+		Drawings does not have to be perfect but please do not submit particuraly ugly drawings.
+		Clear the canvas and draw the symbol again.
+	</li>
+	<li>
+		Relative size and position of drawn symbols within the canvas does not matter.
+	</li>
 </ol>
 
 <h3>Stats</h3>
@@ -20,6 +28,9 @@
 
 	<dt>Symbols</dt>
 	<dd>@string.Join(", ", Model.Symbols.Select(x => x.SymbolStr))</dd>
+
+	<dt>Est. completition time</dt>
+	<dd>@Math.Round(Model.Symbols.Count * 3 / 60.0, 1) minutes (three seconds per sybmol)</dd>
 </dl>
 
 @Html.ActionLink("Start teaching all", MVC.Teach.StartTeachingAll(), new { @class = "btn btn-primary" })

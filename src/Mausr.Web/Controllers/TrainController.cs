@@ -8,6 +8,7 @@ using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 using Mausr.Web.NeuralNet;
+using Newtonsoft.Json;
 
 namespace Mausr.Web.Controllers {
 	[Authorize(Roles = RolesHelper.Trainer)]
@@ -32,6 +33,8 @@ namespace Mausr.Web.Controllers {
 		}
 
 		public virtual ActionResult TrainNewNet() {
+			Logger.LogInfo<TrainController>("Train new net opened");
+
 			var model = new TrainViewModel() {
 				InputImgSizePx = 20,
 				PenThicknessPerc = 14,
@@ -104,14 +107,10 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 
-			if (trainStorageManager.LoadTrainSettings(id) == null) {
-				return HttpNotFound();
-			}
-
 			bool success = startTrainig(id);
 			return Json(new {
 				success = success,
-				message = success ? "Training started successfully." : "Training is already running." 
+				message = success ? "Training started successfully." : "Training is already running."
 			});
 		}
 
@@ -127,7 +126,7 @@ namespace Mausr.Web.Controllers {
 				success = success,
 				message = success
 					? string.Format("Training was {0} successfully.", cancelValue ? "canceled" : "stopped")
-					: "Training is not running." 
+					: "Training is not running."
 			});
 		}
 
@@ -140,17 +139,26 @@ namespace Mausr.Web.Controllers {
 			bool success = evaluator.SetDefaultNetwork(id);
 			return Json(new {
 				success = success,
-				message = success ? "Default network was set successfully." : "Failed to set default network." 
+				message = success ? "Default network was set successfully." : "Failed to set default network."
 			});
 		}
 
 		private bool startTrainig(string id) {
+			var trainSettings = trainStorageManager.LoadTrainSettings(id);
+			if (trainSettings == null) {
+				return false;
+			}
+
+			Logger.LogInfo<TrainController>("Training of [{0}] started:\n{1}\n",
+				id, JsonConvert.SerializeObject(trainSettings));
 			return JobManager.Instance.TryStartJobAsync(id, j => {
 				new NetDbTrainer(id, trainStorageManager, j).TrainNetwork();
 			});
 		}
 
 		private bool stopTrainig(string id, bool cancel) {
+			Logger.LogInfo<TrainController>("Training of [{0}] was {1}",
+				id, cancel ? "canceled" : "stopped");
 			return JobManager.Instance.StopJob(id, cancel);
 		}
 

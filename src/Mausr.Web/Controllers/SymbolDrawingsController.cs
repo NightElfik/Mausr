@@ -23,7 +23,8 @@ namespace Mausr.Web.Controllers {
 
 		public virtual ActionResult Index(int? id = null) {
 			return View(new SymbolDrawingsViewModel() {
-				Symbols = db.Symbols.ToList(),
+				CurrentSymbol = db.Symbols.FirstOrDefault(s => s.SymbolId == id),
+				Symbols = db.Symbols.OrderBy(d => d.SymbolStr).ToList(),
 				Drawings = id == null
 					? new List<SymbolDrawing>()
 					: db.SymbolDrawings.Where(d => d.Symbol.SymbolId == id.Value).ToList()

@@ -72,3 +72,7 @@ textarea {
 .buttonsList .btn{
 	margin: 1px;
 }
+
+.g-recaptcha div {
+	margin: 0 auto;
+}

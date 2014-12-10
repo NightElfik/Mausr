@@ -4,8 +4,7 @@
 	ViewBag.Title = "Symbol drawings";
 	int imageSize = 128;
 	int penSize = 4;
-	var firstDrawing = Model.Drawings.FirstOrDefault();
-	int activeSymbolId = firstDrawing == null ? -1 : firstDrawing.Symbol.SymbolId;
+	int activeSymbolId = Model.CurrentSymbol == null ? -1 : Model.CurrentSymbol.SymbolId;
 }
 
 <h1>@ViewBag.Title</h1>

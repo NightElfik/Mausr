@@ -78,8 +78,9 @@ namespace Mausr.Web.Controllers
         {
             public readonly string Index = "Index";
             public readonly string About = "About";
-            public readonly string Contact = "Contact";
             public readonly string Predict = "Predict";
+            public readonly string Contact = "Contact";
+            public readonly string TestMail = "TestMail";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -87,8 +88,9 @@ namespace Mausr.Web.Controllers
         {
             public const string Index = "Index";
             public const string About = "About";
-            public const string Contact = "Contact";
             public const string Predict = "Predict";
+            public const string Contact = "Contact";
+            public const string TestMail = "TestMail";
         }
 
 
@@ -97,6 +99,14 @@ namespace Mausr.Web.Controllers
         public ActionParamsClass_Predict PredictParams { get { return s_params_Predict; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionParamsClass_Predict
+        {
+            public readonly string model = "model";
+        }
+        static readonly ActionParamsClass_Contact s_params_Contact = new ActionParamsClass_Contact();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Contact ContactParams { get { return s_params_Contact; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Contact
         {
             public readonly string model = "model";
         }
@@ -148,6 +158,18 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
+        partial void PredictOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PredictModel model);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Predict(Mausr.Web.Models.PredictModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Predict);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            PredictOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
         partial void ContactOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
 
         [NonAction]
@@ -159,14 +181,25 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void PredictOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.PredictModel model);
+        partial void ContactOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.ContactModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Predict(Mausr.Web.Models.PredictModel model)
+        public override System.Web.Mvc.ActionResult Contact(Mausr.Web.Models.ContactModel model)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Predict);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Contact);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            PredictOverride(callInfo, model);
+            ContactOverride(callInfo, model);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void TestMailOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult TestMail()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TestMail);
+            TestMailOverride(callInfo);
             return callInfo;
         }
 

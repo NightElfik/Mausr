@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Mausr.Core;
 using Mausr.Web.Entities;
+using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 using Newtonsoft.Json;
 
@@ -26,6 +27,7 @@ namespace Mausr.Web.Controllers {
 		}
 
 		public virtual ActionResult StartTeachingAll() {
+			Logger.LogInfo<TeachController>("Started teaching all.");
 			var rand = new Random();
 			var batchInitModel = new BatchInitViewModel() {
 				BatchNumber = rand.Next(),
@@ -136,6 +138,8 @@ namespace Mausr.Web.Controllers {
 			sd.SetRawDrawing(drawing);
 			sd = db.SymbolDrawings.Add(sd);
 			db.SaveChanges();
+			
+			Logger.LogInfo<TeachController>("New symbol drawing [{0}].", sd.SymbolDrawingId);
 
 			return sd;
 		}

@@ -12,6 +12,8 @@ obj/
 /src/Mausr.Web/App_Data/*.7z
 /src/Mausr.Web/Cache/*
 /src/Mausr.Web/TrainData/*
+/src/Mausr.Web/Logs/*
+/src/Mausr.Web/ErrorLogs/*
 
 /Publish
 

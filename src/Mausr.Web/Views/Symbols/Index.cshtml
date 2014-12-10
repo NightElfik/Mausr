@@ -16,11 +16,21 @@
 
 
 <ul class="symbolSearchResults">
-	@foreach (var item in Model) {
+	@foreach (var symbol in Model) {
+		int utfCode = char.ConvertToUtf32(symbol.SymbolStr, 0);
 		<li>
 			<div class="cont">
-				<h2>@Html.DisplayFor(m => item.SymbolStr)</h2>
-				<p>@Html.DisplayFor(m => item.Name)</p>
+				<h2>@symbol.SymbolStr</h2>
+				<p>@symbol.Name</p>
+				<p>
+					HTML:
+					@if (symbol.HtmlEntity != null) {
+						<code>&amp;@symbol.HtmlEntity</code>@: or
+					}
+					<code>&amp;#@utfCode;</code>
+				</p>
+				<p>UTF: <code>U+@Convert.ToString(utfCode, 16)</code></p>
+				<p class="conf">@Html.ActionLink("Drawings", MVC.SymbolDrawings.Index(symbol.SymbolId))</p>
 			</div>
 		</li>
 	}
