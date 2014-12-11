@@ -1,60 +1,55 @@
-﻿@model Mausr.Web.Models.ApplicationUser
+﻿@model UserViewModel
 
 @{
-    ViewBag.Title = "Details";
+	var user = Model.User;
+	var roles = Model.RoleNamesLookup;
+	ViewBag.Title = "Details of user " + user.UserName;
 }
 
-<h2>Details</h2>
+<h1>@ViewBag.Title</h1>
 
 <div>
-    <h4>ApplicationUser</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>@Html.DisplayNameFor(m => user.UserName)</dt>
+		<dd>@Html.DisplayFor(m => user.UserName)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+		<dt>@Html.DisplayNameFor(m => user.Roles)</dt>
+		<dd>@string.Join(", ", user.Roles.Select(r => roles[r.RoleId]))</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmailConfirmed)
-        </dd>
+		<dt>@Html.DisplayNameFor(m => user.Email)</dt>
+		<dd>@Html.DisplayFor(m => user.Email)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LockoutEndDateUtc)
-        </dd>
+		<dt>@Html.DisplayNameFor(m => user.EmailConfirmed)</dt>
+		<dd>@Html.DisplayFor(m => user.EmailConfirmed)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LockoutEnabled)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.LockoutEnabled)
-        </dd>
+		<dt>@Html.DisplayNameFor(m => user.LockoutEndDateUtc)</dt>
+		<dd>@Html.DisplayFor(m => user.LockoutEndDateUtc)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AccessFailedCount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AccessFailedCount)
-        </dd>
+		<dt>@Html.DisplayNameFor(m => user.LockoutEnabled)</dt>
+		<dd>@Html.DisplayFor(m => user.LockoutEnabled)</dd>
 
-    </dl>
+		<dt>@Html.DisplayNameFor(m => user.AccessFailedCount)</dt>
+		<dd>@Html.DisplayFor(m => user.AccessFailedCount)</dd>
+
+	</dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+	@Html.ActionLink("Edit", "Edit", new { id = user.Id }) |
+	@Html.ActionLink("Back to List", "Index")
 </p>
+
+
+<h3>Add roles</h3>
+<ul>
+	@foreach (var role in roles.Keys.Except(user.Roles.Select(r => r.RoleId))) {
+		<li>@Html.ActionLink(roles[role], MVC.Administration.Users.AddRole(user.Id, roles[role]))</li>
+	}
+</ul>
+
+<h3>Remove roles</h3>
+<ul>
+	@foreach (var role in user.Roles) {
+		<li>@Html.ActionLink(roles[role.RoleId], MVC.Administration.Users.RemoveRole(user.Id, roles[role.RoleId]))</li>
+	}
+</ul>

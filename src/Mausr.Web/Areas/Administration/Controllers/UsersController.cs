@@ -2,8 +2,11 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Mausr.Web.Areas.Administration.Models;
 using Mausr.Web.Entities;
 using Mausr.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Mausr.Web.Areas.Administration.Controllers {
 	[Authorize(Roles = RolesHelper.Admin)]
@@ -16,19 +19,27 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 		}
 
 
-		public virtual ActionResult Index() {
-			return View(db.Users.Include(u => u.Roles).ToList());
+		public virtual ActionResult Index(int? page) {
+			return View(new UsersViewModel() {
+				Users = db.Users.OrderBy(u => u.Id).ToPagination(page, 20, p => Url.Action(Actions.Index(p))),
+				RoleNamesLookup = db.Roles.ToDictionary(r => r.Id, r => r.Name),
+			});
 		}
 
 		public virtual ActionResult Details(string id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
+
 			ApplicationUser applicationUser = db.Users.Find(id);
 			if (applicationUser == null) {
 				return HttpNotFound();
 			}
-			return View(applicationUser);
+
+			return View(new UserViewModel() {
+				User = applicationUser,
+				RoleNamesLookup = db.Roles.ToDictionary(r => r.Id, r => r.Name),
+			});
 		}
 
 
@@ -36,11 +47,35 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
+
 			ApplicationUser applicationUser = db.Users.Find(id);
 			if (applicationUser == null) {
 				return HttpNotFound();
 			}
+
 			return View(applicationUser);
+		}
+
+		public virtual ActionResult AddRole(string id, string role) {
+			if (id == null || role == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+			userManager.AddToRole(id, role);
+
+			return RedirectToAction(Actions.Details(id));
+		}
+
+		public virtual ActionResult RemoveRole(string id, string role) {
+			if (id == null || role == null) {
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+			userManager.RemoveFromRole(id, role);
+
+			return RedirectToAction(Actions.Details(id));
 		}
 
 		[HttpPost]

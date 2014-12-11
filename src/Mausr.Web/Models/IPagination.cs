@@ -25,7 +25,7 @@ namespace Mausr.Web.Models {
 
 	public static class IPaginationExts {
 
-		public static IEnumerable<T> ToPagination<T>(this IQueryable<T> seq, int? pageNumber, int itemsPerPage,
+		public static Pagination<T> ToPagination<T>(this IQueryable<T> seq, int? pageNumber, int itemsPerPage,
 				Func<int, string> urlFunc, int advance = 2, Func<int, string> labelSelector = null) {
 			return new Pagination<T>(seq, pageNumber ?? 1, itemsPerPage, urlFunc, advance, labelSelector);
 		}

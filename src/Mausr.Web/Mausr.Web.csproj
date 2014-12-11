@@ -300,6 +300,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Administration\Models\UsersViewModel.cs" />
+    <Compile Include="Areas\Administration\Models\UserViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DrawingsController.cs" />
     <Compile Include="Controllers\TeachController.cs" />
@@ -501,7 +503,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\Default\" />
     <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Views\Shared\EditorTemplates\" />

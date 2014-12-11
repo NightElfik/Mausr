@@ -27,9 +27,11 @@
 					 width="@imageSize" height="@imageSize" />
 				<p class="small">@drawing.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
 				<p class="small">Drawn using @(drawing.DrawnUsingTouch ? "touch" : "mouse")</p>
+				@if (drawing.Creator != null) {
+					<p>By @drawing.Creator.UserName</p>
+				}
 				@Html.ActionLink("Delete", "Delete", new { id = drawing.SymbolDrawingId })
 			</div>
 		}
 	</div>
 </div>
-

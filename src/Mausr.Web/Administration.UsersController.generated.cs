@@ -56,6 +56,12 @@ namespace Mausr.Web.Areas.Administration.Controllers
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult Index()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Details()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Details);
@@ -65,6 +71,18 @@ namespace Mausr.Web.Areas.Administration.Controllers
         public virtual System.Web.Mvc.ActionResult Edit()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult AddRole()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddRole);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult RemoveRole()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.RemoveRole);
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -97,6 +115,8 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public readonly string Index = "Index";
             public readonly string Details = "Details";
             public readonly string Edit = "Edit";
+            public readonly string AddRole = "AddRole";
+            public readonly string RemoveRole = "RemoveRole";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
         }
@@ -107,11 +127,21 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public const string Index = "Index";
             public const string Details = "Details";
             public const string Edit = "Edit";
+            public const string AddRole = "AddRole";
+            public const string RemoveRole = "RemoveRole";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
         }
 
 
+        static readonly ActionParamsClass_Index s_params_Index = new ActionParamsClass_Index();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_Index IndexParams { get { return s_params_Index; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_Index
+        {
+            public readonly string page = "page";
+        }
         static readonly ActionParamsClass_Details s_params_Details = new ActionParamsClass_Details();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Details DetailsParams { get { return s_params_Details; } }
@@ -128,6 +158,24 @@ namespace Mausr.Web.Areas.Administration.Controllers
         {
             public readonly string id = "id";
             public readonly string applicationUser = "applicationUser";
+        }
+        static readonly ActionParamsClass_AddRole s_params_AddRole = new ActionParamsClass_AddRole();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_AddRole AddRoleParams { get { return s_params_AddRole; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_AddRole
+        {
+            public readonly string id = "id";
+            public readonly string role = "role";
+        }
+        static readonly ActionParamsClass_RemoveRole s_params_RemoveRole = new ActionParamsClass_RemoveRole();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_RemoveRole RemoveRoleParams { get { return s_params_RemoveRole; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_RemoveRole
+        {
+            public readonly string id = "id";
+            public readonly string role = "role";
         }
         static readonly ActionParamsClass_Delete s_params_Delete = new ActionParamsClass_Delete();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -173,13 +221,14 @@ namespace Mausr.Web.Areas.Administration.Controllers
         public T4MVC_UsersController() : base(Dummy.Instance) { }
 
         [NonAction]
-        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void IndexOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? page);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Index()
+        public override System.Web.Mvc.ActionResult Index(int? page)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
-            IndexOverride(callInfo);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "page", page);
+            IndexOverride(callInfo, page);
             return callInfo;
         }
 
@@ -204,6 +253,32 @@ namespace Mausr.Web.Areas.Administration.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             EditOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void AddRoleOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id, string role);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult AddRole(string id, string role)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddRole);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "role", role);
+            AddRoleOverride(callInfo, id, role);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void RemoveRoleOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id, string role);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult RemoveRole(string id, string role)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.RemoveRole);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "role", role);
+            RemoveRoleOverride(callInfo, id, role);
             return callInfo;
         }
 

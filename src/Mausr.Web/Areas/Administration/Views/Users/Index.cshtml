@@ -1,35 +1,37 @@
-﻿@model IEnumerable<ApplicationUser>
+﻿@model UsersViewModel
 
 @{
-	ViewBag.Title = "Index";
+	ViewBag.Title = "Users";
+	var users = Model.Users;
+	var roles = Model.RoleNamesLookup;
+	var pagination = users.Html();
 }
 
-<h2>Index</h2>
+<h1>@ViewBag.Title</h1>
 
 <p>
-	@Html.ActionLink("Create New", "Create")
+	@Html.ActionLink("Create New user", "Create")
 </p>
+
+@pagination
+
 <table class="table">
 	<tr>
-		<th>@Html.DisplayNameFor(m => m.UserName)</th>
-		<th>@Html.DisplayNameFor(m => m.Email)</th>
-		<th>@Html.DisplayNameFor(m => m.EmailConfirmed)</th>
-		<th>@Html.DisplayNameFor(m => m.Roles)</th>
-		<th>@Html.DisplayNameFor(m => m.LockoutEndDateUtc)</th>
-		<th>@Html.DisplayNameFor(m => m.LockoutEnabled)</th>
-		<th>@Html.DisplayNameFor(m => m.AccessFailedCount)</th>
-		<th>@Html.DisplayNameFor(m => m.SymbolDrawings)</th>
+		<th>UserName</th>
+		<th>Email</th>
+		<th>EmailConfirmed</th>
+		<th>Roles</th>
+		<th>AccessFailedCount</th>
+		<th>SymbolDrawings</th>
 		<th></th>
 	</tr>
 
-	@foreach (var user in Model) {
+	@foreach (var user in users) {
 		<tr>
 			<td>@Html.DisplayFor(m => user.UserName)</td>
 			<td>@Html.DisplayFor(m => user.Email)</td>
 			<td>@Html.DisplayFor(m => user.EmailConfirmed)</td>
-			<td>@string.Join(", ", user.Roles.Select(r => r.RoleId))</td>
-			<td>@Html.DisplayFor(m => user.LockoutEndDateUtc)</td>
-			<td>@Html.DisplayFor(m => user.LockoutEnabled)</td>
+			<td>@string.Join(", ", user.Roles.Select(r => roles[r.RoleId]))</td>
 			<td>@Html.DisplayFor(m => user.AccessFailedCount)</td>
 			<td>@string.Join(", ", user.SymbolDrawings.Count)</td>
 			<td>
@@ -41,3 +43,5 @@
 	}
 
 </table>
+
+@pagination
