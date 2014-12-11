@@ -18,6 +18,7 @@
 		<th>@Html.DisplayNameFor(m => m.LockoutEndDateUtc)</th>
 		<th>@Html.DisplayNameFor(m => m.LockoutEnabled)</th>
 		<th>@Html.DisplayNameFor(m => m.AccessFailedCount)</th>
+		<th>@Html.DisplayNameFor(m => m.SymbolDrawings)</th>
 		<th></th>
 	</tr>
 
@@ -30,6 +31,7 @@
 			<td>@Html.DisplayFor(m => user.LockoutEndDateUtc)</td>
 			<td>@Html.DisplayFor(m => user.LockoutEnabled)</td>
 			<td>@Html.DisplayFor(m => user.AccessFailedCount)</td>
+			<td>@string.Join(", ", user.SymbolDrawings.Count)</td>
 			<td>
 				@Html.ActionLink("Edit", "Edit", new { id = user.Id }) |
 				@Html.ActionLink("Details", "Details", new { id = user.Id }) |

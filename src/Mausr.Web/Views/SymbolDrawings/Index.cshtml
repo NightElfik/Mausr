@@ -10,21 +10,21 @@
 <h1>@ViewBag.Title</h1>
 
 <div class="row">
-	<div class="col-md-12 buttonsList">
-		@foreach (var symbol in Model.Symbols) {
-			@Html.ActionLink(symbol.SymbolStr, MVC.SymbolDrawings.Index(symbol.SymbolId),
-					new { @class = "btn btn-default btn-sm" + (symbol.SymbolId == activeSymbolId ? " btn-primary" : "") })
-		}
-	</div>
-</div>
-
-<div class="row">
 	<div class="col-md-12">
 		@foreach (var drawing in Model.Drawings) {
 			<div class="pull-left">
 				<img src="@Url.Action(MVC.SymbolDrawings.Img(drawing.SymbolDrawingId, imageSize, penSize, 0, false, true))"
 					 width="@imageSize" height="@imageSize" />
 			</div>
+		}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12 buttonsList">
+		@foreach (var symbol in Model.Symbols) {
+			@Html.ActionLink(symbol.SymbolStr, MVC.SymbolDrawings.Index(symbol.SymbolId),
+					new { @class = "btn btn-default btn-sm" + (symbol.SymbolId == activeSymbolId ? " btn-primary" : "") })
 		}
 	</div>
 </div>

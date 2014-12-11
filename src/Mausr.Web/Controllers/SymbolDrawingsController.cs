@@ -27,7 +27,11 @@ namespace Mausr.Web.Controllers {
 				Symbols = db.Symbols.OrderBy(d => d.SymbolStr).ToList(),
 				Drawings = id == null
 					? new List<SymbolDrawing>()
-					: db.SymbolDrawings.Where(d => d.Symbol.SymbolId == id.Value).ToList()
+					: db.SymbolDrawings
+						.Where(d => d.Symbol.SymbolId == id.Value)
+						.OrderBy(sd => sd.CreatedDateTime)
+						.Take(8 * 3)
+						.ToList()
 			});
 		}
 

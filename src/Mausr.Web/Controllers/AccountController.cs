@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Mausr.Web.Entities;
+using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -61,6 +63,7 @@ namespace Mausr.Web.Controllers {
 
 			switch (result) {
 				case SignInStatus.Success:
+					Logger.LogInfo<AccountController>("Login seccessfull: {0}", model.Email);
 					return RedirectToLocal(returnUrl);
 				case SignInStatus.LockedOut:
 					return View("Lockout");
@@ -68,6 +71,7 @@ namespace Mausr.Web.Controllers {
 					return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
 				case SignInStatus.Failure:
 				default:
+					Logger.LogInfo<AccountController>("Login failed: {0}", model.Email);
 					ModelState.AddModelError("", "Invalid login attempt.");
 					return View(model);
 			}
@@ -131,6 +135,8 @@ namespace Mausr.Web.Controllers {
 					// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 					// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 					// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+					Logger.LogInfo<AccountController>("Registration seccessfull: {0}", model.Email);
 
 					return RedirectToAction("Index", "Home");
 				}

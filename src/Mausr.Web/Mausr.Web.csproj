@@ -342,7 +342,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BatchDoneViewModel.cs" />
     <Compile Include="Models\BatchInitViewModel.cs" />
-    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Models\CreateSymbolDrawingViewModel.cs" />
     <Compile Include="Models\IPagination.cs" />
     <Compile Include="Models\Job.cs" />

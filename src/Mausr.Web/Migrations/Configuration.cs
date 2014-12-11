@@ -145,6 +145,9 @@ namespace Mausr.Web.Migrations {
 
 				new Symbol { SymbolStr = "♥", Name = "Black Heart Suit", HtmlEntity = "hearts" },
 				new Symbol { SymbolStr = "★", Name = "Black Star", HtmlEntity = "bigstar" },
+				new Symbol { SymbolStr = "✰", Name = "Shadowed White Star" },
+				new Symbol { SymbolStr = "✓", Name = "Check Mark" },
+				new Symbol { SymbolStr = "✗", Name = "Ballot X" },
 
 				new Symbol { SymbolStr = "←", Name = "Leftwards Arrow", HtmlEntity = "larr" },
 				new Symbol { SymbolStr = "↑", Name = "Upwards Arrow", HtmlEntity = "uarr" },
@@ -152,10 +155,6 @@ namespace Mausr.Web.Migrations {
 				new Symbol { SymbolStr = "↓", Name = "Downwards Arrow", HtmlEntity = "darr" },
 				new Symbol { SymbolStr = "↔", Name = "Left Right Arrow", HtmlEntity = "harr" },
 				new Symbol { SymbolStr = "↕", Name = "Up Down Arrow", HtmlEntity = "updownarrow" },
-				//new Symbol { SymbolStr = "↖", Name = "North West Arrow" },
-				//new Symbol { SymbolStr = "↗", Name = "North East Arrow" },
-				//new Symbol { SymbolStr = "↘", Name = "South East Arrow" },
-				//new Symbol { SymbolStr = "↙", Name = "South West Arrow" },
 				new Symbol { SymbolStr = "⇐", Name = "Leftwards Double Arrow", HtmlEntity = "lArr" },
 				new Symbol { SymbolStr = "⇒", Name = "Rightwards Double Arrow", HtmlEntity = "rArr" },
 
@@ -223,7 +222,11 @@ namespace Mausr.Web.Migrations {
 				new Symbol { SymbolStr = "ℕ", Name = "Double-Struck Capital N", HtmlEntity = "naturals" },
 				new Symbol { SymbolStr = "ℚ", Name = "Double-Struck Capital Q", HtmlEntity = "Qopf" },
 				new Symbol { SymbolStr = "ℝ", Name = "Double-Struck Capital R", HtmlEntity = "reals" },
-				new Symbol { SymbolStr = "ℤ", Name = "Double-Struck Capital Z", HtmlEntity = "integers" }
+				new Symbol { SymbolStr = "ℤ", Name = "Double-Struck Capital Z", HtmlEntity = "integers" },
+
+				new Symbol { SymbolStr = "❄", Name = "Snowflake" },
+				new Symbol { SymbolStr = "❅", Name = "Tight Trifoliate Snowflake" },
+				new Symbol { SymbolStr = "❆", Name = "Heavy Chevron Snowflake" }
 			);
 		}
 	}

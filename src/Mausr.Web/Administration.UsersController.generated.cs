@@ -208,10 +208,10 @@ namespace Mausr.Web.Areas.Administration.Controllers
         }
 
         [NonAction]
-        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.ApplicationUser applicationUser);
+        partial void EditOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Entities.ApplicationUser applicationUser);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Edit(Mausr.Web.Models.ApplicationUser applicationUser)
+        public override System.Web.Mvc.ActionResult Edit(Mausr.Web.Entities.ApplicationUser applicationUser)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Edit);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "applicationUser", applicationUser);

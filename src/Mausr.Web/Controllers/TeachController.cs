@@ -6,6 +6,8 @@ using Mausr.Core;
 using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
 
 namespace Mausr.Web.Controllers {
@@ -128,11 +130,12 @@ namespace Mausr.Web.Controllers {
 			if (drawing.LinesCount == 0) {
 				return null;
 			}
-
+			var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 			var sd = new SymbolDrawing() {
 				Symbol = symbol,
 				CreatedDateTime = DateTime.UtcNow,
 				DrawnUsingTouch = drawnUsingTouch,
+				Creator = User.Identity.IsAuthenticated ? userManager.FindById(User.Identity.GetUserId()) : null
 			};
 
 			sd.SetRawDrawing(drawing);

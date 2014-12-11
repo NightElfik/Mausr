@@ -23,6 +23,8 @@ namespace Mausr.Web.Entities {
 		[Required]
 		[Display(Name = "Drawn using touch")]
 		public bool DrawnUsingTouch { get; set; }
+
+		public virtual ApplicationUser Creator { get; set; }
 					
 		
 			
