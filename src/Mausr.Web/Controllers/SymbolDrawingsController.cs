@@ -38,6 +38,7 @@ namespace Mausr.Web.Controllers {
 
 		[HttpGet]
 		[Route("SymbolDrawings/Img/{normalized:bool}/{decorated:bool}/{rotation:int:min(-360):max(360)}/{imageSize:int:min(8):max(1024)}/{penSizePerc:int:min(1):max(30)}/{id:int:min(0)}.png")]
+		[OutputCache(CacheProfile = CacheProfileKeys.LongClientCache)]
 		public virtual ActionResult Img(int id, int imageSize, int penSizePerc, int rotation, bool normalized, bool decorated) {
 			var sd = db.SymbolDrawings.FirstOrDefault(x => x.SymbolDrawingId == id);
 			if (sd == null) {

@@ -38,7 +38,7 @@ namespace Mausr.Web.NeuralNet {
 		
 		public bool SetDefaultNetwork(string netId) {
 			var net = trainStorageManager.LoadNet(netId);
-			var settings = trainStorageManager.LoadTrainSettings(NetId);
+			var settings = trainStorageManager.LoadTrainSettings(netId);
 			if (net == null || settings == null) {
 				return false;
 			}

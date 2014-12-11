@@ -302,6 +302,7 @@
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
     <Compile Include="Areas\Administration\Models\UsersViewModel.cs" />
     <Compile Include="Areas\Administration\Models\UserViewModel.cs" />
+    <Compile Include="CacheProfileKeys.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DrawingsController.cs" />
     <Compile Include="Controllers\TeachController.cs" />
@@ -333,6 +334,10 @@
     <Compile Include="Hubs\ProgressHub.cs" />
     <Compile Include="Infrastructure\AppSettingsProvider.cs" />
     <Compile Include="Infrastructure\Logger.cs" />
+    <Compile Include="Migrations\201412110847250_InitialCreate.cs" />
+    <Compile Include="Migrations\201412110847250_InitialCreate.Designer.cs">
+      <DependentUpon>201412110847250_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\SymbolDrawingsViewModel.cs" />
     <Compile Include="NeuralNet\TrainData.cs" />
@@ -390,13 +395,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="404.html" />
     <Content Include="Css\font-awesome.css" />
     <Content Include="Css\font-awesome.min.css" />
     <Content Include="Css\bootstrap-theme.css" />
     <Content Include="Css\bootstrap-theme.min.css" />
     <Content Include="Css\bootstrap.css" />
     <Content Include="Css\bootstrap.min.css" />
-    <Content Include="Migrations\MigrationsCommands.txt" />
+    <Content Include="Error.html" />
+    <None Include="Migrations\MigrationsCommands.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Css\Site.css" />
@@ -419,6 +426,7 @@
     <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\fontawesome-webfont.eot" />
     <Content Include="Fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
@@ -441,9 +449,6 @@
     <Content Include="Scripts\Mausr.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -480,7 +485,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>T4MVC1.cs</LastGenOutput>
     </Content>
-    <Content Include="T4MVC.tt.hooks.t4" />
+    <None Include="T4MVC.tt.hooks.t4" />
     <Content Include="Areas\Administration\Views\Symbols\Create.cshtml" />
     <Content Include="Areas\Administration\Views\Symbols\Delete.cshtml" />
     <Content Include="Areas\Administration\Views\Symbols\Details.cshtml" />
@@ -518,6 +523,11 @@
       <Project>{d1fa2e1e-c60e-4c03-9743-eee5a94c9f7f}</Project>
       <Name>Mausr.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201412110847250_InitialCreate.resx">
+      <DependentUpon>201412110847250_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

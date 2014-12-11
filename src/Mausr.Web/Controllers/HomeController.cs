@@ -123,20 +123,20 @@ namespace Mausr.Web.Controllers {
 				return View(model);
 			}
 
-			string email = model.Email == null ? null : model.Email.Trim();
+			string email = model.Email == null ? "unknown@mausr.com" : model.Email.Trim();
 			string rawName = model.Name.Trim();
 			string subejct = model.Subject.Trim();
 			string body = model.Message.Trim();
 
 			string cleanName = CleanNameRegex.Replace(rawName, "_");
-			string from = string.Format("\"{0}\" <{1}>", cleanName, email == null ? "null" : email);
+			string from = string.Format("\"{0}\" <{1}>", cleanName, email);
 			string cleanSubject = CleanSubjectRegex.Replace(subejct, "_");
 
 			Logger.LogInfo<HomeController>("Contact message sent\n\tfrom: {0} <{1}>\n\tsubj: {2}\n\tmsg: {3}\n",
-				rawName, email == null ? "null" : email, subejct, body);
+				rawName, model.Email == null ? "null" : email, subejct, body);
 
 			try {
-				WebMail.Send("mausr@marekfiser.cz", cleanSubject + " [Mausr.com]", body, email == null ? null : from);
+				WebMail.Send("mausr@marekfiser.cz", cleanSubject + " [Mausr.com]", body, from);
 
 				ViewBag.Message = "E-mail sent successfully.";
 				return View();
@@ -150,7 +150,7 @@ namespace Mausr.Web.Controllers {
 		}
 
 		public virtual ActionResult TestMail() {
-			WebMail.Send("web@marekfiser.cz", "MarekFiser.com - test", "test");
+			WebMail.Send("mausr@marekfiser.cz", "Mausr.com - test", "test");
 			return HttpNotFound();
 		}
 

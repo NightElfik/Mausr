@@ -3,6 +3,7 @@ Enable-Migrations
 
 Update-Database
 
+Add-Migration "InitialCreate"
 
 Enable-Migrations -ContextTypeName db -MigrationsDirectory DataContexts\SymbolsMigrations
 Enable-Migrations -ContextTypeName IdentityDb -MigrationsDirectory DataContexts\IdentityMigrations
