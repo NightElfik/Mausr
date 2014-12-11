@@ -1,9 +1,23 @@
-﻿
+﻿@model DoneViewModel
+
 @{
-    ViewBag.Title = "Thank you!";
+	ViewBag.Title = "Thank you!";
 }
 
 <h1>Thank you!</h1>
 
+@if (Model.DrawingsCount > 0) {
+	<p>
+		Thanks for your time and contribution of @Model.DrawingsCount symbol drawings!
+	</p>
+}
+else {
+	<p>
+		Thanks for your time!
+	</p>
+}
+
+
+@Html.ActionLink("Teach more", MVC.Teach.StartTeachingAll(), new { @class = "btn btn-primary" })
 
 

@@ -100,7 +100,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2014 02:31:10</publishTime>
     </File>
     <File Include="bin/Mausr.Web.dll">
-      <publishTime>12/11/2014 04:44:46</publishTime>
+      <publishTime>12/11/2014 18:19:59</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
@@ -237,6 +237,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="packages.config">
       <publishTime>12/10/2014 15:53:02</publishTime>
     </File>
+    <File Include="robots.txt">
+      <publishTime>04/23/2012 08:02:26</publishTime>
+    </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>11/17/2014 15:26:37</publishTime>
     </File>
@@ -274,7 +277,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 17:54:50</publishTime>
     </File>
     <File Include="Scripts/Mausr.painter.js">
-      <publishTime>12/10/2014 01:04:41</publishTime>
+      <publishTime>12/11/2014 18:18:11</publishTime>
     </File>
     <File Include="Scripts/Mausr.trainer.js">
       <publishTime>12/08/2014 23:14:46</publishTime>
@@ -382,7 +385,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 15:20:37</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/11/2014 04:44:31</publishTime>
+      <publishTime>12/11/2014 15:53:18</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>12/11/2014 03:18:58</publishTime>
@@ -397,10 +400,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 01:01:07</publishTime>
     </File>
     <File Include="Views/Teach/Done.cshtml">
-      <publishTime>12/09/2014 00:01:53</publishTime>
+      <publishTime>12/11/2014 15:52:36</publishTime>
     </File>
     <File Include="Views/Teach/Index.cshtml">
-      <publishTime>12/10/2014 21:42:37</publishTime>
+      <publishTime>12/11/2014 15:57:22</publishTime>
     </File>
     <File Include="Views/Train/Details.cshtml">
       <publishTime>12/08/2014 23:10:13</publishTime>

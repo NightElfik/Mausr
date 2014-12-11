@@ -138,9 +138,9 @@ MausrPainter.prototype.initContext = function (context) {
 	context.lineWidth = 8;
 };
 
-MausrPainter.prototype.now = function (x) {
-	return Math.round(performance.now());
-};
+MausrPainter.prototype.now = performance.now
+	? function () { return Math.round(performance.now()); }
+	: function () { return Math.round(new Date().getTime()); }
 
 MausrPainter.prototype.startLine = function (x, y) {
 	var self = this;
@@ -346,7 +346,7 @@ MausrPainter.prototype.predict = function () {
 		data: {
 			JsonData: linesData,
 			DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False',
-			Giud: self.guid
+			Guid: self.guid
 		},
 		success: function (data) {
 			self.$spinner.hide();

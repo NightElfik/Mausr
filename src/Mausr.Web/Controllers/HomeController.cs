@@ -71,6 +71,7 @@ namespace Mausr.Web.Controllers {
 			if (drawing == null) {
 				drawing = new Drawing();
 				drawing.DrawnDateTime = DateTime.UtcNow;
+				drawing.ClientGuid = model.Guid;
 				db.Drawings.Add(drawing);
 			}
 			else {
@@ -81,8 +82,6 @@ namespace Mausr.Web.Controllers {
 
 			var firstResult = rawResults.FirstOrDefault();
 
-			// TODO: fix problems with image cache.
-			drawing.ClientGuid = model.Guid;
 			drawing.TopSymbol = firstResult == null ? null : firstResult.Symbol;
 			drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Rating;
 			drawing.DrawnUsingTouch = model.DrawnUsingTouch;

@@ -105,7 +105,16 @@ namespace Mausr.Web.Controllers {
 		}
 
 		public virtual ActionResult Done() {
-			return View();
+			int drawingsCount = -1;
+			if (User.Identity.IsAuthenticated) {				
+				var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+				var user = userManager.FindByName(User.Identity.Name);
+				drawingsCount = user.SymbolDrawings.Count();
+			}
+
+			return View(new DoneViewModel() {
+				DrawingsCount = drawingsCount
+			});
 		}
 
 		private Symbol getSymbol(int batchNumber, int symbolNumber) {

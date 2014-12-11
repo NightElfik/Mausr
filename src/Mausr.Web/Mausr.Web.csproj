@@ -339,6 +339,7 @@
       <DependentUpon>201412110847250_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ContactModel.cs" />
+    <Compile Include="Models\DoneViewModel.cs" />
     <Compile Include="Models\SymbolDrawingsViewModel.cs" />
     <Compile Include="NeuralNet\TrainData.cs" />
     <Compile Include="NeuralNet\TrainStorageManager.cs" />
@@ -413,6 +414,7 @@
     <Content Include="Fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Css\bootstrap-theme.css.map" />
     <Content Include="Css\bootstrap.css.map" />
+    <Content Include="robots.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Administration\Views\web.config" />
