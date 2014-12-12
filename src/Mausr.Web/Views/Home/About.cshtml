@@ -30,7 +30,7 @@
 	<div class="col-md-6">
 		<p>
 			The core library uses neural networks for the recognition.
-			Data are gathered as 2D points and sent to server is this compact form to reduce bandwidth.
+			Data are gathered as line segments and sent to the server in this compact form to reduce bandwidth.
 			Server reconstructs the drawing in desired resolution and runs the image through trained neural network.
 			Then top 8 results are returned to the client (only results with at least 5% confidence are considered).
 		</p>

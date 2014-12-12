@@ -78,6 +78,18 @@ namespace Mausr.Web.Controllers
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SetDefault);
         }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult DeleteNet()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteNet);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult DeleteNetPost()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteNetPost);
+        }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public TrainController Actions { get { return MVC.Train; } }
@@ -95,31 +107,36 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
-            public readonly string TrainNewNet = "TrainNewNet";
+            public readonly string NetSettings = "NetSettings";
             public readonly string Details = "Details";
             public readonly string StartTraining = "StartTraining";
             public readonly string StopTraining = "StopTraining";
             public readonly string SetDefault = "SetDefault";
+            public readonly string DeleteNet = "DeleteNet";
+            public readonly string DeleteNetPost = "DeleteNet";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
-            public const string TrainNewNet = "TrainNewNet";
+            public const string NetSettings = "NetSettings";
             public const string Details = "Details";
             public const string StartTraining = "StartTraining";
             public const string StopTraining = "StopTraining";
             public const string SetDefault = "SetDefault";
+            public const string DeleteNet = "DeleteNet";
+            public const string DeleteNetPost = "DeleteNet";
         }
 
 
-        static readonly ActionParamsClass_TrainNewNet s_params_TrainNewNet = new ActionParamsClass_TrainNewNet();
+        static readonly ActionParamsClass_NetSettings s_params_NetSettings = new ActionParamsClass_NetSettings();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_TrainNewNet TrainNewNetParams { get { return s_params_TrainNewNet; } }
+        public ActionParamsClass_NetSettings NetSettingsParams { get { return s_params_NetSettings; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_TrainNewNet
+        public class ActionParamsClass_NetSettings
         {
+            public readonly string id = "id";
             public readonly string model = "model";
         }
         static readonly ActionParamsClass_Details s_params_Details = new ActionParamsClass_Details();
@@ -155,6 +172,22 @@ namespace Mausr.Web.Controllers
         {
             public readonly string id = "id";
         }
+        static readonly ActionParamsClass_DeleteNet s_params_DeleteNet = new ActionParamsClass_DeleteNet();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_DeleteNet DeleteNetParams { get { return s_params_DeleteNet; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_DeleteNet
+        {
+            public readonly string id = "id";
+        }
+        static readonly ActionParamsClass_DeleteNetPost s_params_DeleteNetPost = new ActionParamsClass_DeleteNetPost();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_DeleteNetPost DeleteNetPostParams { get { return s_params_DeleteNetPost; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_DeleteNetPost
+        {
+            public readonly string id = "id";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -165,13 +198,15 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string DeleteNet = "DeleteNet";
                 public readonly string Details = "Details";
                 public readonly string Index = "Index";
-                public readonly string TrainNewNet = "TrainNewNet";
+                public readonly string NetSettings = "NetSettings";
             }
+            public readonly string DeleteNet = "~/Views/Train/DeleteNet.cshtml";
             public readonly string Details = "~/Views/Train/Details.cshtml";
             public readonly string Index = "~/Views/Train/Index.cshtml";
-            public readonly string TrainNewNet = "~/Views/Train/TrainNewNet.cshtml";
+            public readonly string NetSettings = "~/Views/Train/NetSettings.cshtml";
         }
     }
 
@@ -192,25 +227,27 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void TrainNewNetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void NetSettingsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult TrainNewNet()
+        public override System.Web.Mvc.ActionResult NetSettings(string id)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TrainNewNet);
-            TrainNewNetOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.NetSettings);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            NetSettingsOverride(callInfo, id);
             return callInfo;
         }
 
         [NonAction]
-        partial void TrainNewNetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, Mausr.Web.Models.TrainViewModel model);
+        partial void NetSettingsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id, Mausr.Web.Models.TrainViewModel model);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult TrainNewNet(Mausr.Web.Models.TrainViewModel model)
+        public override System.Web.Mvc.ActionResult NetSettings(string id, Mausr.Web.Models.TrainViewModel model)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TrainNewNet);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.NetSettings);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            TrainNewNetOverride(callInfo, model);
+            NetSettingsOverride(callInfo, id, model);
             return callInfo;
         }
 
@@ -260,6 +297,30 @@ namespace Mausr.Web.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.SetDefault);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             SetDefaultOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteNetOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DeleteNet(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteNet);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DeleteNetOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DeleteNetPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DeleteNetPost(string id)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteNetPost);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
+            DeleteNetPostOverride(callInfo, id);
             return callInfo;
         }
 

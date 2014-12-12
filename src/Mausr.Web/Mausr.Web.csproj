@@ -500,13 +500,14 @@
     <Content Include="Views\Teach\Index.cshtml" />
     <Content Include="Views\Teach\Batch.cshtml" />
     <Content Include="Views\Teach\Done.cshtml" />
-    <Content Include="Views\Train\TrainNewNet.cshtml" />
+    <Content Include="Views\Train\NetSettings.cshtml" />
     <Content Include="Areas\Administration\Views\Symbols\Collisions.cshtml" />
     <Content Include="Views\Train\Details.cshtml" />
     <Content Include="Views\Train\Index.cshtml" />
     <Content Include="Views\Symbols\Index.cshtml" />
     <Content Include="Views\SymbolDrawings\Index.cshtml" />
     <Content Include="Views\Drawings\Index.cshtml" />
+    <Content Include="Views\Train\DeleteNet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

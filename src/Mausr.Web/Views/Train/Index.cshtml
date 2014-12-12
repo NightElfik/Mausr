@@ -5,7 +5,7 @@
 
 <h1>@ViewBag.Title</h1>
 
-@Html.ActionLink("Train new network", MVC.Train.TrainNewNet())
+@Html.ActionLink("Train new network", MVC.Train.NetSettings(null))
 
 <ul>
 	@foreach (var net in Model.AllNets) {

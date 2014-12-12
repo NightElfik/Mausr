@@ -28,7 +28,7 @@ namespace Mausr.Web.NeuralNet {
 
 
 		public string CreateSafeNetId(string netName) {
-			return MyUrl.UrlizeString(DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss-") + netName);
+			return MyUrl.UrlizeString(netName);
 		}
 
 		public IEnumerable<string> LoadAllSavedNets() {
@@ -109,6 +109,22 @@ namespace Mausr.Web.NeuralNet {
 			return load<TrainData>(netId, TRAIN_DATA_FILE_NAME);
 		}
 
+		public bool DeleteNet(string netId) {
+			string baseDir = getSafeBaseDirPath(netId);
+			if (baseDir == null) {
+				return false;
+			}
+
+			try {
+				Directory.Delete(baseDir, true);
+				return true;
+			}
+			catch (Exception ex) {
+				return false;
+			}
+		}
+
+
 		private bool save<T>(string netId, T data, string fileName) {
 			string baseDir = getSafeBaseDirPath(netId);
 			if (baseDir == null) {
@@ -159,6 +175,5 @@ namespace Mausr.Web.NeuralNet {
 			}
 
 		}
-
 	}
 }

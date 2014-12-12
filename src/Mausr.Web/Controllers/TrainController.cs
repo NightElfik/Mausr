@@ -32,25 +32,38 @@ namespace Mausr.Web.Controllers {
 			});
 		}
 
-		public virtual ActionResult TrainNewNet() {
-			Logger.LogInfo<TrainController>("Train new net opened");
+		[HttpGet]
+		public virtual ActionResult NetSettings(string id = null) {
+			Logger.LogInfo<TrainController>("Net settings opened (id=[{0}])", id ?? "null");
 
-			var model = new TrainViewModel() {
-				InputImgSizePx = 20,
-				PenThicknessPerc = 14,
-				GenerateExtraInputsByRotation = 10,
-				NormalizeInput = true,
-				LearnRounds = 1,
-				BatchSize = 0,
-				MaxIteratinosPerBatch = 400,
-				RegularizationLambda = 0.5,
-				LearningRate = 0.4,
-				MomentumStartPerc = 60,
-				MomentumEndPerc = 90,
-				MinDerivativeMagnitude = 1e-3,
-				TestDataSetSizePerc = 10,
-				TrainEvaluationIters = 5,
-			};
+			TrainViewModel model = null;
+
+			if (id != null) {
+				var settings = trainStorageManager.LoadTrainSettings(id);
+				if (settings != null) {
+					model = settings.ShallowCloneAs<TrainViewModel>();
+					model.HiddenLayersSizesStr = string.Join("; ", settings.HiddenLayersSizes);
+				}
+			}
+
+			if (model == null) {
+				model = new TrainViewModel() {
+					InputImgSizePx = 20,
+					PenThicknessPerc = 14,
+					GenerateExtraInputsByRotation = 10,
+					NormalizeInput = true,
+					LearnRounds = 1,
+					BatchSize = 0,
+					MaxIteratinosPerBatch = 200,
+					RegularizationLambda = 0.5,
+					LearningRate = 0.3,
+					MomentumStartPerc = 60,
+					MomentumEndPerc = 90,
+					MinDerivativeMagnitude = 1e-3,
+					TestDataSetSizePerc = 10,
+					TrainEvaluationIters = 5,
+				};
+			}
 
 			initModel(model);
 
@@ -58,9 +71,14 @@ namespace Mausr.Web.Controllers {
 		}
 
 		[HttpPost]
-		public virtual ActionResult TrainNewNet(TrainViewModel model) {
+		public virtual ActionResult NetSettings(string id = null, TrainViewModel model = null) {
 			if (ModelState.IsValid) {
-				model.NetId = trainStorageManager.CreateSafeNetId(model.NetName);
+				if (string.IsNullOrWhiteSpace(id)) {
+					model.NetId = trainStorageManager.CreateSafeNetId(DateTime.UtcNow.ToString("yyyy-MM-dd-hh-mm-ss-") + model.NetName);
+				}
+				else {
+					model.NetId = trainStorageManager.CreateSafeNetId(id);
+				}
 
 				model.HiddenLayersSizes = parseInts(model.HiddenLayersSizesStr);
 				bool hlValid = model.HiddenLayersSizes != null
@@ -141,6 +159,28 @@ namespace Mausr.Web.Controllers {
 				success = success,
 				message = success ? "Default network was set successfully." : "Failed to set default network."
 			});
+		}
+
+		[HttpGet]
+		public virtual ActionResult DeleteNet(string id) {
+			return View((object)id);
+		}
+
+		[HttpPost]
+		[ActionName("DeleteNet")]
+		public virtual ActionResult DeleteNetPost(string id) {
+			if (id == null) {
+				return HttpNotFound();
+			}
+
+			string defaultNetName = trainStorageManager.LoadDefaultNetName();
+			if (id == defaultNetName) {				
+				return HttpNotFound();
+			}
+
+			trainStorageManager.DeleteNet(id);
+
+			return RedirectToAction(Actions.Index());
 		}
 
 		private bool startTrainig(string id) {

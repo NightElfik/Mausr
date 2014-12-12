@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace Mausr.Web.Controllers {
 	public partial class HomeController : Controller {
 
-		private const int GUID_CHECK_WINDOW_SECONDS = 60;
+		private const int GUID_CHECK_WINDOW_SECONDS = 5;
 
 		private static readonly Regex CleanNameRegex = new Regex(@"[^a-zA-Z0-9!#$%&'*+-/=?^_{|}~(),:;\[\] ]+",
 			RegexOptions.Compiled);

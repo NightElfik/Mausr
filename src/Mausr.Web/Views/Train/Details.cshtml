@@ -12,6 +12,8 @@
 
 <h3>Train parameters</h3>
 
+@Html.ActionLink("Edit train parameters", MVC.Train.NetSettings(Model.TrainSettings.NetId))
+
 <div class="row">
 	<div class="col-sm-3">
 		<dl class="dl-horizontal">
@@ -98,6 +100,10 @@
 
 <div id="msgsContainer" class="well">
 
+</div>
+
+<div class="row">
+	@Html.ActionLink("Delete network", MVC.Train.DeleteNet(Model.TrainSettings.NetId), new { @class = "btn btn-default" })
 </div>
 
 @section scripts {
