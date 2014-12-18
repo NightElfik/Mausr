@@ -45,7 +45,7 @@ namespace Mausr.Web.NeuralNet {
 			}
 
 			try {
-				using (var stream = File.OpenWrite(Path.Combine(baseDir, TRAIN_SETTINGS_FILE_NAME))) {
+				using (var stream = File.Create(Path.Combine(baseDir, TRAIN_SETTINGS_FILE_NAME))) {
 					trainSettingsSerializer.Serialize(stream, settings);
 					return true;
 				}
@@ -132,7 +132,7 @@ namespace Mausr.Web.NeuralNet {
 			}
 
 			try {
-				using (var stream = File.OpenWrite(Path.Combine(baseDir, fileName))) {
+				using (var stream = File.Create(Path.Combine(baseDir, fileName))) {
 					binarySerializer.Serialize(stream, data);
 					return true;
 				}

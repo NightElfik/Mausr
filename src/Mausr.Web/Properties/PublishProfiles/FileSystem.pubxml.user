@@ -100,7 +100,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2014 02:31:10</publishTime>
     </File>
     <File Include="bin/Mausr.Web.dll">
-      <publishTime>12/11/2014 18:19:59</publishTime>
+      <publishTime>12/12/2014 02:46:08</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
@@ -352,7 +352,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 23:07:24</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
-      <publishTime>12/11/2014 02:32:27</publishTime>
+      <publishTime>12/11/2014 23:29:53</publishTime>
     </File>
     <File Include="Views/Home/Contact.cshtml">
       <publishTime>12/11/2014 02:04:02</publishTime>
@@ -385,7 +385,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 15:20:37</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/11/2014 15:53:18</publishTime>
+      <publishTime>12/11/2014 20:46:37</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>12/11/2014 03:18:58</publishTime>
@@ -405,11 +405,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Teach/Index.cshtml">
       <publishTime>12/11/2014 15:57:22</publishTime>
     </File>
+    <File Include="Views/Train/DeleteNet.cshtml">
+      <publishTime>12/11/2014 20:44:13</publishTime>
+    </File>
     <File Include="Views/Train/Details.cshtml">
-      <publishTime>12/08/2014 23:10:13</publishTime>
+      <publishTime>12/11/2014 20:41:48</publishTime>
     </File>
     <File Include="Views/Train/Index.cshtml">
-      <publishTime>12/05/2014 00:50:07</publishTime>
+      <publishTime>12/11/2014 20:43:40</publishTime>
+    </File>
+    <File Include="Views/Train/NetSettings.cshtml">
+      <publishTime>12/12/2014 01:43:18</publishTime>
     </File>
     <File Include="Views/Train/TrainNewNet.cshtml">
       <publishTime>12/05/2014 00:49:08</publishTime>

@@ -15,7 +15,7 @@
 		<div class="form-group">
 			@Html.LabelFor(m => m.NetName, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(m => m.NetName, new { htmlAttributes = new { @class = "form-control", placeholder = "My network i-100-50-o" } })
+				@Html.EditorFor(m => m.NetName, new { htmlAttributes = new { @class = "form-control", placeholder = "My network 3" } })
 				@Html.ValidationMessageFor(m => m.NetName, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Human readable network name for identification later on.</small></p>
 			</div>
