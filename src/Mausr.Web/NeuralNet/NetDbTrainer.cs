@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
@@ -28,10 +31,12 @@ namespace Mausr.Web.NeuralNet {
 
 		private TrainData trainData;
 
+		//private List<RawDrawing> trainDrawings;
 		private Matrix<double> trainInputs;
 		private int[] trainOutNeuronIndices;
 		private int[] trainOutIds;
 
+		//private List<RawDrawing> testDrawings;
 		private Matrix<double> testInputs;
 		private int[] testOutNeuronIndices;
 		private int[] testOutIds;
@@ -92,14 +97,20 @@ namespace Mausr.Web.NeuralNet {
 					if (!storageManager.SaveNet(netId, network)) {
 						sendMessage("Failed to save the network.");
 					}
+
 					if (!storageManager.SaveTrainData(netId, trainData)) {
 						sendMessage("Failed to save training data.");
+					}
+
+					sendMessage("Saving results visualization.");
+					if (!createAndSaveResultsVis(3, 0.01, 40)) {
+						sendMessage("Failed visualize results.");
 					}
 				}
 
 				stopwatch.Stop();
 			}
-			
+
 			sendMessage("All done.");
 		}
 
@@ -143,14 +154,76 @@ namespace Mausr.Web.NeuralNet {
 			};
 
 			int testSamplesCount = 1 + (trainSettings.TestDataSetSizePerc * inputsAndDrawings.Count / 100);
+			{
+				var testSet = inputsAndDrawings.Take(testSamplesCount).ToList();
+				var testDrawings = testSet.Select(x => x.RawDrawing).ToList();
 
-			testInputs = ic.CreateInputsMatrix(inputsAndDrawings.Take(testSamplesCount).Select(x => x.RawDrawing), rasterizer);
-			testOutIds = inputsAndDrawings.Take(testSamplesCount).Select(x => x.SymbolId).ToArray();
-			testOutNeuronIndices = ic.CreateOutIndicesFromIds(testOutIds, network);
+				testInputs = ic.CreateInputsMatrix(testDrawings, rasterizer);
+				testOutIds = testSet.Select(x => x.SymbolId).ToArray();
+				testOutNeuronIndices = ic.CreateOutIndicesFromIds(testOutIds, network);
+			}
+			{
+				var trainSet = inputsAndDrawings.Skip(testSamplesCount).ToList();
+				var trainDrawings = trainSet.Select(x => x.RawDrawing).ToList();
 
-			trainInputs = ic.CreateInputsMatrix(inputsAndDrawings.Skip(testSamplesCount).Select(x => x.RawDrawing), rasterizer);
-			trainOutIds = inputsAndDrawings.Skip(testSamplesCount).Select(x => x.SymbolId).ToArray();
-			trainOutNeuronIndices = ic.CreateOutIndicesFromIds(trainOutIds, network);
+				trainInputs = ic.CreateInputsMatrix(trainDrawings, rasterizer);
+				trainOutIds = trainSet.Select(x => x.SymbolId).ToArray();
+				trainOutNeuronIndices = ic.CreateOutIndicesFromIds(trainOutIds, network);
+			}
+		}
+
+		private bool createAndSaveResultsVis(int predsCount, double minActivation, int imgCols) {
+			bool result = true;
+			using (var trainImg = createResultsVis(trainInputs, predsCount, minActivation, trainOutIds, imgCols)) {
+				result &= storageManager.SaveTrainResultsImg(netId, trainImg);
+			}
+
+			using (var testImg = createResultsVis(testInputs, predsCount, minActivation, testOutIds, imgCols)) {
+				result &= storageManager.SaveTestResultsImg(netId, testImg);
+			}
+
+			return result;
+		}
+
+		private Bitmap createResultsVis(Matrix<double> inputs, int predsCount, double minActivation,
+				int[] outIds, int imgCols) {
+			var predictions = netEvaluator.PredictTopN(inputs, predsCount, minActivation);
+			
+			// Draw images directly from net input to be able to visually debug rasterization.
+			var visData = predictions.Zip(outIds, (preds, correctOutId) => {
+				int index = 0;
+				int outId = -1;
+				double outVal = 0;
+
+				foreach (var p in preds) {
+					if (p.OutputId == correctOutId) {
+						outId = p.OutputId;
+						outVal = p.NeuronOutputValue;
+						break;
+					}
+					index += 1;
+				}
+
+				Color c;
+				if (outId < 0) {
+					c = Color.LightPink;
+				}
+				else if (index == 0) {
+					c = Color.White;
+				}
+				else {
+					c = Color.Yellow;
+				}
+
+				return new {
+					Color = c,
+					OutVal = outVal,
+				};
+			}).Zip(inputs.EnumerateRows(), (data, row) => {
+				return new Tuple<Vector<double>, Color, string>(row, data.Color, ((int)Math.Round(data.OutVal * 100)).ToString());
+			}).ToList();
+
+			return new Rasterizer().DrawDataToGrid(visData, trainSettings.InputImgSizePx, Color.Gray, imgCols);
 		}
 
 		private void trainIterationCallback(Vector<double> point) {

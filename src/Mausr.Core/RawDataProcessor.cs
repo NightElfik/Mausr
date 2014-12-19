@@ -41,9 +41,20 @@ namespace Mausr.Core {
 				}
 			}
 
+			if (float.IsInfinity(minX) || float.IsInfinity(minY) || float.IsInfinity(maxX) || float.IsInfinity(maxY)) {
+				// No points. Nothing to normalize.
+				return;
+			}
+			
 			float wid = maxX - minX;
 			float hei = maxY - minY;
-			float scale = Math.Max(wid, hei);
+			float scale = Math.Max(wid, hei);		
+
+			if (scale < 1e-6) {
+				// Single point or way too small. Ignore.
+				return;
+			}
+
 			float xOffset = (1 - wid / scale) / 2;
 			float yOffset = (1 - hei / scale) / 2;
 			Contract.Assert(xOffset == 0 || yOffset == 0);

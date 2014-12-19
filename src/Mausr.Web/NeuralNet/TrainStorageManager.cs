@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using Mausr.Core.NeuralNet;
 using Mausr.Web.Infrastructure;
-using Mausr.Web.Models;
 
 namespace Mausr.Web.NeuralNet {
 	public class TrainStorageManager {
@@ -15,6 +16,8 @@ namespace Mausr.Web.NeuralNet {
 		public const string NET_FILE_NAME = "NeuralNetwork.bin";
 		public const string TRAIN_DATA_FILE_NAME = "TrainData.bin";
 		public const string DEFAULT_NET_FILE_NAME = "DefaultNetId.txt";
+		public const string TRAIN_RESULT_IMAGE_NAME = "TrainResults.png";
+		public const string TEST_RESULT_IMAGE_NAME = "TestResults.png";
 
 		protected readonly AppSettingsProvider appSettings;
 
@@ -124,6 +127,25 @@ namespace Mausr.Web.NeuralNet {
 			}
 		}
 
+		
+		public bool SaveTrainResultsImg(string netId, Bitmap img) {
+			return saveImg(netId, img, TRAIN_RESULT_IMAGE_NAME);
+		}
+
+		public Bitmap LoadTrainResultsImg(string netId) {
+			return loadImg(netId, TRAIN_RESULT_IMAGE_NAME);
+		}
+
+
+		public bool SaveTestResultsImg(string netId, Bitmap img) {
+			return saveImg(netId, img, TEST_RESULT_IMAGE_NAME);
+		}
+
+		public Bitmap LoadTestResultsImg(string netId) {
+			return loadImg(netId, TEST_RESULT_IMAGE_NAME);
+		}
+		
+
 
 		private bool save<T>(string netId, T data, string fileName) {
 			string baseDir = getSafeBaseDirPath(netId);
@@ -152,6 +174,35 @@ namespace Mausr.Web.NeuralNet {
 				using (var stream = File.OpenRead(Path.Combine(baseDir, fileName))) {
 					return binarySerializer.Deserialize(stream) as T;
 				}
+			}
+			catch (Exception ex) {
+				return null;
+			}
+		}
+
+		private bool saveImg(string netId, Bitmap img, string fileName) {
+			string baseDir = getSafeBaseDirPath(netId);
+			if (baseDir == null) {
+				return false;
+			}
+
+			try {
+				img.Save(Path.Combine(baseDir, fileName), ImageFormat.Png);
+				return true;
+			}
+			catch (Exception ex) {
+				return false;
+			}
+		}
+
+		private Bitmap loadImg(string netId, string fileName) {
+			string baseDir = getSafeBaseDirPath(netId);
+			if (baseDir == null) {
+				return null;
+			}
+
+			try {
+				return Image.FromFile(Path.Combine(baseDir, fileName)) as Bitmap;
 			}
 			catch (Exception ex) {
 				return null;

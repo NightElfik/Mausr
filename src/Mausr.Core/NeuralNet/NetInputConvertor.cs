@@ -47,8 +47,7 @@ namespace Mausr.Core.NeuralNet {
 			int wid = img.Width;
 			int hei = img.Height;
 
-			var imgData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height),
-				ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+			var imgData = img.LockBits(new Rectangle(0, 0, wid, hei), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
 
 			var resultVector = new DenseVector(wid * hei);
 
@@ -67,6 +66,34 @@ namespace Mausr.Core.NeuralNet {
 			img.UnlockBits(imgData);
 
 			return resultVector;
+		}
+
+		unsafe public void VectorToImage(Vector<double> vector, Bitmap outImg) {
+			Contract.Requires(outImg.PixelFormat == PixelFormat.Format24bppRgb);
+			Contract.Requires(outImg.Width * outImg.Height == vector.Count);
+
+			int wid = outImg.Width;
+			int hei = outImg.Height;
+
+			var imgData = outImg.LockBits(new Rectangle(0, 0, wid, hei), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+			
+			byte* imgPtr = (byte*)imgData.Scan0;
+			int imgStride = imgData.Stride;
+
+			for (int y = 0; y < hei; ++y) {
+				int baseVecI = y * wid;
+				int baseStride = y * imgStride;
+
+				for (int x = 0; x < wid; ++x) {
+					double mult = 1 - vector[baseVecI + x];
+					int imgI = baseStride + x * 3;
+					imgPtr[imgI] = (byte)Math.Round(imgPtr[imgI] * mult);
+					imgPtr[imgI + 1] = (byte)Math.Round(imgPtr[imgI + 1] * mult);
+					imgPtr[imgI + 2] = (byte)Math.Round(imgPtr[imgI + 2] * mult);
+				}
+			}
+
+			outImg.UnlockBits(imgData);
 		}
 
 	}

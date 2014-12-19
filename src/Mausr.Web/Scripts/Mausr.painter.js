@@ -112,6 +112,10 @@ function MausrPainter(options) {
 	}
 };
 
+MausrPainter.MIN_SAMPLE_DIST_SQ = 4 * 4;
+
+
+
 MausrPainter.prototype.getMousePos = function (canvas, e) {
 	//var rect = canvas.getBoundingClientRect();
 	var pos = $(canvas).offset();
@@ -128,8 +132,6 @@ MausrPainter.prototype.getTouchPos = function (canvas, e) {
 		y: e.touches[0].clientY - rect.top
 	};
 };
-
-MausrPainter.MIN_SAMPLE_DIST_SQ = 4 * 4;
 
 MausrPainter.prototype.initContext = function (context) {
 	context.strokeStyle = '#000000';
@@ -155,9 +157,24 @@ MausrPainter.prototype.startLine = function (x, y) {
 
 MausrPainter.prototype.addPtToCurrLine = function (x, y) {
 	var self = this;
+	var offset = 0;
+	var wid = self.context.canvas.width;
+	var hei = self.context.canvas.height;
+
+	// Check if this point is the same as the last one and if it is then add offset
+	// to make it a line.
+	if (self.currentLine.length > 0) {
+		var lastPoint = self.currentLine[self.currentLine.length - 1];
+		var lastX = lastPoint.x * wid;
+		var lastY = lastPoint.y * hei;
+		if (Math.abs(x - lastX) < 1 && Math.abs(y - lastY) < 1) {
+			offset = 0.5;
+		}
+	}
+
 	this.currentLine.push({
-		x: x / self.context.canvas.width,
-		y: y / self.context.canvas.height,
+		x: (x + offset) / wid,
+		y: y / hei,
 		t: self.now() - self.currentRefTime
 	});
 };
@@ -167,8 +184,8 @@ MausrPainter.prototype.distSqToLastPoint = function (x, y) {
 	assert(self.currentLine.length > 0);
 
 	var lastPt = self.currentLine[self.currentLine.length - 1];
-	var dx = x - lastPt.x;
-	var dy = y - lastPt.y;
+	var dx = x - lastPt.x * self.context.canvas.width;
+	var dy = y - lastPt.y * self.context.canvas.height;
 
 	return dx * dx + dy * dy;
 }
@@ -233,10 +250,15 @@ MausrPainter.prototype.redraw = function () {
 			assert(line.length > 0);
 
 			self.context.moveTo(line[0].x * width, line[0].y * height);
-
-			for (var i = 1; i < line.length; i += 1) {
-				var pt = line[i];
-				self.context.lineTo(pt.x * width, pt.y * height);
+			if (line.length == 1) {
+				// Line just started.
+				self.context.lineTo(line[0].x * width + 0.5, line[0].y * height);
+			}
+			else {
+				for (var i = 1; i < line.length; i += 1) {
+					var pt = line[i];
+					self.context.lineTo(pt.x * width, pt.y * height);
+				}
 			}
 		}
 

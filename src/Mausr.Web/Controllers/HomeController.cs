@@ -74,11 +74,13 @@ namespace Mausr.Web.Controllers {
 				drawing.ClientGuid = model.Guid;
 				db.Drawings.Add(drawing);
 			}
+#if DEBUG
 			else {
 				// Delete potentially cached image - this does not happen ofthen but it is annoying when it does happen.
 				new DrawingsController(db, DependencyResolver.Current.GetService<AppSettingsProvider>())
 					.ClearCachedImage(drawing.DrawingId);
 			}
+#endif
 
 			var firstResult = rawResults.FirstOrDefault();
 
