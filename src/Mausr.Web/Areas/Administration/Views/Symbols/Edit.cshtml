@@ -1,10 +1,10 @@
-﻿@model Mausr.Web.Models.Symbol
+﻿@model Symbol
 
 @{
 	ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h1>@ViewBag.Title</h1>
 
 @using (Html.BeginForm()) {
 	@Html.AntiForgeryToken()

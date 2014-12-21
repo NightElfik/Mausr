@@ -12,26 +12,32 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="404.html">
       <publishTime>12/11/2014 02:20:25</publishTime>
     </File>
+    <File Include="Areas/Administration/Views/Shared/Symbol_partial.cshtml">
+      <publishTime>12/20/2014 21:43:38</publishTime>
+    </File>
     <File Include="Areas/Administration/Views/SymbolDrawings/Delete.cshtml">
-      <publishTime>11/18/2014 14:46:21</publishTime>
+      <publishTime>12/20/2014 22:55:45</publishTime>
+    </File>
+    <File Include="Areas/Administration/Views/SymbolDrawings/DoublePosts.cshtml">
+      <publishTime>12/20/2014 22:02:12</publishTime>
     </File>
     <File Include="Areas/Administration/Views/SymbolDrawings/Index.cshtml">
-      <publishTime>12/11/2014 00:54:16</publishTime>
+      <publishTime>12/20/2014 22:55:48</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Collisions.cshtml">
-      <publishTime>11/30/2014 23:17:26</publishTime>
+      <publishTime>12/20/2014 22:55:12</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Create.cshtml">
-      <publishTime>11/18/2014 17:04:19</publishTime>
+      <publishTime>12/20/2014 22:55:09</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Delete.cshtml">
-      <publishTime>11/17/2014 20:51:46</publishTime>
+      <publishTime>12/20/2014 22:54:49</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Details.cshtml">
-      <publishTime>11/17/2014 20:51:49</publishTime>
+      <publishTime>12/20/2014 22:54:34</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Edit.cshtml">
-      <publishTime>11/27/2014 18:28:18</publishTime>
+      <publishTime>12/20/2014 22:54:19</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Index.cshtml">
       <publishTime>12/06/2014 22:36:57</publishTime>
@@ -40,7 +46,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2014 01:13:47</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Users/Details.cshtml">
-      <publishTime>12/11/2014 01:40:22</publishTime>
+      <publishTime>12/20/2014 21:36:31</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Users/Edit.cshtml">
       <publishTime>12/11/2014 01:13:43</publishTime>
@@ -97,10 +103,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2014 21:30:56</publishTime>
     </File>
     <File Include="bin/Mausr.Core.dll">
-      <publishTime>12/11/2014 02:31:10</publishTime>
+      <publishTime>12/20/2014 21:01:28</publishTime>
     </File>
     <File Include="bin/Mausr.Web.dll">
-      <publishTime>12/12/2014 02:46:08</publishTime>
+      <publishTime>12/20/2014 23:08:24</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
@@ -141,6 +147,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Owin.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
     </File>
+    <File Include="bin/RazorGenerator.Mvc.dll">
+      <publishTime>12/20/2014 22:39:15</publishTime>
+    </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>11/17/2014 15:25:50</publishTime>
     </File>
@@ -164,6 +173,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/T4MVCExtensions.dll">
       <publishTime>11/17/2014 17:31:00</publishTime>
+    </File>
+    <File Include="bin/WebActivatorEx.dll">
+      <publishTime>12/20/2014 22:39:15</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>11/17/2014 15:27:32</publishTime>
@@ -235,7 +247,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2014 03:47:54</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/10/2014 15:53:02</publishTime>
+      <publishTime>12/20/2014 22:39:27</publishTime>
     </File>
     <File Include="robots.txt">
       <publishTime>04/23/2012 08:02:26</publishTime>
@@ -274,10 +286,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 15:35:43</publishTime>
     </File>
     <File Include="Scripts/Mausr.js">
-      <publishTime>12/09/2014 17:54:50</publishTime>
+      <publishTime>12/20/2014 22:36:05</publishTime>
     </File>
     <File Include="Scripts/Mausr.painter.js">
-      <publishTime>12/11/2014 18:18:11</publishTime>
+      <publishTime>12/19/2014 00:06:45</publishTime>
     </File>
     <File Include="Scripts/Mausr.trainer.js">
       <publishTime>12/08/2014 23:14:46</publishTime>
@@ -427,7 +439,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/07/2014 00:19:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/11/2014 02:31:56</publishTime>
+      <publishTime>12/20/2014 23:08:25</publishTime>
     </File>
   </ItemGroup>
 </Project>

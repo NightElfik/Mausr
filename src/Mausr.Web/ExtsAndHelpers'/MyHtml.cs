@@ -78,12 +78,13 @@ namespace Mausr.Web {
 			}
 
 			string fullName = user.UserName;
-			int atPos = fullName.IndexOf('@');
-			if (atPos < 0) {
+			string cleanName = CleanUserName(fullName);
+			if (fullName == cleanName) {
 				return new HtmlString(fullName);
 			}
-
-			return new HtmlString(string.Format("<abbr title='{0}'>{1}</abbr>", fullName, fullName.Substring(0, atPos)));
+			else {
+				return new HtmlString(string.Format("<abbr title='{0}'>{1}</abbr>", fullName, cleanName));
+			}
 		}
 
 		private static void addMessage(string style, string message, params object[] args) {
@@ -99,6 +100,14 @@ namespace Mausr.Web {
 			});
 		}
 
+
+		public static string CleanUserName(string fullName) {
+			int atPos = fullName.IndexOf('@');
+			if (atPos <= 0) {
+				return fullName;
+			}
+			return fullName.Substring(0, atPos);
+		}
 	}
 	
 

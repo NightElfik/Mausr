@@ -374,8 +374,13 @@ MausrPainter.prototype.predict = function () {
 			self.$spinner.hide();
 			self.$predictResults.empty();
 			var results = data.Results;
-			for (var i = 0; i < results.length; ++i) {
-				self.showResult(results[i]);
+			if (results.length == 0) {
+				self.$predictResults.append($('<p>No results.</p>'));
+			}
+			else {
+				for (var i = 0; i < results.length; ++i) {
+					self.showResult(results[i]);
+				}
 			}
 			self.$duration.text("Query took " + Math.round(data.Duration) + " ms.");
 			self.$duration.show();
