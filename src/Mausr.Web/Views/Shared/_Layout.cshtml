@@ -22,8 +22,12 @@
 					<li>@Html.ActionLink("About", MVC.Home.About())</li>
 					<li>@Html.ActionLink("Symbols", MVC.Symbols.Index())</li>
 					<li>@Html.ActionLink("Drawings", MVC.SymbolDrawings.Index())</li>
+					<li>@Html.ActionLink("Train details", MVC.Home.TrainDetails())</li>
 				</ul>
 				@Html.Partial("_LoginPartial")
+				<ul class="nav navbar-nav navbar-right">
+					<li>@Html.ActionLink("Contact", MVC.Home.Contact())</li>
+				</ul>
 
 				@if (User.IsInRole(RolesHelper.Admin)) {
 					<ul class="nav navbar-nav navbar-right">
@@ -75,14 +79,22 @@
 				</p>
 			</div>
 			<div class="col-md-3">
-			</div>
-			<div class="col-md-3">
-				<h4>Mausr</h4>
+				<h4>Mausr basics</h4>
 				<ul class="list-unstyled">
-					<li>@Html.ActionLink("About", MVC.Home.About())</li>
 					<li>@Html.ActionLink("Symbol recognition", MVC.Home.Index())</li>
 					<li>@Html.ActionLink("About Mausr", MVC.Home.About())</li>
 					<li>@Html.ActionLink("Contact", MVC.Home.Contact())</li>
+				</ul>
+				<ul class="list-unstyled">
+					<li>@Html.ActionLink("Log in", MVC.Account.Login())</li>
+				</ul>
+			</div>
+			<div class="col-md-3">
+				<h4>Mausr advanced</h4>
+				<ul class="list-unstyled">
+					<li>@Html.ActionLink("Symbols list", MVC.Symbols.Index())</li>
+					<li>@Html.ActionLink("Symbol drawings", MVC.SymbolDrawings.Index())</li>
+					<li>@Html.ActionLink("Train details", MVC.SymbolDrawings.Index())</li>
 				</ul>
 			</div>
 			<div class="col-md-3">

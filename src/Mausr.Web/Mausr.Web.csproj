@@ -450,6 +450,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Mausr.trainCharts.js" />
     <Content Include="Scripts\Mausr.trainer.js" />
     <Content Include="Scripts\Mausr.painter.js" />
     <Content Include="Scripts\npm.js" />
@@ -519,6 +520,7 @@
     <Content Include="Views\SymbolDrawings\Index.cshtml" />
     <Content Include="Views\Drawings\Index.cshtml" />
     <Content Include="Views\Train\DeleteNet.cshtml" />
+    <Content Include="Views\Home\TrainDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

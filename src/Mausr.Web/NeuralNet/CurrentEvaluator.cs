@@ -17,6 +17,17 @@ namespace Mausr.Web.NeuralNet {
 		public NetEvaluator Evaluator { get; private set; }
 		public TrainSettings TrainSettings { get; private set; }
 
+		private TrainData trainData = null;
+		public TrainData TrainData {
+			get {
+				if (trainData == null) {
+					trainData = trainStorageManager.LoadTrainData(NetId);
+				}
+
+				return trainData;
+			}
+		}
+
 		private RawDataProcessor dataProcessor = new RawDataProcessor();
 		private Rasterizer rasterizer = new Rasterizer();
 		private NetInputConvertor inputConvertor = new NetInputConvertor();
@@ -35,7 +46,7 @@ namespace Mausr.Web.NeuralNet {
 			}
 		}
 
-		
+
 		public bool SetDefaultNetwork(string netId) {
 			var net = trainStorageManager.LoadNet(netId);
 			var settings = trainStorageManager.LoadTrainSettings(netId);
@@ -46,6 +57,7 @@ namespace Mausr.Web.NeuralNet {
 			NetId = netId;
 			Evaluator = new NetEvaluator(net);
 			TrainSettings = settings;
+			trainData = null;
 			return trainStorageManager.SaveDefaultNetName(netId);
 		}
 

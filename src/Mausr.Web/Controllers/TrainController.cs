@@ -120,7 +120,7 @@ namespace Mausr.Web.Controllers {
 
 			var model = new TrainDetailsViewModel() {
 				TrainSettings = trainSettings,
-				TrainData = trainStorageManager.LoadTrainData(id),
+				TrainData = isJobRunning(id) ? null : trainStorageManager.LoadTrainData(id),
 			};
 
 			return View(model);
@@ -188,6 +188,11 @@ namespace Mausr.Web.Controllers {
 			trainStorageManager.DeleteNet(id);
 
 			return RedirectToAction(Actions.Index());
+		}
+
+		
+		private bool isJobRunning(string id) {
+			return JobManager.Instance.GetJob(id) != null;
 		}
 
 		private bool startTrainig(string id) {

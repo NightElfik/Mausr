@@ -155,5 +155,14 @@ namespace Mausr.Web.Controllers {
 			return HttpNotFound();
 		}
 
+		public virtual ActionResult TrainDetails() {
+			var model = new TrainDetailsViewModel() {
+				TrainSettings = evaluator.TrainSettings,
+				TrainData = evaluator.TrainData,
+			};
+
+			return View(model);
+		}
+
 	}
 }

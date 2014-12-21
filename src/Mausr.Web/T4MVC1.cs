@@ -104,6 +104,7 @@ namespace Links
         public static readonly string Mausr_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.min.js") ? Url("Mausr.min.js") : Url("Mausr.js");
         public static readonly string Mausr_painter_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.painter.min.js") ? Url("Mausr.painter.min.js") : Url("Mausr.painter.js");
         public static readonly string Mausr_trainer_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.trainer.min.js") ? Url("Mausr.trainer.min.js") : Url("Mausr.trainer.js");
+        public static readonly string Mausr_trainCharts_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/Mausr.trainCharts.min.js") ? Url("Mausr.trainCharts.min.js") : Url("Mausr.trainCharts.js");
         public static readonly string npm_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/npm.min.js") ? Url("npm.min.js") : Url("npm.js");
         public static readonly string respond_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.min.js") ? Url("respond.min.js") : Url("respond.js");
         public static readonly string respond_matchmedia_addListener_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/respond.matchmedia.addListener.min.js") ? Url("respond.matchmedia.addListener.min.js") : Url("respond.matchmedia.addListener.js");

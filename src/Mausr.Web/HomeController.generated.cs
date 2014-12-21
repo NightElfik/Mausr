@@ -81,6 +81,7 @@ namespace Mausr.Web.Controllers
             public readonly string Predict = "Predict";
             public readonly string Contact = "Contact";
             public readonly string TestMail = "TestMail";
+            public readonly string TrainDetails = "TrainDetails";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -91,6 +92,7 @@ namespace Mausr.Web.Controllers
             public const string Predict = "Predict";
             public const string Contact = "Contact";
             public const string TestMail = "TestMail";
+            public const string TrainDetails = "TrainDetails";
         }
 
 
@@ -123,10 +125,12 @@ namespace Mausr.Web.Controllers
                 public readonly string About = "About";
                 public readonly string Contact = "Contact";
                 public readonly string Index = "Index";
+                public readonly string TrainDetails = "TrainDetails";
             }
             public readonly string About = "~/Views/Home/About.cshtml";
             public readonly string Contact = "~/Views/Home/Contact.cshtml";
             public readonly string Index = "~/Views/Home/Index.cshtml";
+            public readonly string TrainDetails = "~/Views/Home/TrainDetails.cshtml";
         }
     }
 
@@ -200,6 +204,17 @@ namespace Mausr.Web.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TestMail);
             TestMailOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void TrainDetailsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult TrainDetails()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TrainDetails);
+            TrainDetailsOverride(callInfo);
             return callInfo;
         }
 

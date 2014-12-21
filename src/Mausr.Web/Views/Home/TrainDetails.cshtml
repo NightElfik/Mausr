@@ -1,0 +1,115 @@
+﻿@using Mausr.Web.NeuralNet;
+@model TrainDetailsViewModel
+
+@{
+	ViewBag.Title = "Train details";
+
+	var settings = Model.TrainSettings;
+	MyHtml.RequireScript(Links.Scripts.Mausr_trainCharts_js);
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p>
+	This page shows training details of the neural network that is used for recognition of symbols on the main page.
+</p>
+
+<h3>Train parameters</h3>
+
+<div class="row">
+	<div class="col-sm-4">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.HiddenLayersSizes)</dt>
+			<dd>@string.Join(", ", settings.HiddenLayersSizes.Select(x => x.ToString()))</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.InputImgSizePx) px</dt>
+			<dd>@Html.DisplayFor(m => settings.InputImgSizePx)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.PenThicknessPerc)</dt>
+			<dd>@Html.DisplayFor(m => settings.PenThicknessPerc)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.NormalizeInput)</dt>
+			<dd>@Html.DisplayFor(m => settings.NormalizeInput)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.GenerateExtraInputsByRotation)</dt>
+			<dd>@Html.DisplayFor(m => settings.GenerateExtraInputsByRotation)</dd>
+		</dl>
+	</div>
+	<div class="col-sm-4">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.TestDataSetSizePerc)</dt>
+			<dd>@Html.DisplayFor(m => settings.TestDataSetSizePerc) %</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.LearnRounds)</dt>
+			<dd>@Html.DisplayFor(m => settings.LearnRounds)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.BatchSize)</dt>
+			<dd>@Html.DisplayFor(m => settings.BatchSize)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.MaxIteratinosPerBatch)</dt>
+			<dd>@Html.DisplayFor(m => settings.MaxIteratinosPerBatch)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.MinDerivCompMaxMagn)</dt>
+			<dd>@Html.DisplayFor(m => settings.MinDerivCompMaxMagn)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.InitSeed)</dt>
+			<dd>@Html.DisplayFor(m => settings.InitSeed)</dd>
+		</dl>
+	</div>
+	<div class="col-sm-4">
+		<dl class="dl-horizontal">
+			<dt>@Html.DisplayNameFor(m => settings.OptimizationAlgorithm)</dt>
+			<dd>@Html.DisplayFor(m => settings.OptimizationAlgorithm)</dd>
+
+			<dt>@Html.DisplayNameFor(m => settings.RegularizationLambda)</dt>
+			<dd>@Html.DisplayFor(m => settings.RegularizationLambda)</dd>
+
+			@if (settings.OptimizationAlgorithm == OptimizationAlgorithm.BasicGradientDescent || settings.OptimizationAlgorithm == OptimizationAlgorithm.NesterovSutskeverGradientDescent) {
+				<dt>@Html.DisplayNameFor(m => settings.LearningRate)</dt>
+				<dd>@Html.DisplayFor(m => settings.LearningRate)</dd>
+
+				<dt>@Html.DisplayNameFor(m => settings.MomentumStartPerc)</dt>
+				<dd>@Html.DisplayFor(m => settings.MomentumStartPerc) %</dd>
+
+				<dt>@Html.DisplayNameFor(m => settings.MomentumEndPerc)</dt>
+				<dd>@Html.DisplayFor(m => settings.MomentumEndPerc) %</dd>
+			}
+			else {
+				<dt>@Html.DisplayNameFor(m => settings.RpropInitStep)</dt>
+				<dd>@Html.DisplayFor(m => settings.RpropInitStep)</dd>
+
+				<dt>@Html.DisplayNameFor(m => settings.RpropMaxStep)</dt>
+				<dd>@Html.DisplayFor(m => settings.RpropMaxStep)</dd>
+
+				<dt>@Html.DisplayNameFor(m => settings.RpropStepUpMult)</dt>
+				<dd>@Html.DisplayFor(m => settings.RpropStepUpMult)</dd>
+
+				<dt>@Html.DisplayNameFor(m => settings.RpropStepDownMult)</dt>
+				<dd>@Html.DisplayFor(m => settings.RpropStepDownMult)</dd>
+			}
+		</dl>
+	</div>
+</div>
+
+
+<h3>Train data</h3>
+
+<div class="row">
+	<div class="col-md-6"><div id="chartCost"></div></div>
+	<div class="col-md-6"><div id="chartPredict"></div></div>
+</div>
+
+@section scripts {
+	<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
+	<script>
+		$(function () {
+			var trainData = @Html.Raw(Json.Encode(Model.TrainData));
+
+			new MausrTrainCharts({
+				costChartId: 'chartCost',
+				predictChartId: 'chartPredict',
+				trainData: trainData
+			});
+		});
+	</script>
+}
