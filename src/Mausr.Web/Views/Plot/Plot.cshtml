@@ -39,10 +39,10 @@
 					@Html.TextBoxFor(m => m.MaxIters, new { @class = "form-control" })
 					@Html.ValidationMessageFor(m => m.MaxIters, "", new { @class = "text-danger" })
 				</div>
-				@Html.LabelFor(m => m.MinDerivMagn, new { @class = "col-md-3 control-label" })
+				@Html.LabelFor(m => m.MinDerivCompMaxMagn, new { @class = "col-md-3 control-label" })
 				<div class="col-md-3">
-					@Html.TextBoxFor(m => m.MinDerivMagn, new { @class = "form-control" })
-					@Html.ValidationMessageFor(m => m.MinDerivMagn, "", new { @class = "text-danger" })
+					@Html.TextBoxFor(m => m.MinDerivCompMaxMagn, new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.MinDerivCompMaxMagn, "", new { @class = "text-danger" })
 				</div>
 			</div>
 			<h5>Basic gradient descent</h5>

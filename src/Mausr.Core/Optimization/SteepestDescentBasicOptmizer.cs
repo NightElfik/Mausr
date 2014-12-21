@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading;
 using MathNet.Numerics.LinearAlgebra;
@@ -9,80 +8,61 @@ namespace Mausr.Core.Optimization {
 	public class SteepestDescentBasicOptmizer : IGradientBasedOptimizer {
 
 		private double step;
-		private double minDerivativeMagnitude;
 		private double momentumStart;
 		private double momentumEnd;
 		private int maxIters;
 
-		public int LastIterationsCount { get; private set; }
 
-		public SteepestDescentBasicOptmizer(double step, double minDerivativeMagnitude, int maxIters) {
+		public SteepestDescentBasicOptmizer(double step, int maxIters) {
+			Contract.Requires(step > 0);
+			Contract.Requires(maxIters > 0);
+
 			this.step = step;
-			this.minDerivativeMagnitude = minDerivativeMagnitude;
 			this.maxIters = maxIters;
 		}
 
-		public SteepestDescentBasicOptmizer(double step, double momentumStart, double momentumEnd, double minDerivativeMagnitude, int maxIters) {
+		public SteepestDescentBasicOptmizer(double step, double momentumStart, double momentumEnd, int maxIters) {
+			Contract.Requires(step > 0);
+			Contract.Requires(maxIters > 0);
+
 			this.step = step;
 			this.momentumStart = momentumStart;
 			this.momentumEnd = momentumEnd;
-			this.minDerivativeMagnitude = minDerivativeMagnitude;
 			this.maxIters = maxIters;
 		}
 
 
-		public bool Optimize(Vector<double> resultAndInitPosition, IFunctionWithDerivative function,
-				Action<Vector<double>> iterationCallback, CancellationToken ct) {
-			Contract.Requires(resultAndInitPosition.Count == function.DimensionsCount);
-
+		public bool Optimize(Vector<double> resultAndInitPos, IFunctionWithDerivative function, double minDerivCompMaxMagn,
+				Action<int, Func<Vector<double>>> iterationCallback, CancellationToken ct) {
+			Contract.Requires(resultAndInitPos.Count == function.DimensionsCount);
+			Contract.Requires(minDerivCompMaxMagn > 0);
+			
 			var derivative = new DenseVector(function.DimensionsCount);
 			var prevStep = new DenseVector(function.DimensionsCount);
-
-			bool converged = false;
-			int i = 0;
-			for (; i < maxIters; ++i) {
+			
+			for (int iter = 0; iter < maxIters; ++iter) {
 				if (ct.IsCancellationRequested) {
 					break;
 				}
 
-				converged = performStep(resultAndInitPosition, i, function, resultAndInitPosition, derivative, prevStep);
-				if (iterationCallback != null) {
-					iterationCallback(resultAndInitPosition.Clone());
+				function.Derivate(derivative, resultAndInitPos);
+				if (derivative.AbsoluteMaximum() < minDerivCompMaxMagn) {
+					return true;
 				}
 
-				if (converged) {
-					break;
-				}
-			}
+				derivative.Multiply(step, derivative);
 
-			LastIterationsCount = i;
-			return converged;
-		}
-		
-
-		private bool performStep(Vector<double> result, int iteration, IFunctionWithDerivative function, Vector<double> point,
-				Vector<double> derivative, Vector<double> prevStep) {
-
-			bool converged = false;
-			function.Derivate(derivative, point);
-			if (derivative.SumMagnitudes() < minDerivativeMagnitude) {
-				converged = true;
-			}
-
-			derivative.Multiply(step, derivative);
-
-			if (momentumEnd == 0) {
-				point.Subtract(derivative, result);
-			}
-			else {
-				double momentum = momentumStart + (momentumEnd - momentumStart) * ((double)iteration / maxIters);
+				double momentum = momentumStart + (momentumEnd - momentumStart) * ((double)iter / maxIters);
 				prevStep.Multiply(momentum, prevStep);
 				prevStep.Add(derivative, prevStep);
-				point.Subtract(prevStep, result);
+				resultAndInitPos.Subtract(prevStep, resultAndInitPos);					
+
+				if (iterationCallback != null) {
+					iterationCallback(iter, resultAndInitPos.Clone);
+				}
 			}
-			
-			LastIterationsCount = iteration;
-			return converged;
+
+			return false;
 		}
 
 	}

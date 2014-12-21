@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -27,8 +26,6 @@ namespace Mausr.Web.NeuralNet {
 
 		private Matrix<double>[] unpackedCoefs;
 
-		private int iterationId;
-
 		private TrainData trainData;
 
 		//private List<RawDrawing> trainDrawings;
@@ -54,13 +51,12 @@ namespace Mausr.Web.NeuralNet {
 			sendMessage("Loading training settings.");
 			trainSettings = storageManager.LoadTrainSettings(netId);
 			if (trainSettings == null) {
-				//fail("Grain settings file was not found.");
+				sendMessage("Train settings file was not found.");
 				return;
 			}
 
 			using (var db = MausrDb.Create()) {
 				sendMessage("Initializing learning environment.");
-				iterationId = 0;
 				trainData = new TrainData();
 
 				int inputSize = trainSettings.InputImgSizePx * trainSettings.InputImgSizePx;
@@ -71,9 +67,8 @@ namespace Mausr.Web.NeuralNet {
 				network.SetOutputMap(db.Symbols.Select(s => s.SymbolId).ToArray());
 				netEvaluator = new NetEvaluator(network);
 
-				var optimizer = new SteepestDescentAdvancedOptmizer(trainSettings.LearningRate,
-					trainSettings.MomentumStartPerc / 100.0, trainSettings.MomentumEndPerc / 100.0,
-					trainSettings.MinDerivativeMagnitude, trainSettings.MaxIteratinosPerBatch);
+
+				var optimizer = createOptimizer(trainSettings);
 				var trainer = new NetTrainer(network, optimizer, trainSettings.RegularizationLambda);
 
 				unpackedCoefs = network.Layout.AllocateCoefMatrices();
@@ -83,7 +78,7 @@ namespace Mausr.Web.NeuralNet {
 
 				sendMessage(string.Format("Learning of {0} samples started.", trainInputs.RowCount));
 				bool converged = trainer.TrainBatch(trainInputs, trainSettings.BatchSize, trainSettings.LearnRounds,
-					trainOutIds, trainIterationCallback, job.CancellationToken);
+					trainOutIds, trainSettings.InitSeed, trainSettings.MinDerivCompMaxMagn, trainIterationCallback, job.CancellationToken);
 
 				if (job.CancellationToken.IsCancellationRequested) {
 					sendMessage("Training {0}.", job.Canceled ? "canceled" : "stopped");
@@ -112,6 +107,31 @@ namespace Mausr.Web.NeuralNet {
 			}
 
 			sendMessage("All done.");
+		}
+
+		private IGradientBasedOptimizer createOptimizer(TrainSettings trainSettings) {
+			switch (trainSettings.OptimizationAlgorithm) {
+				case OptimizationAlgorithm.BasicGradientDescent:
+					return new SteepestDescentBasicOptmizer(trainSettings.LearningRate,
+						trainSettings.MomentumStartPerc / 100.0, trainSettings.MomentumEndPerc / 100.0,
+						trainSettings.MaxIteratinosPerBatch);
+
+				case OptimizationAlgorithm.NesterovSutskeverGradientDescent:
+					return new SteepestDescentAdvancedOptmizer(trainSettings.LearningRate,
+						trainSettings.MomentumStartPerc / 100.0, trainSettings.MomentumEndPerc / 100.0,
+						trainSettings.MaxIteratinosPerBatch);
+
+				case OptimizationAlgorithm.RpropPlus:
+					return new RpropPlusOptmizer(trainSettings.RpropInitStep, trainSettings.RpropMaxStep,
+						trainSettings.RpropStepUpMult, trainSettings.RpropStepDownMult,
+						trainSettings.MaxIteratinosPerBatch);
+
+				case OptimizationAlgorithm.ImprovedRpropMinus:
+				default:
+					return new ImprovedRpropMinusOptmizer(trainSettings.RpropInitStep, trainSettings.RpropMaxStep,
+						trainSettings.RpropStepUpMult, trainSettings.RpropStepDownMult,
+						trainSettings.MaxIteratinosPerBatch);
+			}
 		}
 
 		private void prepareInOut(MausrDb db) {
@@ -188,7 +208,7 @@ namespace Mausr.Web.NeuralNet {
 		private Bitmap createResultsVis(Matrix<double> inputs, int predsCount, double minActivation,
 				int[] outIds, int imgCols) {
 			var predictions = netEvaluator.PredictTopN(inputs, predsCount, minActivation);
-			
+
 			// Draw images directly from net input to be able to visually debug rasterization.
 			var visData = predictions.Zip(outIds, (preds, correctOutId) => {
 				int index = 0;
@@ -226,13 +246,13 @@ namespace Mausr.Web.NeuralNet {
 			return new Rasterizer().DrawDataToGrid(visData, trainSettings.InputImgSizePx, Color.Gray, imgCols);
 		}
 
-		private void trainIterationCallback(Vector<double> point) {
-			iterationId += 1;
-			if (iterationId % trainSettings.TrainEvaluationIters != 0) {
+		private void trainIterationCallback(int iteration, Func<Vector<double>> pointFunc) {
+			if (iteration < trainSettings.SkipFrstIters || iteration % trainSettings.TrainEvaluationIters != 0) {
 				return;
 			}
 
-			trainData.IteraionNumbers.Add(iterationId);
+			var point = pointFunc();
+			trainData.IteraionNumbers.Add(iteration);
 			point.UnpackTo(unpackedCoefs);
 
 			double trainCost = network.CostFunction.Evaluate(unpackedCoefs,
@@ -254,7 +274,7 @@ namespace Mausr.Web.NeuralNet {
 			trainData.TestPredicts.Add(testPredict);
 
 			// Notify client.
-			job.Clients.iteration(iterationId, trainCost, testCost, trainPredict, testPredict);
+			job.Clients.iteration(iteration, trainCost, testCost, trainPredict, testPredict);
 		}
 
 

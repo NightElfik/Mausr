@@ -27,7 +27,7 @@ namespace Mausr.Web.Models {
 		public double InitialY { get; set; }
 
 		[Required]
-		public double MinDerivMagn { get; set; }
+		public double MinDerivCompMaxMagn { get; set; }
 
 		[Range(1, 2048)]
 		public int MaxIters { get; set; }

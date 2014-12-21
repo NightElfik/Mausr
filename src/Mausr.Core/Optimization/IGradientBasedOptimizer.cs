@@ -5,8 +5,8 @@ using MathNet.Numerics.LinearAlgebra;
 namespace Mausr.Core.Optimization {
 	public interface IGradientBasedOptimizer {
 		
-		bool Optimize(Vector<double> resultAndInitPosition, IFunctionWithDerivative function,
-				Action<Vector<double>> iterationCallback, CancellationToken ct);
+		bool Optimize(Vector<double> resultAndInitPos, IFunctionWithDerivative function, double minDerivCompMaxMagn,
+				Action<int, Func<Vector<double>>> iterationCallback, CancellationToken ct);
 
 	}
 }

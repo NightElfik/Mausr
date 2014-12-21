@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
 using System.Web.Mvc;
-using Mausr.Core.NeuralNet;
-using Mausr.Core.Optimization;
 using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
@@ -49,19 +46,29 @@ namespace Mausr.Web.Controllers {
 			if (model == null) {
 				model = new TrainViewModel() {
 					InputImgSizePx = 20,
-					PenThicknessPerc = 14,
+					PenThicknessPerc = 12,
 					GenerateExtraInputsByRotation = 10,
 					NormalizeInput = true,
 					LearnRounds = 1,
 					BatchSize = 0,
-					MaxIteratinosPerBatch = 200,
+					MaxIteratinosPerBatch = 100,
 					RegularizationLambda = 0.5,
-					LearningRate = 0.3,
+					MinDerivCompMaxMagn = 1e-3,
+					OptimizationAlgorithm = OptimizationAlgorithm.ImprovedRpropMinus,
+					InitSeed = new Random().Next(),
+
+					LearningRate = 0.1,
 					MomentumStartPerc = 60,
 					MomentumEndPerc = 90,
-					MinDerivativeMagnitude = 1e-3,
+
+					RpropInitStep = 0.01,
+					RpropMaxStep = 10,
+					RpropStepUpMult = 1.2,
+					RpropStepDownMult = 0.5,
+
 					TestDataSetSizePerc = 10,
-					TrainEvaluationIters = 5,
+					TrainEvaluationIters = 3,
+					SkipFrstIters = 6,
 				};
 			}
 

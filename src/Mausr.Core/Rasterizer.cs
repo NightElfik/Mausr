@@ -4,7 +4,6 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using Mausr.Core.NeuralNet;
 
@@ -15,7 +14,6 @@ namespace Mausr.Core {
 		public float PenSizePerc { get; set; }
 		public bool ExtraMargin { get; set; }
 		public bool DrawPoints { get; set; }
-
 
 
 		public Bitmap Rasterize(RawDrawing drawing) {

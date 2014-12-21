@@ -33,7 +33,7 @@ namespace Mausr.Web.Controllers {
 
 					InitialX = -0.1,
 					InitialY = 4.5,
-					MinDerivMagn = 0.1,
+					MinDerivCompMaxMagn = 0.1,
 					MaxIters = 1024,
 
 					BasicStep = 0.0005,
@@ -74,7 +74,7 @@ namespace Mausr.Web.Controllers {
 
 					InitialX = -0.35,
 					InitialY = -2,
-					MinDerivMagn = 0.001,
+					MinDerivCompMaxMagn = 0.001,
 					MaxIters = 256,
 
 					BasicStep = 0.05,
@@ -84,8 +84,8 @@ namespace Mausr.Web.Controllers {
 					MomentumEnd = 0.9,
 				};
 			}
-			
-			
+
+
 			Logger.LogInfo<PlotController>("Crazy sin cos function plot shown.");
 
 			ViewBag.Name = "Crazy sin cos function";
@@ -106,23 +106,24 @@ namespace Mausr.Web.Controllers {
 		private ActionResult plot(IFunctionWithDerivative f, PlotViewModel model) {
 
 			List<Tuple<Color, List<Vector<double>>>> points = new List<Tuple<Color, List<Vector<double>>>>();
+			double minDeriv = model.MinDerivCompMaxMagn;
 			var result = new DenseVector(f.DimensionsCount);
 			{
 				result[0] = model.InitialX;
 				result[1] = model.InitialY;
 				var ps = new List<Vector<double>>();
-				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkGreen, ps));
-				var sdImpl = new SteepestDescentBasicOptmizer(model.BasicStep, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(result, f, p => ps.Add(p), CancellationToken.None);
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Lime, ps));
+				var sdImpl = new SteepestDescentBasicOptmizer(model.BasicStep, model.MaxIters);
+				sdImpl.Optimize(result, f, model.MinDerivCompMaxMagn, (i, pFunc) => ps.Add(pFunc()), CancellationToken.None);
 			}
 			{
 				result[0] = model.InitialX;
 				result[1] = model.InitialY;
 				var ps = new List<Vector<double>>();
-				points.Add(new Tuple<Color, List<Vector<double>>>(Color.DarkRed, ps));
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Red, ps));
 				var sdImpl = new SteepestDescentBasicOptmizer(model.MomentumStep,
-					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(result, f, p => ps.Add(p), CancellationToken.None);
+					model.MomentumStart, model.MomentumEnd, model.MaxIters);
+				sdImpl.Optimize(result, f, model.MinDerivCompMaxMagn, (i, pFunc) => ps.Add(pFunc()), CancellationToken.None);
 			}
 			{
 				result[0] = model.InitialX;
@@ -130,8 +131,24 @@ namespace Mausr.Web.Controllers {
 				var ps = new List<Vector<double>>();
 				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Blue, ps));
 				var sdImpl = new SteepestDescentAdvancedOptmizer(model.MomentumStep,
-					model.MomentumStart, model.MomentumEnd, model.MinDerivMagn, model.MaxIters);
-				sdImpl.Optimize(result, f, p => ps.Add(p), CancellationToken.None);
+					model.MomentumStart, model.MomentumEnd, model.MaxIters);
+				sdImpl.Optimize(result, f, model.MinDerivCompMaxMagn, (i, pFunc) => ps.Add(pFunc()), CancellationToken.None);
+			}
+			{
+				result[0] = model.InitialX;
+				result[1] = model.InitialY;
+				var ps = new List<Vector<double>>();
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Magenta, ps));
+				var sdImpl = new RpropPlusOptmizer(model.BasicStep, 10, 1.2, 0.5, model.MaxIters);
+				sdImpl.Optimize(result, f, model.MinDerivCompMaxMagn, (i, pFunc) => ps.Add(pFunc()), CancellationToken.None);
+			}
+			{
+				result[0] = model.InitialX;
+				result[1] = model.InitialY;
+				var ps = new List<Vector<double>>();
+				points.Add(new Tuple<Color, List<Vector<double>>>(Color.Cyan, ps));
+				var sdImpl = new ImprovedRpropMinusOptmizer(model.BasicStep, 10, 1.2, 0.5, model.MaxIters);
+				sdImpl.Optimize(result, f, model.MinDerivCompMaxMagn, (i, pFunc) => ps.Add(pFunc()), CancellationToken.None);
 			}
 
 			var fp = new FunctionPlotter();

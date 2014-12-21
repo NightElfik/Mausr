@@ -30,24 +30,24 @@ namespace Mausr.Core.NeuralNet {
 		/// <param name="inputs">Matrix with data in rows.</param>
 		/// <param name="outputIds">Array of output IDs should be activated for each input.
 		///		Net transfer function is used to transform given IDs to neuron indices</param>
-		public bool Train(Matrix<double> inputs, int[] outputIds, Action<Vector<double>> iterationCallback,
-				CancellationToken ct) {
-			InitializeCoefs(Net);
-			return TrainMore(inputs, outputIds, iterationCallback, ct);
+		public bool Train(Matrix<double> inputs, int[] outputIds, double minDerivCompMaxMagn, int initSeeed,
+				Action<int, Func<Vector<double>>> iterationCallback, CancellationToken ct) {
+			InitializeCoefs(Net, initSeeed);
+			return TrainMore(inputs, outputIds, minDerivCompMaxMagn, iterationCallback, ct);
 		}
 
 		/// <summary>
 		/// Trains the network more by taking current coefficients as starting point.
 		/// </summary>
-		public bool TrainMore(Matrix<double> inputs, int[] outputIds, Action<Vector<double>> iterationCallback,
-				CancellationToken ct) {
+		public bool TrainMore(Matrix<double> inputs, int[] outputIds, double minDerivCompMaxMagn,
+				Action<int, Func<Vector<double>>> iterationCallback, CancellationToken ct) {
 			Contract.Requires(inputs.ColumnCount == Net.Layout.InputSize);
 
 			int[] outIndices = outputIds.Select(x => Net.MapOutputToOutNeuron(x)).ToArray();
 			Net.CostFunction.SetInputsOutputs(inputs, outIndices, RegularizationLambda);
 			var result = Net.Coefficients.Pack();
 
-			bool status = Optimizer.Optimize(result, Net.CostFunction, iterationCallback, ct);
+			bool status = Optimizer.Optimize(result, Net.CostFunction, minDerivCompMaxMagn, iterationCallback, ct);
 
 			result.UnpackTo(Net.Coefficients);
 
@@ -55,15 +55,15 @@ namespace Mausr.Core.NeuralNet {
 		}
 
 
-		public bool TrainBatch(Matrix<double> inputs, int batchSize, int learnRounds,
-				int[] outputIds, Action<Vector<double>> iterationCallback, CancellationToken ct) {
-			
+		public bool TrainBatch(Matrix<double> inputs, int batchSize, int learnRounds, int[] outputIds, int initSeed,
+				double minDerivCompMaxMagn, Action<int, Func<Vector<double>>> iterationCallback, CancellationToken ct) {
+
 			bool status = false;
-			InitializeCoefs(Net);
+			InitializeCoefs(Net, initSeed);
 
 			if (batchSize == 0) {
 				for (int lr = 0; lr < learnRounds; ++lr) {
-					status = TrainMore(inputs, outputIds, iterationCallback, ct);
+					status = TrainMore(inputs, outputIds, minDerivCompMaxMagn, iterationCallback, ct);
 				}
 				return status;
 			}
@@ -89,7 +89,7 @@ namespace Mausr.Core.NeuralNet {
 			for (int lr = 0; lr < learnRounds; ++lr) {
 				for (int i = 0; i < batchesConut; ++i) {
 					Net.CostFunction.SetInputsOutputs(inputBatches[i], outIndicesBatches[i], RegularizationLambda);
-					status = Optimizer.Optimize(result, Net.CostFunction, iterationCallback, ct);
+					status = Optimizer.Optimize(result, Net.CostFunction, minDerivCompMaxMagn, iterationCallback, ct);
 				}
 			}
 
@@ -98,15 +98,22 @@ namespace Mausr.Core.NeuralNet {
 			return status;
 		}
 
-		public void InitializeCoefs(Net network) {
+		public void InitializeCoefs(Net network, int seed) {
 			Contract.Requires(network.Coefficients != null);
 			Contract.Requires(Contract.ForAll(network.Coefficients, c => c != null));
 
-			var rand = new Random();
+			var rand = new Random(seed);
 			foreach (var coef in Net.Coefficients) {
 				double epsilon = Math.Sqrt(6) / Math.Sqrt(coef.ColumnCount + coef.RowCount);
 				double twoEps = 2 * epsilon;
-				coef.MapInplace(x => rand.NextDouble() * twoEps - epsilon);
+
+				// Do not use MapInplace since it is parallel and Random class is not thread safe.
+
+				for (int r = 0; r < coef.RowCount; ++r) {
+					for (int c = 0; c < coef.ColumnCount; ++c) {
+						coef[r, c] = rand.NextDouble() * twoEps - epsilon;
+					}
+				}
 			}
 		}
 

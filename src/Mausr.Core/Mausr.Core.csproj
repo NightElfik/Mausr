@@ -143,7 +143,9 @@
     <Compile Include="NeuralNet\Prediction.cs" />
     <Compile Include="NeuralNet\SigomidActivationFunc.cs" />
     <Compile Include="Optimization\NumericDerivator.cs" />
+    <Compile Include="Optimization\ImprovedRpropMinusOptmizer.cs" />
     <Compile Include="Optimization\SteepestDescentAdvancedOptmizer.cs" />
+    <Compile Include="Optimization\RpropPlusOptmizer.cs" />
     <Compile Include="Optimization\SteepestDescentBasicOptmizer.cs" />
     <Compile Include="Optimization\IFunctionWithDerivative.cs" />
     <Compile Include="NeuralNet\NetLayout.cs" />

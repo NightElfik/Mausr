@@ -48,6 +48,12 @@
 				@Html.ValidationMessageFor(m => m.TrainEvaluationIters, "", new { @class = "text-danger" })
 				<p class="text-muted"><small>Interval of evaluation of network performacne (in iterations).</small></p>
 			</div>
+			@Html.LabelFor(m => m.SkipFrstIters, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.SkipFrstIters, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.SkipFrstIters, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Skips first few iterations to avoid recording high errors that skwews graph scales.</small></p>
+			</div>
 		</div>
 
 
@@ -116,6 +122,14 @@
 			</div>
 		</div>
 		<div class="form-group">
+			@Html.LabelFor(m => m.InitSeed, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.InitSeed, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.InitSeed, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Initialization seed for pseudo random generator.</small></p>
+			</div>
+		</div>
+		<div class="form-group">
 			@Html.LabelFor(m => m.TestDataSetSizePerc, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				<div class="input-group">
@@ -155,6 +169,24 @@
 			</div>
 		</div>
 		<div class="form-group">
+			@Html.LabelFor(m => m.OptimizationAlgorithm, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EnumDropDownListFor(m => m.OptimizationAlgorithm, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.OptimizationAlgorithm, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Algorithm used for the optimization.</small></p>
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.MinDerivCompMaxMagn, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.MinDerivCompMaxMagn, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.MinDerivCompMaxMagn, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Minimum derivative magnitude before terminating the optimization batch.</small></p>
+			</div>
+		</div>
+
+		<h4>Gradient descent based optimizers</h4>
+		<div class="form-group">
 			@Html.LabelFor(m => m.LearningRate, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
 				@Html.EditorFor(m => m.LearningRate, new { htmlAttributes = new { @class = "form-control" } })
@@ -188,12 +220,34 @@
 				<p class="text-muted"><small>Momentum at the end of the optimization algorithm run (given by max iterations).</small></p>
 			</div>
 		</div>
+
+		<h4>RProp based optimizers</h4>
 		<div class="form-group">
-			@Html.LabelFor(m => m.MinDerivativeMagnitude, htmlAttributes: new { @class = "control-label col-md-3" })
+			@Html.LabelFor(m => m.RpropInitStep, htmlAttributes: new { @class = "control-label col-md-3" })
 			<div class="col-md-3">
-				@Html.EditorFor(m => m.MinDerivativeMagnitude, new { htmlAttributes = new { @class = "form-control" } })
-				@Html.ValidationMessageFor(m => m.MinDerivativeMagnitude, "", new { @class = "text-danger" })
-				<p class="text-muted"><small>Minimum derivative magnitude before terminating the optimization batch.</small></p>
+				@Html.EditorFor(m => m.RpropInitStep, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.RpropInitStep, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Initial step of RProp algorithm (not significant).</small></p>
+			</div>
+			@Html.LabelFor(m => m.RpropMaxStep, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.RpropMaxStep, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.RpropMaxStep, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Maximal step of RProp algorithm.</small></p>
+			</div>
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.RpropStepUpMult, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.RpropStepUpMult, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.RpropStepUpMult, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Step increase multiplier. Has to be greater than 1.</small></p>
+			</div>
+			@Html.LabelFor(m => m.RpropStepDownMult, htmlAttributes: new { @class = "control-label col-md-3" })
+			<div class="col-md-3">
+				@Html.EditorFor(m => m.RpropStepDownMult, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(m => m.RpropStepDownMult, "", new { @class = "text-danger" })
+				<p class="text-muted"><small>Step decrease multiplier. Has to be between 0 and 1.</small></p>
 			</div>
 		</div>
 

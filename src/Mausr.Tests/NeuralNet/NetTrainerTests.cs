@@ -26,15 +26,12 @@ namespace Mausr.Tests.NeuralNet {
 		
 		private void performTrainTest(Net net, Matrix<double> inputs, int[] outputIndices,
 				double learningRate, double regularizationLambda, int maxIters) {
-			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, 1e-4, maxIters);
+			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, maxIters);
 			var trainer = new NetTrainer(net, optimizer, regularizationLambda);
-
-			bool result = trainer.Train(inputs, outputIndices, null, CancellationToken.None);
+			bool converged = trainer.Train(inputs, outputIndices, 1e-4, 1, null, CancellationToken.None);
 
 			var actualOutputIndices = trainer.Predict(inputs);
 			CollectionAssert.AreEqual(outputIndices, actualOutputIndices);
-
-			Assert.IsTrue(result);
 		}
 
 		//private void performTrainTestWithPlots(Net net, Matrix<double> inputs, int[] outputIndices,

@@ -152,7 +152,7 @@ namespace Mausr.Core.Plot {
 							continue;
 						}
 
-						Pen arrowPen = new Pen(tuple.Item1, 1);
+						Pen arrowPen = new Pen(Color.FromArgb(128, tuple.Item1), 1);
 						arrowPen.EndCap = LineCap.ArrowAnchor;
 
 						PointF previousPt = new PointF(
