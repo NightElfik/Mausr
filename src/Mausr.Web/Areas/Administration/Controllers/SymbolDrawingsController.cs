@@ -50,5 +50,33 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 			db.SaveChanges();
 			return RedirectToAction("Index");
 		}
+
+		public virtual ActionResult DoublePosts() {
+			return View(getDoublePosts());
+		}
+
+		public virtual ActionResult ClearDoublePosts() {
+			var doublePosts = getDoublePosts();
+			int deleted = 0;
+			foreach (var dpGroup in doublePosts) {
+				foreach (var drawing in dpGroup.Skip(1)) {
+					db.SymbolDrawings.Remove(drawing);
+					deleted += 1;
+				}
+			}
+
+			int affectedRows = db.SaveChanges();
+
+			return RedirectToAction(Actions.DoublePosts());
+		}
+
+		private List<List<SymbolDrawing>> getDoublePosts() {
+			return db.SymbolDrawings
+				.GroupBy(d => d.RawData)
+				.Where(g => g.Count() > 1)
+				.Select(g => g.ToList())
+				.ToList();
+		}
+
 	}
 }

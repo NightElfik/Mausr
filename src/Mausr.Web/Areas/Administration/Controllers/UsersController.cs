@@ -26,7 +26,7 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 			});
 		}
 
-		public virtual ActionResult Details(string id) {
+		public virtual ActionResult Details(string id, int? page = null) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
@@ -39,6 +39,11 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 			return View(new UserViewModel() {
 				User = applicationUser,
 				RoleNamesLookup = db.Roles.ToDictionary(r => r.Id, r => r.Name),
+				Drawings = db.Users
+					.Where(u => u.Id == id)
+					.SelectMany(u => u.SymbolDrawings)
+					.OrderBy(d => d.CreatedDateTime)
+					.ToPagination(page, 50, p => Url.Action(Actions.Details(id, p)))
 			});
 		}
 

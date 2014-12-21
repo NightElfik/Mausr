@@ -20,10 +20,6 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 			return View(db.Symbols.ToList());
 		}
 
-		public virtual ActionResult Collisions() {
-			return View(db.Symbols.GroupBy(s => s.SymbolStr).Where(g => g.Count() > 1).ToList());
-		}
-
 		public virtual ActionResult Details(int? id) {
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,6 +87,13 @@ namespace Mausr.Web.Areas.Administration.Controllers {
 			db.Symbols.Remove(symbol);
 			db.SaveChanges();
 			return RedirectToAction("Index");
+		}
+		
+		public virtual ActionResult Collisions() {
+			return View(db.Symbols
+				.GroupBy(s => s.SymbolStr)
+				.Where(g => g.Count() > 1)
+				.ToList());
 		}
 
 	}

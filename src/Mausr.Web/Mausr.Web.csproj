@@ -300,6 +300,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Administration\Models\SymbolDrawingPartialViewModel.cs" />
     <Compile Include="Areas\Administration\Models\UsersViewModel.cs" />
     <Compile Include="Areas\Administration\Models\UserViewModel.cs" />
     <Compile Include="CacheProfileKeys.cs" />
@@ -404,6 +405,8 @@
     <Content Include="Css\bootstrap.css" />
     <Content Include="Css\bootstrap.min.css" />
     <Content Include="Error.html" />
+    <Content Include="Areas\Administration\Views\Shared\Symbol_partial.cshtml" />
+    <Content Include="Areas\Administration\Views\SymbolDrawings\DoublePosts.cshtml" />
     <None Include="Migrations\MigrationsCommands.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -512,7 +515,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Views\Default\" />
-    <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

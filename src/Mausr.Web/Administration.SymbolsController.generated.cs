@@ -95,24 +95,24 @@ namespace Mausr.Web.Areas.Administration.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
-            public readonly string Collisions = "Collisions";
             public readonly string Details = "Details";
             public readonly string Create = "Create";
             public readonly string Edit = "Edit";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
+            public readonly string Collisions = "Collisions";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
-            public const string Collisions = "Collisions";
             public const string Details = "Details";
             public const string Create = "Create";
             public const string Edit = "Edit";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
+            public const string Collisions = "Collisions";
         }
 
 
@@ -200,17 +200,6 @@ namespace Mausr.Web.Areas.Administration.Controllers
         }
 
         [NonAction]
-        partial void CollisionsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
-
-        [NonAction]
-        public override System.Web.Mvc.ActionResult Collisions()
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Collisions);
-            CollisionsOverride(callInfo);
-            return callInfo;
-        }
-
-        [NonAction]
         partial void DetailsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? id);
 
         [NonAction]
@@ -290,6 +279,17 @@ namespace Mausr.Web.Areas.Administration.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             DeleteConfirmedOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void CollisionsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Collisions()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Collisions);
+            CollisionsOverride(callInfo);
             return callInfo;
         }
 

@@ -149,6 +149,7 @@ namespace Mausr.Web.Areas.Administration.Controllers
         public class ActionParamsClass_Details
         {
             public readonly string id = "id";
+            public readonly string page = "page";
         }
         static readonly ActionParamsClass_Edit s_params_Edit = new ActionParamsClass_Edit();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -233,14 +234,15 @@ namespace Mausr.Web.Areas.Administration.Controllers
         }
 
         [NonAction]
-        partial void DetailsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id);
+        partial void DetailsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, string id, int? page);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult Details(string id)
+        public override System.Web.Mvc.ActionResult Details(string id, int? page)
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Details);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            DetailsOverride(callInfo, id);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "page", page);
+            DetailsOverride(callInfo, id, page);
             return callInfo;
         }
 

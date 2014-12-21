@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Mausr.Web.Entities;
 
 namespace Mausr.Web {
 	public static class MyHtml {
@@ -69,6 +70,20 @@ namespace Mausr.Web {
 			}
 
 			return new HtmlString(sb.ToString());
+		}
+
+		public static HtmlString UserNameAsAbbr(ApplicationUser user) {
+			if (user == null) {
+				return null;
+			}
+
+			string fullName = user.UserName;
+			int atPos = fullName.IndexOf('@');
+			if (atPos < 0) {
+				return new HtmlString(fullName);
+			}
+
+			return new HtmlString(string.Format("<abbr title='{0}'>{1}</abbr>", fullName, fullName.Substring(0, atPos)));
 		}
 
 		private static void addMessage(string style, string message, params object[] args) {

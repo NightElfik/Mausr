@@ -4,6 +4,12 @@
 	var user = Model.User;
 	var roles = Model.RoleNamesLookup;
 	ViewBag.Title = "Details of user " + user.UserName;
+	var pagination = Model.Drawings.Html();
+
+	var drawingModel = new SymbolDrawingPartialViewModel() {
+		ImageSise = 128,
+		PenSizePerc = 4,
+	};
 }
 
 <h1>@ViewBag.Title</h1>
@@ -53,3 +59,23 @@
 		<li>@Html.ActionLink(roles[role.RoleId], MVC.Administration.Users.RemoveRole(user.Id, roles[role.RoleId]))</li>
 	}
 </ul>
+
+
+<h3>Drawings</h3>
+
+@pagination
+
+<div class="row">
+	<div class="col-md-12">
+		@foreach (var drawing in Model.Drawings) {
+			drawingModel.SymbolDrawing = drawing;
+			<div class="pull-left small">
+				@{
+					Html.RenderPartial(MVC.Administration.Shared.Views.Symbol_partial, drawingModel);
+				}
+			</div>
+		}
+	</div>
+</div>
+
+@pagination

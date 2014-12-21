@@ -85,6 +85,8 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public readonly string Index = "Index";
             public readonly string Delete = "Delete";
             public readonly string DeleteConfirmed = "Delete";
+            public readonly string DoublePosts = "DoublePosts";
+            public readonly string ClearDoublePosts = "ClearDoublePosts";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -93,6 +95,8 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public const string Index = "Index";
             public const string Delete = "Delete";
             public const string DeleteConfirmed = "Delete";
+            public const string DoublePosts = "DoublePosts";
+            public const string ClearDoublePosts = "ClearDoublePosts";
         }
 
 
@@ -131,9 +135,11 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public class _ViewNamesClass
             {
                 public readonly string Delete = "Delete";
+                public readonly string DoublePosts = "DoublePosts";
                 public readonly string Index = "Index";
             }
             public readonly string Delete = "~/Areas/Administration/Views/SymbolDrawings/Delete.cshtml";
+            public readonly string DoublePosts = "~/Areas/Administration/Views/SymbolDrawings/DoublePosts.cshtml";
             public readonly string Index = "~/Areas/Administration/Views/SymbolDrawings/Index.cshtml";
         }
     }
@@ -176,6 +182,28 @@ namespace Mausr.Web.Areas.Administration.Controllers
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DeleteConfirmed);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
             DeleteConfirmedOverride(callInfo, id);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DoublePostsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DoublePosts()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DoublePosts);
+            DoublePostsOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ClearDoublePostsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ClearDoublePosts()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ClearDoublePosts);
+            ClearDoublePostsOverride(callInfo);
             return callInfo;
         }
 

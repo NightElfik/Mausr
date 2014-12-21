@@ -2,19 +2,25 @@
 
 @{
 	ViewBag.Title = "Symbol drawings";
-	int imageSize = 128;
-	int penSize = 4;
+	var drawingModel = new SymbolDrawingPartialViewModel() {
+		ImageSise = 128,
+		PenSizePerc = 4,
+	};
 	var firstDrawing = Model.Drawings.FirstOrDefault();
 	int activeSymbolId = firstDrawing == null ? -1 : firstDrawing.Symbol.SymbolId;
 }
 
 <h1>@ViewBag.Title</h1>
 
+<ul>
+	<li>@Html.ActionLink("Double posts", MVC.Administration.SymbolDrawings.DoublePosts())</li>
+</ul>
+
 <div class="row">
 	<div class="col-md-12 buttonsList">
 		@foreach (var symbol in Model.Symbols) {
 			@Html.ActionLink(symbol.SymbolStr, MVC.Administration.SymbolDrawings.Index(symbol.SymbolId),
-					new { @class = "btn btn-default btn-sm" + (symbol.SymbolId == activeSymbolId ? " btn-primary" : "") })
+				new { @class = "btn btn-default btn-sm" + (symbol.SymbolId == activeSymbolId ? " btn-primary" : "") })
 		}
 	</div>
 </div>
@@ -22,15 +28,11 @@
 <div class="row">
 	<div class="col-md-12">
 		@foreach (var drawing in Model.Drawings) {
-			<div class="pull-left">
-				<img src="@Url.Action(MVC.SymbolDrawings.Img(drawing.SymbolDrawingId, imageSize, penSize, 0, false, true))"
-					 width="@imageSize" height="@imageSize" />
-				<p class="small">@drawing.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</p>
-				<p class="small">Drawn using @(drawing.DrawnUsingTouch ? "touch" : "mouse")</p>
-				@if (drawing.Creator != null) {
-					<p>By @drawing.Creator.UserName</p>
+			drawingModel.SymbolDrawing = drawing;
+			<div class="pull-left small">
+				@{
+					Html.RenderPartial(MVC.Administration.Shared.Views.Symbol_partial, drawingModel);
 				}
-				@Html.ActionLink("Delete", "Delete", new { id = drawing.SymbolDrawingId })
 			</div>
 		}
 	</div>

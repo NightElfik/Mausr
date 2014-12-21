@@ -36,7 +36,9 @@ namespace T4MVC.Administration
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string Symbol_partial = "Symbol_partial";
             }
+            public readonly string Symbol_partial = "~/Areas/Administration/Views/Shared/Symbol_partial.cshtml";
         }
     }
 

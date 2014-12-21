@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="form-group col-sm-6">
-				<input type="submit" value="Save drawing" class="btn btn-primary btn-lg btn-block" />
+				<input type="submit" value="Save drawing" class="btn btn-primary btn-lg btn-block" data-doublepost="prevent" />
 				<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear canvas</a>
 				<a class="btn btn-default btn-lg btn-block" id="replayBtn" href="#" role="button">Replay</a>
 				@(Html.ActionLink("Skip this symbol", MVC.Teach.Batch().AddRouteValues(new BatchInitViewModel() {
@@ -33,7 +33,8 @@
 				@if (Model.SavedDrawing != null) {
 					<div class="alert alert-success" style="margin-top: 6px;">
 						<a href="#" class="close" data-dismiss="alert">&times;</a>
-						<strong>Success!</strong> Drawing of '@Model.SavedDrawing.Symbol.SymbolStr' was successfully saved under ID @Model.SavedDrawing.SymbolDrawingId.
+						<strong>Success!</strong> Drawing of '@Model.SavedDrawing.Symbol.SymbolStr'
+							was successfully saved under ID @Model.SavedDrawing.SymbolDrawingId.
 					</div>
 				}
 			</div>
