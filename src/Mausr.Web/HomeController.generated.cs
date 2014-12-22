@@ -82,6 +82,7 @@ namespace Mausr.Web.Controllers
             public readonly string Contact = "Contact";
             public readonly string TestMail = "TestMail";
             public readonly string TrainDetails = "TrainDetails";
+            public readonly string TestSetImage = "TestSetImage";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -93,6 +94,7 @@ namespace Mausr.Web.Controllers
             public const string Contact = "Contact";
             public const string TestMail = "TestMail";
             public const string TrainDetails = "TrainDetails";
+            public const string TestSetImage = "TestSetImage";
         }
 
 
@@ -215,6 +217,17 @@ namespace Mausr.Web.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TrainDetails);
             TrainDetailsOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void TestSetImageOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult TestSetImage()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.TestSetImage);
+            TestSetImageOverride(callInfo);
             return callInfo;
         }
 

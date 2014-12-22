@@ -94,10 +94,39 @@
 
 <h3>Train data</h3>
 
+<p>
+	<i>Train set</i> contain images that are used to directly train the neural network.
+	Images in the <i>Test set</i> are used for evaluation only; the neural network was not trained for them,
+		thus, they measure how well the network generalizes.
+</p>
+
 <div class="row">
 	<div class="col-md-6"><div id="chartCost"></div></div>
 	<div class="col-md-6"><div id="chartPredict"></div></div>
 </div>
+
+<h3>Test set</h3>
+
+<p>
+	Following image shows the test set which is randomly selected as @settings.TestDataSetSizePerc% of input data images.
+</p>
+
+<img src="@Url.Action(MVC.Home.TestSetImage())" class="img-responsive img-thumbnail" />
+
+<h4>Legend</h4>
+<dl class="dl-horizontal">
+	<dt>White</dt>
+	<dd>Correctly predicted.</dd>
+
+	<dt>Orange</dt>
+	<dd>Not correctly predicted but the correct answer was 2nd or 3rd.</dd>
+
+	<dt>Red</dt>
+	<dd>Not correctly predicted.</dd>
+
+	<dt>Number in the corner</dt>
+	<dd>Confidence (output value of the neuron).</dd>
+</dl>
 
 @section scripts {
 	<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>

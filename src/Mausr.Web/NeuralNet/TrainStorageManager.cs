@@ -144,6 +144,15 @@ namespace Mausr.Web.NeuralNet {
 		public Bitmap LoadTestResultsImg(string netId) {
 			return loadImg(netId, TEST_RESULT_IMAGE_NAME);
 		}
+
+		public Stream OpenTestResultsImg(string netId) {
+			string baseDir = getSafeBaseDirPath(netId);
+			if (baseDir == null) {
+				return null;
+			}
+
+			return new FileStream(Path.Combine(baseDir, TEST_RESULT_IMAGE_NAME), FileMode.Open, FileAccess.Read);
+		}
 		
 
 

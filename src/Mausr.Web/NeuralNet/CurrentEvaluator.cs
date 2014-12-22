@@ -10,6 +10,7 @@ namespace Mausr.Web.NeuralNet {
 	public class CurrentEvaluator {
 
 		private readonly TrainStorageManager trainStorageManager;
+		public TrainStorageManager TrainStorageManager { get { return trainStorageManager; } }
 
 
 		public string NetId { get; private set; }

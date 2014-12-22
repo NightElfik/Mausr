@@ -328,6 +328,7 @@
     </Compile>
     <Compile Include="Entities\Drawing.cs" />
     <Compile Include="Entities\MausrDb.cs" />
+    <Compile Include="ExtsAndHelpers%27\MimeType.cs" />
     <Compile Include="ExtsAndHelpers%27\MyHtml.cs" />
     <Compile Include="ExtsAndHelpers%27\MyUrl.cs" />
     <Compile Include="ExtsAndHelpers%27\ObjectExts.cs" />

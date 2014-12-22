@@ -163,6 +163,12 @@ namespace Mausr.Web.Controllers {
 
 			return View(model);
 		}
-
+				
+		[Route("Home/TestSetImage.png")]
+		[OutputCache(CacheProfile = CacheProfileKeys.LongClientCache)]
+		public virtual ActionResult TestSetImage() {
+			var stream = evaluator.TrainStorageManager.OpenTestResultsImg(evaluator.NetId);
+			return new FileStreamResult(stream, MimeType.Image.Png);
+		}
 	}
 }
