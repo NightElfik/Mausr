@@ -9,6 +9,7 @@ function MausrPainter(options) {
 	self.$spinner = options.spinnerId ? $('#' + options.spinnerId) : undefined;
 	self.$duration = options.durationId ? $('#' + options.durationId) : undefined;
 	self.predictTimeout = undefined;
+	self.$warmup = options.durationId ? $('#' + options.warmupId) : undefined;
 
 	self.$mainCanvas = $('#' + options.canvasId);
 	self.$jsonText = options.jsonTextId ? $('#' + options.jsonTextId) : undefined;
@@ -109,6 +110,10 @@ function MausrPainter(options) {
 			self.replay(self.$replayCanvas[0], self.allLines);
 			return false;
 		});
+	}
+
+	if (self.$warmup) {
+		self.predictWarmup();
 	}
 };
 
@@ -390,6 +395,24 @@ MausrPainter.prototype.predict = function () {
 		}
 	});
 };
+
+MausrPainter.prototype.predictWarmup = function () {
+	self = this;
+
+	$.ajax({
+		url: self.predictUrl,
+		method: 'POST',
+		data: {
+			JsonData: '[ ]',
+			DrawnUsingTouch: 'False',
+			Guid: '00000000-0000-0000-0000-000000000000'
+		},
+		success: function (data) {
+			self.$warmup.text(Math.round(data.Duration) + " ms");
+		}
+	});
+
+}
 
 MausrPainter.prototype.showResult = function (result) {
 	var self = this;

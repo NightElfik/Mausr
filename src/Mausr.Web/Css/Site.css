@@ -80,3 +80,8 @@ textarea {
 footer a {
 	color: #333;
 }
+
+.warmup {
+	text-align: center;
+	font-size: 0.5em;
+}

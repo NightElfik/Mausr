@@ -45,8 +45,8 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 
-			var sw = new Stopwatch();
-			sw.Start();
+			var sw = Stopwatch.StartNew();
+
 			RawDrawing rawDrawing;
 			try {
 				var lines = JsonConvert.DeserializeObject<RawPoint[][]>(model.JsonData);
@@ -57,39 +57,45 @@ namespace Mausr.Web.Controllers {
 			}
 
 			var predictions = evaluator.PredictTopN(rawDrawing, 8, 0.05);
+
+			// TODO: Optimize this query/step.
 			var rawResults = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
 				Symbol = s,
 				Rating = (float)p.NeuronOutputValue,
 			}).ToList();
 
-			var minTime = DateTime.UtcNow.AddSeconds(-GUID_CHECK_WINDOW_SECONDS);
+			// Warm-up queries with no lines should interact with the DB above but not proceed any further.
+			if (rawDrawing.LinesCount > 0) {
+				var minTime = DateTime.UtcNow.AddSeconds(-GUID_CHECK_WINDOW_SECONDS);
 
-			var drawing = db.Drawings
-				.Where(d => d.ClientGuid == model.Guid && DateTime.Compare(d.DrawnDateTime, minTime) > 0)
-				.FirstOrDefault();
+				var drawing = db.Drawings
+					.Where(d => d.ClientGuid == model.Guid && DateTime.Compare(d.DrawnDateTime, minTime) > 0)
+					.FirstOrDefault();
 
-			if (drawing == null) {
-				drawing = new Drawing();
-				drawing.DrawnDateTime = DateTime.UtcNow;
-				drawing.ClientGuid = model.Guid;
-				db.Drawings.Add(drawing);
-			}
+				if (drawing == null) {
+					drawing = new Drawing();
+					drawing.DrawnDateTime = DateTime.UtcNow;
+					drawing.ClientGuid = model.Guid;
+					db.Drawings.Add(drawing);
+				}
 #if DEBUG
-			else {
-				// Delete potentially cached image - this does not happen ofthen but it is annoying when it does happen.
-				new DrawingsController(db, DependencyResolver.Current.GetService<AppSettingsProvider>())
-					.ClearCachedImage(drawing.DrawingId);
-			}
+				else {
+					// Delete potentially cached image - this does not happen ofthen but it is annoying when it does happen.
+					new DrawingsController(db, DependencyResolver.Current.GetService<AppSettingsProvider>())
+						.ClearCachedImage(drawing.DrawingId);
+				}
 #endif
 
-			var firstResult = rawResults.FirstOrDefault();
+				var firstResult = rawResults.FirstOrDefault();
 
-			drawing.TopSymbol = firstResult == null ? null : firstResult.Symbol;
-			drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Rating;
-			drawing.DrawnUsingTouch = model.DrawnUsingTouch;
-			drawing.SetRawDrawing(rawDrawing);
+				drawing.TopSymbol = firstResult == null ? null : firstResult.Symbol;
+				drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Rating;
+				drawing.DrawnUsingTouch = model.DrawnUsingTouch;
+				drawing.SetRawDrawing(rawDrawing);
 
-			db.SaveChanges();
+				db.SaveChanges();
+			}
+
 			sw.Stop();
 
 			return Json(new {

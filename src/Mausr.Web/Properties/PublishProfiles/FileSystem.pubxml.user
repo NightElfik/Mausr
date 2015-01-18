@@ -103,10 +103,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2014 21:30:56</publishTime>
     </File>
     <File Include="bin/Mausr.Core.dll">
-      <publishTime>12/20/2014 21:01:28</publishTime>
+      <publishTime>01/15/2015 01:59:17</publishTime>
     </File>
     <File Include="bin/Mausr.Web.dll">
-      <publishTime>12/23/2014 23:02:48</publishTime>
+      <publishTime>01/18/2015 00:42:07</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
@@ -205,7 +205,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 01:46:11</publishTime>
     </File>
     <File Include="Css/Site.css">
-      <publishTime>12/20/2014 23:28:06</publishTime>
+      <publishTime>01/18/2015 00:40:55</publishTime>
     </File>
     <File Include="Error.html">
       <publishTime>12/11/2014 02:21:21</publishTime>
@@ -289,7 +289,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2014 22:36:05</publishTime>
     </File>
     <File Include="Scripts/Mausr.painter.js">
-      <publishTime>12/20/2014 23:16:24</publishTime>
+      <publishTime>01/18/2015 00:40:22</publishTime>
     </File>
     <File Include="Scripts/Mausr.trainCharts.js">
       <publishTime>12/21/2014 00:07:10</publishTime>

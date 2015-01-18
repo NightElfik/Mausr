@@ -12,6 +12,7 @@
 		</div>
 		<br />
 		<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear</a>
+		<div class="warmup">Warmup: <span id="warmupStatus"></span></div>
 	</div>
 	<div class="col-lg-9 col-md-8 col-sm-7 col-xs-6">
 		<i id="spinner" class="fa fa-cog fa-spin fa-5x" style="display: none;"></i>
@@ -34,7 +35,8 @@
 				autoPredictDelay: 800,
 				predictResultsId: 'results',
 				spinnerId: 'spinner',
-				durationId: 'duration'
+				durationId: 'duration',
+				warmupId: 'warmupStatus'
 			});
 		});
 	</script>

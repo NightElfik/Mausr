@@ -12,7 +12,13 @@ namespace Mausr.Web.Infrastructure {
 				ThreadContext.Properties["Url"] = context.Request.Url.AbsoluteUri;
 				ThreadContext.Properties["HttpReferer"] = context.Request.ServerVariables["HTTP_REFERER"];
 			}
-			LogManager.GetLogger(typeof(T)).InfoFormat(message, args);
+
+			try {
+				LogManager.GetLogger(typeof(T)).InfoFormat(message, args);
+			}
+			catch {				
+				// TODO: Log me maybe.
+			}
 		}
 
 	}
