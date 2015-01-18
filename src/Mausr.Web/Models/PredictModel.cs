@@ -12,6 +12,9 @@ namespace Mausr.Web.Models {
 
 		[Required]
 		public bool DrawnUsingTouch { get; set; }
+		
+		[Required]
+		public bool IsFollowupDraw { get; set; }
 
 	}
 }

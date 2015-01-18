@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
+using System.Data.Entity;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -17,6 +19,8 @@ namespace Mausr.Web {
 
 		protected void Application_Start() {
 
+			Database.SetInitializer(new MigrateDatabaseToLatestVersion<MausrDb, Mausr.Web.Migrations.Configuration>());
+
 			var resolver = buildDependencyResolver();
 			DependencyResolver.SetResolver(resolver);
 
@@ -27,7 +31,7 @@ namespace Mausr.Web {
 
 			var asp = resolver.GetService<AppSettingsProvider>();
 			checkFileSystem(asp);
-			
+
 			Logger.LogInfo<MvcApplication>("App started.");
 		}
 		

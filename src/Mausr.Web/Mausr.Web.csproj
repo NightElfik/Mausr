@@ -348,6 +348,10 @@
     <Compile Include="Migrations\201412110847250_InitialCreate.Designer.cs">
       <DependentUpon>201412110847250_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201501180601487_Update1.cs" />
+    <Compile Include="Migrations\201501180601487_Update1.Designer.cs">
+      <DependentUpon>201501180601487_Update1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\DoneViewModel.cs" />
     <Compile Include="Models\SymbolDrawingsViewModel.cs" />
@@ -462,6 +466,7 @@
     <Content Include="Scripts\_references.js" />
     <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Scripts\Mausr.js" />
+    <Content Include="Startup.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -543,6 +548,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201412110847250_InitialCreate.resx">
       <DependentUpon>201412110847250_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201501180601487_Update1.resx">
+      <DependentUpon>201501180601487_Update1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -78,6 +78,7 @@ namespace Mausr.Web.Controllers
         {
             public readonly string Index = "Index";
             public readonly string About = "About";
+            public readonly string Warmup = "Warmup";
             public readonly string Predict = "Predict";
             public readonly string Contact = "Contact";
             public readonly string TestMail = "TestMail";
@@ -90,6 +91,7 @@ namespace Mausr.Web.Controllers
         {
             public const string Index = "Index";
             public const string About = "About";
+            public const string Warmup = "Warmup";
             public const string Predict = "Predict";
             public const string Contact = "Contact";
             public const string TestMail = "TestMail";
@@ -160,6 +162,17 @@ namespace Mausr.Web.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.About);
             AboutOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void WarmupOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult Warmup()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Warmup);
+            WarmupOverride(callInfo);
             return callInfo;
         }
 

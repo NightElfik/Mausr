@@ -11,6 +11,7 @@ namespace Mausr.Web.Entities {
 		public int DrawingId { get; set; }
 
 		[Required]
+		[Index]
 		public Guid ClientGuid { get; set; }
 
 		public virtual Symbol TopSymbol { get; set; }

@@ -10,9 +10,17 @@ namespace Mausr.Web.Migrations {
 	internal sealed class Configuration : DbMigrationsConfiguration<MausrDb> {
 		public Configuration() {
 			AutomaticMigrationsEnabled = true;
+			AutomaticMigrationDataLossAllowed = false;
 		}
 
 		protected override void Seed(MausrDb db) {
+
+			// Turn on case-sensitive (binary) comparison.
+			// Default locale is case insensitive and treats symbols Σ, ς, and σ as identical.
+			db.Database.ExecuteSqlCommand(
+				@"ALTER TABLE Symbols ALTER COLUMN SymbolStr NVARCHAR(2) COLLATE SQL_Latin1_General_CP850_BIN NOT NULL");
+
+#if DEBUG && false
 
 			if (!db.Roles.Any(r => r.Name == RolesHelper.Admin)) {
 				var store = new RoleStore<IdentityRole>(db);
@@ -73,11 +81,6 @@ namespace Mausr.Web.Migrations {
 				manager.Create(user, "DontShareP1ease");
 				manager.AddToRole(user.Id, RolesHelper.Teacher);
 			}
-
-			// Turn on case-sensitive (binary) comparison.
-			// Default locale is case insensitive and treats symbols Σ, ς, and σ as identical.
-			db.Database.ExecuteSqlCommand(
-				@"ALTER TABLE Symbols ALTER COLUMN SymbolStr NVARCHAR(2) COLLATE SQL_Latin1_General_CP850_BIN NOT NULL");
 			
 			db.Symbols.AddOrUpdate(
 				s => s.SymbolStr,
@@ -228,6 +231,7 @@ namespace Mausr.Web.Migrations {
 				new Symbol { SymbolStr = "❅", Name = "Tight Trifoliate Snowflake" },
 				new Symbol { SymbolStr = "❆", Name = "Heavy Chevron Snowflake" }
 			);
+#endif
 		}
 	}
 }

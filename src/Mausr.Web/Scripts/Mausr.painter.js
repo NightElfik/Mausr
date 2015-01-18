@@ -9,7 +9,6 @@ function MausrPainter(options) {
 	self.$spinner = options.spinnerId ? $('#' + options.spinnerId) : undefined;
 	self.$duration = options.durationId ? $('#' + options.durationId) : undefined;
 	self.predictTimeout = undefined;
-	self.$warmup = options.durationId ? $('#' + options.warmupId) : undefined;
 
 	self.$mainCanvas = $('#' + options.canvasId);
 	self.$jsonText = options.jsonTextId ? $('#' + options.jsonTextId) : undefined;
@@ -27,6 +26,7 @@ function MausrPainter(options) {
 	self.drawnUsingTouch = false;
 	self.guid = self.generateGuid();
 	self.drawing = false;
+	self.isFollowupDraw = false;
 
 	self.replayTimeout = undefined;
 
@@ -87,6 +87,7 @@ function MausrPainter(options) {
 		self.stopReplay();
 		self.drawing = false;
 		self.drawnUsingTouch = false;
+		self.isFollowupDraw = false;
 		self.guid = self.generateGuid();
 		if (self.$drawnUsingTouchInput) {
 			self.$drawnUsingTouchInput.val('False');
@@ -110,10 +111,6 @@ function MausrPainter(options) {
 			self.replay(self.$replayCanvas[0], self.allLines);
 			return false;
 		});
-	}
-
-	if (self.$warmup) {
-		self.predictWarmup();
 	}
 };
 
@@ -373,7 +370,8 @@ MausrPainter.prototype.predict = function () {
 		data: {
 			JsonData: linesData,
 			DrawnUsingTouch: self.drawnUsingTouch ? 'True' : 'False',
-			Guid: self.guid
+			Guid: self.guid,
+			IsFollowupDraw: self.isFollowupDraw ? 'True' : 'False',
 		},
 		success: function (data) {
 			self.$spinner.hide();
@@ -394,25 +392,8 @@ MausrPainter.prototype.predict = function () {
 			self.$spinner.hide();
 		}
 	});
+	self.isFollowupDraw = true;
 };
-
-MausrPainter.prototype.predictWarmup = function () {
-	self = this;
-
-	$.ajax({
-		url: self.predictUrl,
-		method: 'POST',
-		data: {
-			JsonData: '[ ]',
-			DrawnUsingTouch: 'False',
-			Guid: '00000000-0000-0000-0000-000000000000'
-		},
-		success: function (data) {
-			self.$warmup.text(Math.round(data.Duration) + " ms");
-		}
-	});
-
-}
 
 MausrPainter.prototype.showResult = function (result) {
 	var self = this;

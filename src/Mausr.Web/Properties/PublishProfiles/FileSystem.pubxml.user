@@ -106,7 +106,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2015 01:59:17</publishTime>
     </File>
     <File Include="bin/Mausr.Web.dll">
-      <publishTime>01/18/2015 00:42:07</publishTime>
+      <publishTime>01/18/2015 02:55:37</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
@@ -205,7 +205,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/09/2014 01:46:11</publishTime>
     </File>
     <File Include="Css/Site.css">
-      <publishTime>01/18/2015 00:40:55</publishTime>
+      <publishTime>01/18/2015 02:08:23</publishTime>
     </File>
     <File Include="Error.html">
       <publishTime>12/11/2014 02:21:21</publishTime>
@@ -289,7 +289,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/20/2014 22:36:05</publishTime>
     </File>
     <File Include="Scripts/Mausr.painter.js">
-      <publishTime>01/18/2015 00:40:22</publishTime>
+      <publishTime>01/18/2015 02:08:17</publishTime>
     </File>
     <File Include="Scripts/Mausr.trainCharts.js">
       <publishTime>12/21/2014 00:07:10</publishTime>
@@ -314,6 +314,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>12/20/2014 23:48:22</publishTime>
+    </File>
+    <File Include="Startup.html">
+      <publishTime>01/18/2015 02:55:04</publishTime>
     </File>
     <File Include="T4MVC.tt.hooks.t4">
       <publishTime>11/17/2014 16:01:20</publishTime>
@@ -442,7 +445,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/07/2014 00:19:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/20/2014 23:08:25</publishTime>
+      <publishTime>01/18/2015 02:55:38</publishTime>
     </File>
   </ItemGroup>
 </Project>

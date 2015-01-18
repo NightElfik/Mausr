@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Mausr.Core;
+using Mausr.Core.NeuralNet;
 using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
@@ -39,6 +41,14 @@ namespace Mausr.Web.Controllers {
 			return View();
 		}
 
+		public virtual ActionResult Warmup() {			
+			Logger.LogInfo<HomeController>("Warming-up.");
+			
+			db.Symbols.Where(s => s.SymbolId == 42).FirstOrDefault();
+
+			return Content("OK");
+		}
+
 		[HttpPost]
 		public virtual ActionResult Predict(PredictModel model) {
 			if (!ModelState.IsValid) {
@@ -56,56 +66,71 @@ namespace Mausr.Web.Controllers {
 				return HttpNotFound();
 			}
 
-			var predictions = evaluator.PredictTopN(rawDrawing, 8, 0.05);
-
-			// TODO: Optimize this query/step.
-			var rawResults = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
-				Symbol = s,
-				Rating = (float)p.NeuronOutputValue,
-			}).ToList();
-
-			// Warm-up queries with no lines should interact with the DB above but not proceed any further.
-			if (rawDrawing.LinesCount > 0) {
-				var minTime = DateTime.UtcNow.AddSeconds(-GUID_CHECK_WINDOW_SECONDS);
-
-				var drawing = db.Drawings
-					.Where(d => d.ClientGuid == model.Guid && DateTime.Compare(d.DrawnDateTime, minTime) > 0)
-					.FirstOrDefault();
-
-				if (drawing == null) {
-					drawing = new Drawing();
-					drawing.DrawnDateTime = DateTime.UtcNow;
-					drawing.ClientGuid = model.Guid;
-					db.Drawings.Add(drawing);
-				}
-#if DEBUG
-				else {
-					// Delete potentially cached image - this does not happen ofthen but it is annoying when it does happen.
-					new DrawingsController(db, DependencyResolver.Current.GetService<AppSettingsProvider>())
-						.ClearCachedImage(drawing.DrawingId);
-				}
-#endif
-
-				var firstResult = rawResults.FirstOrDefault();
-
-				drawing.TopSymbol = firstResult == null ? null : firstResult.Symbol;
-				drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Rating;
-				drawing.DrawnUsingTouch = model.DrawnUsingTouch;
-				drawing.SetRawDrawing(rawDrawing);
-
-				db.SaveChanges();
+			if (rawDrawing.LinesCount == 0) {
+				return Json(new {
+					Results = new int[0],  // Any empty array will do.
+					Duration = (float)sw.Elapsed.TotalMilliseconds,
+				});
 			}
 
-			sw.Stop();
+			var predictions = evaluator.PredictTopN(rawDrawing, 8, 0.05);
+
+			var rawResults = new List<Tuple<Symbol, double>>();
+
+			// TODO: Optimize this query/step.
+			foreach (Prediction pred in predictions) {
+				Symbol symbol = db.Symbols.Where(s => s.SymbolId == pred.OutputId).FirstOrDefault();
+				if (symbol != null) {
+					rawResults.Add(new Tuple<Symbol, double>(symbol, pred.NeuronOutputValue));
+				}
+			}
+
+			// This selects all symbols from DB and then filters them in C#.
+			//var rawResults = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
+			//	Symbol = s,
+			//	Rating = (float)p.NeuronOutputValue,
+			//}).ToList();
+
+			var minTime = DateTime.UtcNow.AddSeconds(-GUID_CHECK_WINDOW_SECONDS);
+
+			Drawing drawing = null;
+			if (model.IsFollowupDraw) {
+				drawing = db.Drawings
+					.Where(d => d.ClientGuid == model.Guid && DateTime.Compare(d.DrawnDateTime, minTime) > 0)
+					.FirstOrDefault();
+			}
+
+			if (drawing == null) {
+				drawing = new Drawing();
+				drawing.DrawnDateTime = DateTime.UtcNow;
+				drawing.ClientGuid = model.Guid;
+				db.Drawings.Add(drawing);
+			}
+#if DEBUG
+			else {
+				// Delete potentially cached image - this does not happen ofthen but it is annoying when it does happen.
+				new DrawingsController(db, DependencyResolver.Current.GetService<AppSettingsProvider>())
+					.ClearCachedImage(drawing.DrawingId);
+			}
+#endif
+
+			var firstResult = rawResults.FirstOrDefault();
+
+			drawing.TopSymbol = firstResult == null ? null : firstResult.Item1;
+			drawing.TopSymbolScore = firstResult == null ? null : (double?)firstResult.Item2;
+			drawing.DrawnUsingTouch = model.DrawnUsingTouch;
+			drawing.SetRawDrawing(rawDrawing);
+
+			db.SaveChanges();
 
 			return Json(new {
 				Results = rawResults.Select(x => new {
-					SymbolId = x.Symbol.SymbolId,
-					Symbol = x.Symbol.SymbolStr,
-					SymbolName = x.Symbol.Name,
-					Rating = x.Rating,
-					HtmlEntity = x.Symbol.HtmlEntity ?? "",
-					UtfCode = char.ConvertToUtf32(x.Symbol.SymbolStr, 0),
+					SymbolId = x.Item1.SymbolId,
+					Symbol = x.Item1.SymbolStr,
+					SymbolName = x.Item1.Name,
+					Rating = x.Item2,
+					HtmlEntity = x.Item1.HtmlEntity ?? "",
+					UtfCode = char.ConvertToUtf32(x.Item1.SymbolStr, 0),
 				}),
 				Duration = (float)sw.Elapsed.TotalMilliseconds,
 			});
@@ -169,7 +194,7 @@ namespace Mausr.Web.Controllers {
 
 			return View(model);
 		}
-				
+
 		[Route("Home/TestSetImage.png")]
 		[OutputCache(CacheProfile = CacheProfileKeys.LongClientCache)]
 		public virtual ActionResult TestSetImage() {
