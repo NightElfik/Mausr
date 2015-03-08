@@ -23,7 +23,7 @@ namespace Mausr.Tests.NeuralNet {
 			performTrainTest(net, inputs, outputIndices, 1, 0.05, 1024);
 			//performTrainTestWithPlots(net, inputs, outputIndices, 1, 0.05, 1024, 0.05);
 		}
-		
+
 		private void performTrainTest(Net net, Matrix<double> inputs, int[] outputIndices,
 				double learningRate, double regularizationLambda, int maxIters) {
 			var optimizer = new SteepestDescentAdvancedOptmizer(learningRate, 0.6, 0.99, maxIters);
@@ -31,7 +31,7 @@ namespace Mausr.Tests.NeuralNet {
 			bool converged = trainer.Train(inputs, outputIndices, 1e-4, 1, null, CancellationToken.None);
 
 			var actualOutputIndices = trainer.Predict(inputs);
-			CollectionAssert.AreEqual(outputIndices, actualOutputIndices);
+			CollectionAssert.AreEqual(outputIndices, actualOutputIndices.Select(x => x.OutputId).ToArray());
 		}
 
 		//private void performTrainTestWithPlots(Net net, Matrix<double> inputs, int[] outputIndices,

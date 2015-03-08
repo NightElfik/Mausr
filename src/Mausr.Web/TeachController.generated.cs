@@ -171,11 +171,13 @@ namespace Mausr.Web.Controllers
                 public readonly string Batch = "Batch";
                 public readonly string Done = "Done";
                 public readonly string Index = "Index";
+                public readonly string PromoteDrawings = "PromoteDrawings";
             }
             public readonly string ApproveSymbolDrawings = "~/Views/Teach/ApproveSymbolDrawings.cshtml";
             public readonly string Batch = "~/Views/Teach/Batch.cshtml";
             public readonly string Done = "~/Views/Teach/Done.cshtml";
             public readonly string Index = "~/Views/Teach/Index.cshtml";
+            public readonly string PromoteDrawings = "~/Views/Teach/PromoteDrawings.cshtml";
         }
     }
 

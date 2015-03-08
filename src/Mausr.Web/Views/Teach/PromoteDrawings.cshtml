@@ -40,7 +40,7 @@ else {
 							 width="@imageSize" height="@imageSize" />
 						<p>
 							@(drawing.TopSymbol != null ? drawing.TopSymbol.SymbolStr : "")
-							(@(drawing.TopSymbolScore != null ? Math.Round(drawing.TopSymbolScore.Value * 100, 1).ToString(ic) : "")%)
+							(@(drawing.TopSymbolScore != null ? Math.Round(drawing.TopSymbolScore.Value * 100, 1).ToString() : "")%)
 						</p>
 
 						<div class="radio has-success">
