@@ -3,7 +3,7 @@ using Mausr.Core.NeuralNet;
 using Mausr.Web.Entities;
 
 namespace Mausr.Web.Models {
-	public class ApproveSymbolDrawingsModel {
+	public class ApproveSymbolDrawingsViewModel {
 
 		public IList<SymbolDrawing> UnapprovedSymbolDrawings { get; set; }
 		public IList<SymbolPredicion> Predictions { get; set; }

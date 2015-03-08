@@ -1,12 +1,12 @@
-﻿@model ApproveSymbolDrawingsModel
+﻿@model PromoteDrawingsViewModel
 @{
-	ViewBag.Title = "Approve dymbol drawings";
-
-	var drawings = Model.UnapprovedSymbolDrawings;
+	ViewBag.Title = "Promote drawings";
+	
+	var drawings = Model.Drawings;
 	var predicts = Model.Predictions;
 
 	System.Diagnostics.Debug.Assert(drawings.Count == predicts.Count);
-	
+
 	int imageSize = 128;
 	int penSize = 4;
 }
@@ -20,6 +20,7 @@
 	<p class="alert alert-danger">Failed to save @Model.SkippedRows entries</p>
 }
 
+
 @if (drawings.Count == 0) {
 	<p>Nothing to approve.</p>
 }
@@ -31,23 +32,26 @@ else {
 				@for (int i = 0; i < drawings.Count; ++i) {
 					var drawing = drawings[i];
 					var prediction = predicts[i];
-					var predictedCorrectly = prediction.Symbol.SymbolId == drawing.Symbol.SymbolId;
-					System.Diagnostics.Debug.Assert(drawing.Approved == null);
+					System.Diagnostics.Debug.Assert(drawing.LowQuality == false);
+					System.Diagnostics.Debug.Assert(drawing.PromotedSymbolDrawing == null);
 				
-					<div class="pull-left">
-						<img src="@Url.Action(MVC.SymbolDrawings.Img(drawing.SymbolDrawingId, imageSize, penSize, 0, false, true))"
+					<div class="pull-left">						
+						<img src="@Url.Action(MVC.Drawings.Img(drawing.DrawingId, imageSize, penSize, false, true))"
 							 width="@imageSize" height="@imageSize" />
-						<p>Symbol: <b>@drawing.Symbol.SymbolStr</b> <br /> (@drawing.Symbol.Name)</p>
-						<p class="label @(predictedCorrectly ? "label-success" : "label-default")">Predicted: @prediction.Symbol.SymbolStr (@Math.Round(prediction.OutValue * 100, 1))</p>
+						<p>
+							@(drawing.TopSymbol != null ? drawing.TopSymbol.SymbolStr : "")
+							(@(drawing.TopSymbolScore != null ? Math.Round(drawing.TopSymbolScore.Value * 100, 1).ToString(ic) : "")%)
+						</p>
+
 						<div class="radio has-success">
 							<label>
-								@Html.RadioButton("approvals[" + drawing.SymbolDrawingId + "]", "True", predictedCorrectly)
+								@Html.RadioButton("promotions[" + drawing.DrawingId + "]", "True")
 								Approve
 							</label>
 						</div>
 						<div class="radio has-error">
 							<label>
-								@Html.RadioButton("approvals[" + drawing.SymbolDrawingId + "]", "True")
+								@Html.RadioButton("promotions[" + drawing.DrawingId + "]", "True")
 								Reject
 							</label>
 						</div>
@@ -59,4 +63,3 @@ else {
 		<input type="submit" value="Submit" class="btn btn-primary" />
 	}
 }
-

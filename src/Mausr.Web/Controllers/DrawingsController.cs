@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
+﻿using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Mausr.Core;
 using Mausr.Web.Entities;
@@ -11,7 +8,7 @@ using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
 
 namespace Mausr.Web.Controllers {
-	[Authorize(Roles = RolesHelper.Trainer)]
+	[Authorize(Roles = RolesHelper.Teacher)]
 	public partial class DrawingsController : Controller {
 
 		const int pageSize = 20;

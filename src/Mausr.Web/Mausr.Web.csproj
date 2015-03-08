@@ -357,9 +357,10 @@
     <Compile Include="Migrations\201503070514274_ApprovedDrawings.Designer.cs">
       <DependentUpon>201503070514274_ApprovedDrawings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\ApproveSymbolDrawingsModel.cs" />
+    <Compile Include="Models\ApproveSymbolDrawingsViewModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\DoneViewModel.cs" />
+    <Compile Include="Models\PromoteDrawingsViewModel.cs" />
     <Compile Include="Models\SymbolDrawingsViewModel.cs" />
     <Compile Include="Models\SymbolPredicion.cs" />
     <Compile Include="NeuralNet\TrainData.cs" />
@@ -544,6 +545,7 @@
     <Content Include="Views\Train\DeleteNet.cshtml" />
     <Content Include="Views\Home\TrainDetails.cshtml" />
     <Content Include="Views\Teach\ApproveSymbolDrawings.cshtml" />
+    <Content Include="Views\Teach\PromoteDrawings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Administration\Views\Default\" />

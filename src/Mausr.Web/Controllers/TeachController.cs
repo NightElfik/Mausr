@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Web.Mvc;
-using System.Data.Entity;
 using Mausr.Core;
+using Mausr.Core.NeuralNet;
 using Mausr.Web.Entities;
 using Mausr.Web.Infrastructure;
 using Mausr.Web.Models;
+using Mausr.Web.NeuralNet;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json;
-using Mausr.Web.NeuralNet;
-using Mausr.Core.NeuralNet;
-using System.Collections.Generic;
 
 namespace Mausr.Web.Controllers {
 	public partial class TeachController : Controller {
@@ -185,7 +185,7 @@ namespace Mausr.Web.Controllers {
 			var symbolPredictions = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new SymbolPredicion(s, p.NeuronOutputValue))
 				.ToList();
 
-			return View(new ApproveSymbolDrawingsModel() {
+			return View(new ApproveSymbolDrawingsViewModel() {
 				UnapprovedSymbolDrawings = unapproved,
 				Predictions = symbolPredictions,
 				SavedRows = savedRows ?? 0,
@@ -230,6 +230,35 @@ namespace Mausr.Web.Controllers {
 			db.SaveChangesNotValidated();
 			return RedirectToAction(Actions.ApproveSymbolDrawings(savedRows, skippedRows));
 		}
+
+		// TODO
+		//[HttpGet]
+		//[Authorize(Roles = RolesHelper.Teacher)]
+		//public virtual ActionResult PromoteDrawings(int? savedRows = null, int? skippedRows = null) {
+		//	var drawings = db.Drawings
+		//		.Where(d => d.PromotedSymbolDrawing == null && d.LowQuality == false)
+		//		.OrderByDescending(d => d.DrawingId)
+		//		.Take(20)
+		//		.ToList();
+						
+		//	Prediction[] predictions = evaluator.Predict(drawings.Select(x => x.GetRawDrawing()));
+		//	var symbolPredictions = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new SymbolPredicion(s, p.NeuronOutputValue))
+		//		.ToList();
+
+		//	return View(new PromoteDrawingsViewModel() {
+		//		Drawings = drawings,
+		//		Predictions = symbolPredictions,
+		//		SavedRows = savedRows ?? 0,
+		//		SkippedRows = skippedRows ?? 0,
+		//	});
+		//}
+
+		//[HttpPost]
+		//[Authorize(Roles = RolesHelper.Teacher)]
+		//[ActionName("PromoteDrawings")]
+		//public virtual ActionResult PromoteDrawings(IDictionary<string, string> promotions) {
+
+		//}
 
 	}
 }
