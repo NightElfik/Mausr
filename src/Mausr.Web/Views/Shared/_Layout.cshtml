@@ -72,6 +72,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Teacher <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li>@Html.ActionLink("Teach symbols", MVC.Teach.Index())</li>
+								<li>@Html.ActionLink("Approve symbols", MVC.Teach.ApproveSymbolDrawings())</li>
 							</ul>
 						</li>
 					</ul>
@@ -105,7 +106,10 @@
 				<ul class="list-unstyled">
 					<li>@Html.ActionLink("Symbols list", MVC.Symbols.Index())</li>
 					<li>@Html.ActionLink("Symbol drawings", MVC.SymbolDrawings.Index())</li>
-					<li>@Html.ActionLink("Train details", MVC.SymbolDrawings.Index())</li>
+					<li>@Html.ActionLink("Train details", MVC.Home.TrainDetails())</li>
+				</ul>
+				<ul class="list-unstyled">
+					<li>@Html.ActionLink("Teach symbols", MVC.Teach.Index())</li>
 				</ul>
 			</div>
 			<div class="col-md-3">

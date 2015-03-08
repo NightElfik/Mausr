@@ -10,9 +10,7 @@ namespace Mausr.Web.Models {
 		[Required]
 		public bool DrawnUsingTouch { get; set; }
 
-
-		public int SymbolsCount { get; set; }
-
+		
 		public Symbol Symbol { get; set; }
 
 

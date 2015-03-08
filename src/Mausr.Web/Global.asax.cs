@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Data.Entity;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -41,7 +40,7 @@ namespace Mausr.Web {
 
 
 		private IDependencyResolver buildDependencyResolver() {
-
+			
 			var builder = new ContainerBuilder();
 
 			// Register all MVC controllers.

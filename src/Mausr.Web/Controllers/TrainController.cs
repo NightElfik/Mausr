@@ -181,7 +181,7 @@ namespace Mausr.Web.Controllers {
 			}
 
 			string defaultNetName = trainStorageManager.LoadDefaultNetName();
-			if (id == defaultNetName) {				
+			if (id == defaultNetName) {
 				return HttpNotFound();
 			}
 
@@ -190,7 +190,7 @@ namespace Mausr.Web.Controllers {
 			return RedirectToAction(Actions.Index());
 		}
 
-		
+
 		private bool isJobRunning(string id) {
 			return JobManager.Instance.GetJob(id) != null;
 		}
@@ -216,8 +216,8 @@ namespace Mausr.Web.Controllers {
 
 		private void initModel(TrainViewModel model) {
 			model.OutputSize = db.Symbols.Count();
-			model.TrainingSamples = db.SymbolDrawings.Count();
-			model.ExampleDrawings = db.SymbolDrawings.Take(16).ToList();
+			model.TrainingSamples = db.SymbolDrawings.Where(x => x.Approved == true).Count();
+			model.ExampleDrawings = db.SymbolDrawings.Where(x => x.Approved == true).OrderByDescending(x => x.SymbolDrawingId).Take(16).ToList();
 		}
 
 		public static int[] parseInts(string str) {

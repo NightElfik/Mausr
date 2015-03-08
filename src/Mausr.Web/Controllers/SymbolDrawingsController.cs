@@ -28,8 +28,8 @@ namespace Mausr.Web.Controllers {
 				Drawings = id == null
 					? new List<SymbolDrawing>()
 					: db.SymbolDrawings
-						.Where(d => d.Symbol.SymbolId == id.Value)
-						.OrderBy(sd => sd.CreatedDateTime)
+						.Where(d => d.Approved == true && d.Symbol.SymbolId == id.Value)
+						.OrderByDescending(sd => sd.CreatedDateTime)
 						.Take(8 * 3)
 						.ToList()
 			});

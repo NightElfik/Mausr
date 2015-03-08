@@ -1,7 +1,7 @@
 ﻿@model SymbolDrawingsViewModel
 
 @{
-	ViewBag.Title = "Symbol drawings";
+	ViewBag.Title = "Symbol drawings admin";
 	var drawingModel = new SymbolDrawingPartialViewModel() {
 		ImageSise = 128,
 		PenSizePerc = 4,
@@ -14,6 +14,7 @@
 
 <ul>
 	<li>@Html.ActionLink("Double posts", MVC.Administration.SymbolDrawings.DoublePosts())</li>
+	<li>@Html.ActionLink("Approval problems", MVC.Administration.SymbolDrawings.ApprovalProblems())</li>
 </ul>
 
 <div class="row">

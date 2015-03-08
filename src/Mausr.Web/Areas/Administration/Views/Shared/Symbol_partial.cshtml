@@ -8,7 +8,7 @@
 <img src="@Url.Action(MVC.SymbolDrawings.Img(drawing.SymbolDrawingId, imageSize, Model.PenSizePerc, 0, false, true))"
 	 width="@imageSize" height="@imageSize" />
 <ul class="list-unstyled">
-	<li><b>@drawing.Symbol.SymbolStr</b></li>
+	<li><b>@drawing.Symbol.SymbolStr</b> (Approved: @(Model.SymbolDrawing.Approved == null ? "?" : (Model.SymbolDrawing.Approved.Value ? "✓" : "✗")))</li>
 	<li>@drawing.CreatedDateTime.ToString(System.Globalization.CultureInfo.InvariantCulture)</li>
 	<li>Drawn using @(drawing.DrawnUsingTouch ? "touch" : "mouse")</li>
 	<li>By @(drawing.Creator != null ? MyHtml.UserNameAsAbbr(drawing.Creator) : new HtmlString("unknown"))</li>

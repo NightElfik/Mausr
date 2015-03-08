@@ -23,8 +23,8 @@
 
 			<div class="form-group col-sm-6">
 				<input type="submit" value="Save drawing" class="btn btn-primary btn-lg btn-block" data-doublepost="prevent" />
-				<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear canvas</a>
-				<a class="btn btn-default btn-lg btn-block" id="replayBtn" href="#" role="button">Replay</a>
+				<a class="btn btn-default btn-lg btn-block" id="clearBtn" href="#" role="button">Clear the canvas</a>
+				<a class="btn btn-default btn-lg btn-block" id="replayBtn" href="#" role="button">Replay the drawing</a>
 				@(Html.ActionLink("Skip this symbol", MVC.Teach.Batch().AddRouteValues(new BatchInitViewModel() {
 					BatchNumber = Model.BatchNumber,
 					SymbolNumber = Model.SymbolNumber + 1,

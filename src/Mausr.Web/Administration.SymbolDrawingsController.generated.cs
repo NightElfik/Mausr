@@ -87,6 +87,8 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public readonly string DeleteConfirmed = "Delete";
             public readonly string DoublePosts = "DoublePosts";
             public readonly string ClearDoublePosts = "ClearDoublePosts";
+            public readonly string ApprovalProblems = "ApprovalProblems";
+            public readonly string FixApprovalProblems = "FixApprovalProblems";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -97,6 +99,8 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public const string DeleteConfirmed = "Delete";
             public const string DoublePosts = "DoublePosts";
             public const string ClearDoublePosts = "ClearDoublePosts";
+            public const string ApprovalProblems = "ApprovalProblems";
+            public const string FixApprovalProblems = "FixApprovalProblems";
         }
 
 
@@ -134,10 +138,12 @@ namespace Mausr.Web.Areas.Administration.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string ApprovalProblems = "ApprovalProblems";
                 public readonly string Delete = "Delete";
                 public readonly string DoublePosts = "DoublePosts";
                 public readonly string Index = "Index";
             }
+            public readonly string ApprovalProblems = "~/Areas/Administration/Views/SymbolDrawings/ApprovalProblems.cshtml";
             public readonly string Delete = "~/Areas/Administration/Views/SymbolDrawings/Delete.cshtml";
             public readonly string DoublePosts = "~/Areas/Administration/Views/SymbolDrawings/DoublePosts.cshtml";
             public readonly string Index = "~/Areas/Administration/Views/SymbolDrawings/Index.cshtml";
@@ -204,6 +210,28 @@ namespace Mausr.Web.Areas.Administration.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ClearDoublePosts);
             ClearDoublePostsOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ApprovalProblemsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ApprovalProblems()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ApprovalProblems);
+            ApprovalProblemsOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void FixApprovalProblemsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult FixApprovalProblems()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.FixApprovalProblems);
+            FixApprovalProblemsOverride(callInfo);
             return callInfo;
         }
 

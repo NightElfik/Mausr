@@ -10,6 +10,10 @@ namespace Mausr.Web.Models {
 		[Range(0, int.MaxValue, ErrorMessage = "Symbol number is not valid.")]
 		public int SymbolNumber { get; set; }
 
+		[Required]
+		[Range(0, int.MaxValue, ErrorMessage = "Symbols count is not valid.")]
+		public int SymbolsCount { get; set; }
+
 
 		public int? SavedDrawingId { get; set; }
 

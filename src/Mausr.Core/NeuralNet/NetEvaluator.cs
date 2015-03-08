@@ -32,15 +32,18 @@ namespace Mausr.Core.NeuralNet {
 			return result;
 		}
 
-		public int[] PredictFromEvaluated(Matrix<double> outpus) {
-			return outpus.EnumerateRows().Select(row => Net.MapOutNeuronToOutput(row.MaximumIndex())).ToArray();
+		public Prediction[] PredictFromEvaluated(Matrix<double> outpus) {
+			return outpus.EnumerateRows().Select(row => {
+				int maxIndex = row.MaximumIndex();
+				return new Prediction(Net.MapOutNeuronToOutput(row.MaximumIndex()), (float)row[maxIndex]);
+			}).ToArray();
 		}
 
-		public int[] Predict(Matrix<double> inputs) {
+		public Prediction[] Predict(Matrix<double> inputs) {
 			return PredictFromEvaluated(Evaluate(inputs));
 		}
 
-		public int[] Predict(Matrix<double> inputs, Matrix<double>[] customCoefs) {
+		public Prediction[] Predict(Matrix<double> inputs, Matrix<double>[] customCoefs) {
 			return PredictFromEvaluated(Evaluate(inputs, customCoefs));
 		}
 
@@ -60,7 +63,7 @@ namespace Mausr.Core.NeuralNet {
 
 				outValsAndIndices.Add(new Prediction() {
 					OutputId = Net.MapOutNeuronToOutput(i),
-					NeuronOutputValue = activation
+					NeuronOutputValue = (float)activation
 				});
 			}
 

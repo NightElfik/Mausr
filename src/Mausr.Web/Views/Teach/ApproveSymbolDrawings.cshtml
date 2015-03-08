@@ -1,0 +1,68 @@
+﻿@model ApproveSymbolDrawingsModel
+@{
+	ViewBag.Title = "Approve dymbol drawings";
+
+	var drawings = Model.UnapprovedSymbolDrawings;
+	var predicts = Model.Predictions;
+
+	System.Diagnostics.Debug.Assert(drawings.Count == predicts.Count);
+	
+	int imageSize = 128;
+	int penSize = 4;
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (Model.SavedRows > 0) {
+	<p class="alert alert-success">Successfully saved @Model.SavedRows entries</p>
+}
+@if (Model.SkippedRows > 0) {
+	<p class="alert alert-danger">Failed to save @Model.SkippedRows entries</p>
+}
+
+@if (drawings.Count == 0) {
+	<p>Nothing to approve.</p>
+}
+else { 
+	using (Html.BeginForm(MVC.Teach.ApproveSymbolDrawingsPost())) {
+
+		<div class="row">
+			<div class="col-md-12">
+				@for (int i = 0; i < drawings.Count; ++i) {
+					var drawing = drawings[i];
+					var prediction = predicts[i];
+					var predictedCorrectly = prediction.Symbol.SymbolId == drawing.Symbol.SymbolId;
+					System.Diagnostics.Debug.Assert(drawing.Approved == null);
+				
+					<div class="pull-left">
+						<img src="@Url.Action(MVC.SymbolDrawings.Img(drawing.SymbolDrawingId, imageSize, penSize, 0, false, true))"
+							 width="@imageSize" height="@imageSize" />
+						<p>Symbol: <b>@drawing.Symbol.SymbolStr</b> <br /> (@drawing.Symbol.Name)</p>
+						<p class="label @(predictedCorrectly ? "label-success" : "label-default")">Predicted: @prediction.Symbol.SymbolStr (@Math.Round(prediction.OutValue * 100, 1))</p>
+						<div class="radio has-success">
+							<label>
+								@Html.RadioButton("approvals[" + drawing.SymbolDrawingId + "]", "True", predictedCorrectly)
+								Approve
+							</label>
+						</div>
+						<div class="radio has-error">
+							<label>
+								@Html.RadioButton("approvals[" + drawing.SymbolDrawingId + "]", "True", "reject")
+								Reject
+							</label>
+						</div>
+						@*<div class="radio">
+							<label>
+								@Html.RadioButton("approvals[" + drawing.SymbolDrawingId + "].Value", "null", !predictedCorrectly)
+								Nothing
+							</label>
+						</div>*@
+					</div>
+				}
+			</div>
+		</div>
+
+		<input type="submit" value="Submit" class="btn btn-primary" />
+	}
+}
+

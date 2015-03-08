@@ -1,21 +1,29 @@
 ﻿@model TeachInitViewModel
 
 @{
-	ViewBag.Title = "Teaching introduction";
+	ViewBag.Title = "Symbols teaching";
 }
 
 <h1>@ViewBag.Title</h1>
+<p>
+	Mausr uses neural network to do the symbols recognition.
+	The neural network needs to be teched the symbols in order to do the recognition well.
+	The more symbols it teaches teach the better the recognition can be.
+	If you have some spare time and would like to help to teach the neural network some symbols feel free to do so below.
+	Thank you.
+</p>
 
-<h3>Instructions</h3>
+<h2>Instructions</h2>
 <ol>
 	<li>
-		Draw symbols as you would draw them when you want to search for them.
-		Filled shapes does not need to be filled (just outline is fine).
-		Complicated shapes (like snow flakes) can be simplified.
+		Try to draw symbols as you would draw them when you want to search for them.
+		For example, filled shapes does not need to be filled, just outline is fine.
+		Complicated shapes like snow flakes can be simplified.
 	</li>
 	<li>
-		Draw symbols with your hand writing (which is not necesiraly the same as they appear on the screen).
-		Use skip button if you are not sure how to draw a symbol (such as some greek letter).
+		Draw the shown symbols with your personal hand writing.
+		For example you draw Greek letters little differently than they are shown.
+		You can use skip button if you are not sure how to draw a symbol.
 	</li>
 	<li>
 		Drawings does not have to be perfect but please do not submit particuraly ugly drawings.
@@ -26,16 +34,40 @@
 	</li>
 </ol>
 
-<h3>Stats</h3>
-<dl class="dl-horizontal">
-	<dt>Total symbols count</dt>
-	<dd>@Model.Symbols.Count</dd>
+@* Train options are submitted by post to avoid indexing of infinite amounts of random batches. *@
+<h2>Training options</h2>
+<div class="row" style="text-align: center;">
+	<div class="col-md-4">
+		@using (Html.BeginForm(MVC.Teach.StartTeaching())) {
+			@Html.Hidden("count", 10);
+			<div class="thumbnail" style="padding: 0.5em 0.5em 2em 0.5em;">
+				<h3>10 random symbols</h3>
+				<p>Est time: less than a minute</p>
+				<input type="submit" value="Start a batch of 10" class="btn btn-success" />
+			</div>
+		}
+	</div>
+	<div class="col-md-4">
+		@using (Html.BeginForm(MVC.Teach.StartTeaching())) {
+			@Html.Hidden("count", 50);
+			<div class="thumbnail" style="padding: 0.5em 0.5em 2em 0.5em;">
+				<h3>50 random symbols</h3>
+				<p>Est time: three to four minutes</p>
+				<input type="submit" value="Start a batch of 50" class="btn btn-success" />
+			</div>
+		}
+	</div>
+	<div class="col-md-4">
+		@using (Html.BeginForm(MVC.Teach.StartTeaching())) {
+			@Html.Hidden("count", Model.Symbols.Count);
+			<div class="thumbnail" style="padding: 0.5em 0.5em 2em 0.5em;">
+				<h3>All @Model.Symbols.Count symbols</h3>
+				<p>Est time: around @Math.Round(Model.Symbols.Count * 4 / 60.0, 1) minutes</p>
+				<input type="submit" value="Start a batch of @Model.Symbols.Count" class="btn btn-success" />
+			</div>
+		}
+	</div>
+</div>
 
-	<dt>Symbols</dt>
-	<dd>@string.Join(", ", Model.Symbols.Select(x => x.SymbolStr))</dd>
-
-	<dt>Est. completition time</dt>
-	<dd>@Math.Round(Model.Symbols.Count * 3 / 60.0, 1) minutes (three seconds per sybmol)</dd>
-</dl>
-
-@Html.ActionLink("Start teaching all", MVC.Teach.StartTeachingAll(), new { @class = "btn btn-primary" })
+<h2>Available symbols</h2>
+<p>@string.Join(", ", Model.Symbols.Select(x => x.SymbolStr))</p>

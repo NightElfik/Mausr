@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mausr.Core;
 using Mausr.Core.NeuralNet;
@@ -71,6 +72,24 @@ namespace Mausr.Web.NeuralNet {
 			var img = rasterizer.Rasterize(normDrawing, TrainSettings.InputImgSizePx, TrainSettings.PenThicknessPerc / 100f, true, false);
 			var input = inputConvertor.ImageToVector(img);
 			return Evaluator.PredictTopN(input, predictionsCount, minActivation);
+		}
+
+		public Prediction[] Predict(IEnumerable<RawDrawing> drawings) {
+			if (Evaluator == null) {
+				return null;
+			}
+
+			if (drawings.FirstOrDefault() == null) {
+				return new Prediction[0];
+			}
+
+			rasterizer.ImageSize = TrainSettings.InputImgSizePx;
+			rasterizer.PenSizePerc = TrainSettings.PenThicknessPerc / 100f;
+			rasterizer.ExtraMargin = true;
+			rasterizer.DrawPoints = false;
+
+			var input = inputConvertor.CreateInputsMatrix(drawings, rasterizer, true);
+			return Evaluator.Predict(input);
 		}
 
 	}

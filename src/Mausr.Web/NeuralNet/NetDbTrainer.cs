@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -58,7 +59,7 @@ namespace Mausr.Web.NeuralNet {
 			using (var db = MausrDb.Create()) {
 				sendMessage("Initializing learning environment.");
 				trainData = new TrainData();
-
+				
 				int inputSize = trainSettings.InputImgSizePx * trainSettings.InputImgSizePx;
 				int outputSize = db.Symbols.Count();
 
@@ -136,7 +137,7 @@ namespace Mausr.Web.NeuralNet {
 
 		private void prepareInOut(MausrDb db) {
 			var ic = new NetInputConvertor();
-			var dbInputs = db.SymbolDrawings.ToList();
+			var dbInputs = db.SymbolDrawings.Where(x => x.Approved == true).ToList();
 
 			var baseInputsAndDrawings = dbInputs
 				.Select(sd => new { SymbolId = sd.Symbol.SymbolId, RawDrawing = sd.GetRawDrawing() })
@@ -178,7 +179,7 @@ namespace Mausr.Web.NeuralNet {
 				var testSet = inputsAndDrawings.Take(testSamplesCount).ToList();
 				var testDrawings = testSet.Select(x => x.RawDrawing).ToList();
 
-				testInputs = ic.CreateInputsMatrix(testDrawings, rasterizer);
+				testInputs = ic.CreateInputsMatrix(testDrawings, rasterizer, false);
 				testOutIds = testSet.Select(x => x.SymbolId).ToArray();
 				testOutNeuronIndices = ic.CreateOutIndicesFromIds(testOutIds, network);
 			}
@@ -186,7 +187,7 @@ namespace Mausr.Web.NeuralNet {
 				var trainSet = inputsAndDrawings.Skip(testSamplesCount).ToList();
 				var trainDrawings = trainSet.Select(x => x.RawDrawing).ToList();
 
-				trainInputs = ic.CreateInputsMatrix(trainDrawings, rasterizer);
+				trainInputs = ic.CreateInputsMatrix(trainDrawings, rasterizer, false);
 				trainOutIds = trainSet.Select(x => x.SymbolId).ToArray();
 				trainOutNeuronIndices = ic.CreateOutIndicesFromIds(trainOutIds, network);
 			}
@@ -264,12 +265,12 @@ namespace Mausr.Web.NeuralNet {
 			trainData.TestCosts.Add((float)testCost);
 
 			var trainPredictions = netEvaluator.Predict(trainInputs, unpackedCoefs);
-			int correctTrainPredicts = trainPredictions.Zip(trainOutIds, (actual, expected) => actual == expected ? 1 : 0).Sum();
+			int correctTrainPredicts = trainPredictions.Zip(trainOutIds, (actual, expected) => actual.OutputId == expected ? 1 : 0).Sum();
 			float trainPredict = (float)correctTrainPredicts / trainOutIds.Length;
 			trainData.TrainPredicts.Add(trainPredict);
 
 			var testPredictions = netEvaluator.Predict(testInputs, unpackedCoefs);
-			int correctTestPredicts = testPredictions.Zip(testOutIds, (actual, expected) => actual == expected ? 1 : 0).Sum();
+			int correctTestPredicts = testPredictions.Zip(testOutIds, (actual, expected) => actual.OutputId == expected ? 1 : 0).Sum();
 			float testPredict = (float)correctTestPredicts / testOutIds.Length;
 			trainData.TestPredicts.Add(testPredict);
 

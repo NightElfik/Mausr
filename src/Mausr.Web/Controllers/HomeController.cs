@@ -41,12 +41,25 @@ namespace Mausr.Web.Controllers {
 			return View();
 		}
 
-		public virtual ActionResult Warmup() {			
+		public virtual ActionResult Warmup() {
 			Logger.LogInfo<HomeController>("Warming-up.");
-			
-			db.Symbols.Where(s => s.SymbolId == 42).FirstOrDefault();
 
-			return Content("OK");
+			// Run the prediction to warm up DB.
+			var symbol = db.Symbols.OrderByDescending(s => s.SymbolId).FirstOrDefault();
+			var drawing = db.Drawings.OrderByDescending(d => d.DrawingId).FirstOrDefault();
+
+			var rawDrawing = db.SymbolDrawings.OrderByDescending(d => d.SymbolDrawingId).FirstOrDefault();
+			List<Tuple<Symbol, float>> rawResults = new List<Tuple<Symbol, float>>();
+			if (rawDrawing != null) {
+				rawResults = predict(rawDrawing.GetRawDrawing());
+			}
+
+			// "Use" all selected stuff just to be extra sure that all the queries were performed.
+			return Content("OK: "
+				+ (symbol != null ? symbol.SymbolId.ToString() : "")
+				+ (drawing != null ? drawing.ClientGuid.ToString() : "")
+				+ (rawResults.Count > 0 ? rawResults[0].Item1.SymbolStr : "")
+			);
 		}
 
 		[HttpPost]
@@ -68,28 +81,12 @@ namespace Mausr.Web.Controllers {
 
 			if (rawDrawing.LinesCount == 0) {
 				return Json(new {
-					Results = new int[0],  // Any empty array will do.
+					Results = new int[0],  // Any empty array will do (C# meets JS :).
 					Duration = (float)sw.Elapsed.TotalMilliseconds,
 				});
 			}
 
-			var predictions = evaluator.PredictTopN(rawDrawing, 8, 0.05);
-
-			var rawResults = new List<Tuple<Symbol, double>>();
-
-			// TODO: Optimize this query/step.
-			foreach (Prediction pred in predictions) {
-				Symbol symbol = db.Symbols.Where(s => s.SymbolId == pred.OutputId).FirstOrDefault();
-				if (symbol != null) {
-					rawResults.Add(new Tuple<Symbol, double>(symbol, pred.NeuronOutputValue));
-				}
-			}
-
-			// This selects all symbols from DB and then filters them in C#.
-			//var rawResults = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
-			//	Symbol = s,
-			//	Rating = (float)p.NeuronOutputValue,
-			//}).ToList();
+			List<Tuple<Symbol, float>> rawResults = predict(rawDrawing);
 
 			var minTime = DateTime.UtcNow.AddSeconds(-GUID_CHECK_WINDOW_SECONDS);
 
@@ -113,7 +110,6 @@ namespace Mausr.Web.Controllers {
 					.ClearCachedImage(drawing.DrawingId);
 			}
 #endif
-
 			var firstResult = rawResults.FirstOrDefault();
 
 			drawing.TopSymbol = firstResult == null ? null : firstResult.Item1;
@@ -134,6 +130,27 @@ namespace Mausr.Web.Controllers {
 				}),
 				Duration = (float)sw.Elapsed.TotalMilliseconds,
 			});
+		}
+
+		private List<Tuple<Symbol, float>> predict(RawDrawing rawDrawing) {
+			var predictions = evaluator.PredictTopN(rawDrawing, 8, 0.05);
+			var rawResults = new List<Tuple<Symbol, float>>();
+
+			// TODO: Optimize this query/step, maybe?
+			foreach (Prediction pred in predictions) {
+				Symbol symbol = db.Symbols.Where(s => s.SymbolId == pred.OutputId).FirstOrDefault();
+				if (symbol != null) {
+					rawResults.Add(new Tuple<Symbol, float>(symbol, pred.NeuronOutputValue));
+				}
+			}
+
+			// This selects all symbols from DB and then filters them in C# anyways.
+			//var rawResults = predictions.Join(db.Symbols, p => p.OutputId, s => s.SymbolId, (p, s) => new {
+			//	Symbol = s,
+			//	Rating = p.NeuronOutputValue,
+			//}).ToList();
+
+			return rawResults;
 		}
 
 		[HttpGet]

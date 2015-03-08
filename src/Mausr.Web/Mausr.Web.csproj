@@ -327,6 +327,7 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\Drawing.cs" />
+    <Compile Include="Entities\FormattedDbEntityValidationException.cs" />
     <Compile Include="Entities\MausrDb.cs" />
     <Compile Include="ExtsAndHelpers%27\MimeType.cs" />
     <Compile Include="ExtsAndHelpers%27\MyHtml.cs" />
@@ -352,9 +353,15 @@
     <Compile Include="Migrations\201501180601487_Update1.Designer.cs">
       <DependentUpon>201501180601487_Update1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503070514274_ApprovedDrawings.cs" />
+    <Compile Include="Migrations\201503070514274_ApprovedDrawings.Designer.cs">
+      <DependentUpon>201503070514274_ApprovedDrawings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ApproveSymbolDrawingsModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\DoneViewModel.cs" />
     <Compile Include="Models\SymbolDrawingsViewModel.cs" />
+    <Compile Include="Models\SymbolPredicion.cs" />
     <Compile Include="NeuralNet\TrainData.cs" />
     <Compile Include="NeuralNet\TrainStorageManager.cs" />
     <Compile Include="ManageController.generated.cs">
@@ -411,6 +418,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="App_Data\Mausr.mdf" />
+    <Content Include="App_Data\Mausr_log.ldf">
+      <DependentUpon>Mausr.mdf</DependentUpon>
+    </Content>
     <Content Include="Css\font-awesome.css" />
     <Content Include="Css\font-awesome.min.css" />
     <Content Include="Css\bootstrap-theme.css" />
@@ -420,6 +431,7 @@
     <Content Include="Error.html" />
     <Content Include="Areas\Administration\Views\Shared\Symbol_partial.cshtml" />
     <Content Include="Areas\Administration\Views\SymbolDrawings\DoublePosts.cshtml" />
+    <Content Include="Areas\Administration\Views\SymbolDrawings\ApprovalProblems.cshtml" />
     <None Include="Migrations\MigrationsCommands.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -527,9 +539,9 @@
     <Content Include="Views\Drawings\Index.cshtml" />
     <Content Include="Views\Train\DeleteNet.cshtml" />
     <Content Include="Views\Home\TrainDetails.cshtml" />
+    <Content Include="Views\Teach\ApproveSymbolDrawings.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Views\Default\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
@@ -551,6 +563,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201501180601487_Update1.resx">
       <DependentUpon>201501180601487_Update1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503070514274_ApprovedDrawings.resx">
+      <DependentUpon>201503070514274_ApprovedDrawings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

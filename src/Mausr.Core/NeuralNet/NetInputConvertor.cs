@@ -10,6 +10,9 @@ using MathNet.Numerics.LinearAlgebra.Double;
 namespace Mausr.Core.NeuralNet {
 	public class NetInputConvertor {
 
+		private RawDataProcessor dataProcessor = new RawDataProcessor();
+
+
 		public void Shuffle<T>(IList<T> stuff) {
 			var rand = new Random();
 			int count = stuff.Count;
@@ -23,13 +26,15 @@ namespace Mausr.Core.NeuralNet {
 		}
 
 
-		public Matrix<double> CreateInputsMatrix(IEnumerable<RawDrawing> rawDrawings, Rasterizer rasterizer) {
+		public Matrix<double> CreateInputsMatrix(IEnumerable<RawDrawing> rawDrawings, Rasterizer rasterizer, bool normalize) {
+			Contract.Requires(rawDrawings.Count() > 0);
 			var inputVectors = new List<Vector<double>>();
 
 			using (var img = new Bitmap(rasterizer.ImageSize, rasterizer.ImageSize, PixelFormat.Format24bppRgb)) {
 				int cols = img.Width * img.Height;
 				foreach (var drawing in rawDrawings) {
-					rasterizer.Rasterize(img, drawing);
+					RawDrawing rd = normalize ? dataProcessor.Normalize(drawing) : drawing;
+					rasterizer.Rasterize(img, rd);
 					inputVectors.Add(ImageToVector(img));
 				}
 			}

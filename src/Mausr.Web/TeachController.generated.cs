@@ -56,6 +56,12 @@ namespace Mausr.Web.Controllers
 
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult StartTeaching()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StartTeaching);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public virtual System.Web.Mvc.ActionResult Batch()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Batch);
@@ -65,6 +71,12 @@ namespace Mausr.Web.Controllers
         public virtual System.Web.Mvc.ActionResult BatchPost()
         {
             return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.BatchPost);
+        }
+        [NonAction]
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public virtual System.Web.Mvc.ActionResult ApproveSymbolDrawingsPost()
+        {
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ApproveSymbolDrawingsPost);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -83,23 +95,35 @@ namespace Mausr.Web.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
-            public readonly string StartTeachingAll = "StartTeachingAll";
+            public readonly string StartTeaching = "StartTeaching";
             public readonly string Batch = "Batch";
             public readonly string BatchPost = "Batch";
             public readonly string Done = "Done";
+            public readonly string ApproveSymbolDrawings = "ApproveSymbolDrawings";
+            public readonly string ApproveSymbolDrawingsPost = "ApproveSymbolDrawings";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
-            public const string StartTeachingAll = "StartTeachingAll";
+            public const string StartTeaching = "StartTeaching";
             public const string Batch = "Batch";
             public const string BatchPost = "Batch";
             public const string Done = "Done";
+            public const string ApproveSymbolDrawings = "ApproveSymbolDrawings";
+            public const string ApproveSymbolDrawingsPost = "ApproveSymbolDrawings";
         }
 
 
+        static readonly ActionParamsClass_StartTeaching s_params_StartTeaching = new ActionParamsClass_StartTeaching();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_StartTeaching StartTeachingParams { get { return s_params_StartTeaching; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_StartTeaching
+        {
+            public readonly string count = "count";
+        }
         static readonly ActionParamsClass_Batch s_params_Batch = new ActionParamsClass_Batch();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ActionParamsClass_Batch BatchParams { get { return s_params_Batch; } }
@@ -116,6 +140,23 @@ namespace Mausr.Web.Controllers
         {
             public readonly string model = "model";
         }
+        static readonly ActionParamsClass_ApproveSymbolDrawings s_params_ApproveSymbolDrawings = new ActionParamsClass_ApproveSymbolDrawings();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ApproveSymbolDrawings ApproveSymbolDrawingsParams { get { return s_params_ApproveSymbolDrawings; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ApproveSymbolDrawings
+        {
+            public readonly string savedRows = "savedRows";
+            public readonly string skippedRows = "skippedRows";
+        }
+        static readonly ActionParamsClass_ApproveSymbolDrawingsPost s_params_ApproveSymbolDrawingsPost = new ActionParamsClass_ApproveSymbolDrawingsPost();
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public ActionParamsClass_ApproveSymbolDrawingsPost ApproveSymbolDrawingsPostParams { get { return s_params_ApproveSymbolDrawingsPost; } }
+        [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
+        public class ActionParamsClass_ApproveSymbolDrawingsPost
+        {
+            public readonly string approvals = "approvals";
+        }
         static readonly ViewsClass s_views = new ViewsClass();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public ViewsClass Views { get { return s_views; } }
@@ -126,10 +167,12 @@ namespace Mausr.Web.Controllers
             public _ViewNamesClass ViewNames { get { return s_ViewNames; } }
             public class _ViewNamesClass
             {
+                public readonly string ApproveSymbolDrawings = "ApproveSymbolDrawings";
                 public readonly string Batch = "Batch";
                 public readonly string Done = "Done";
                 public readonly string Index = "Index";
             }
+            public readonly string ApproveSymbolDrawings = "~/Views/Teach/ApproveSymbolDrawings.cshtml";
             public readonly string Batch = "~/Views/Teach/Batch.cshtml";
             public readonly string Done = "~/Views/Teach/Done.cshtml";
             public readonly string Index = "~/Views/Teach/Index.cshtml";
@@ -153,13 +196,14 @@ namespace Mausr.Web.Controllers
         }
 
         [NonAction]
-        partial void StartTeachingAllOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+        partial void StartTeachingOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int count);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult StartTeachingAll()
+        public override System.Web.Mvc.ActionResult StartTeaching(int count)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StartTeachingAll);
-            StartTeachingAllOverride(callInfo);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.StartTeaching);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "count", count);
+            StartTeachingOverride(callInfo, count);
             return callInfo;
         }
 
@@ -195,6 +239,31 @@ namespace Mausr.Web.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Done);
             DoneOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ApproveSymbolDrawingsOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int? savedRows, int? skippedRows);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ApproveSymbolDrawings(int? savedRows, int? skippedRows)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ApproveSymbolDrawings);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "savedRows", savedRows);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "skippedRows", skippedRows);
+            ApproveSymbolDrawingsOverride(callInfo, savedRows, skippedRows);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void ApproveSymbolDrawingsPostOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, System.Collections.Generic.IDictionary<string,string> approvals);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult ApproveSymbolDrawingsPost(System.Collections.Generic.IDictionary<string,string> approvals)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.ApproveSymbolDrawingsPost);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "approvals", approvals);
+            ApproveSymbolDrawingsPostOverride(callInfo, approvals);
             return callInfo;
         }
 

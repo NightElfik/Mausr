@@ -1,9 +1,15 @@
 ﻿
 namespace Mausr.Core.NeuralNet {
-	public class Prediction {
+	public struct Prediction {
 
-		public int OutputId { get; set; }
-		public double NeuronOutputValue { get; set; }
+		public int OutputId;
+		public float NeuronOutputValue;
+
+
+		public Prediction(int outId, float neuronOutput) {
+			OutputId = outId;
+			NeuronOutputValue = neuronOutput;
+		}
 
 	}
 }

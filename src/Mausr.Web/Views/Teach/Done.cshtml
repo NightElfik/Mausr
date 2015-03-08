@@ -8,7 +8,7 @@
 
 @if (Model.DrawingsCount > 0) {
 	<p>
-		Thanks for your time and contribution of @Model.DrawingsCount symbol drawings!
+		Thanks for your time and total contribution of @Model.DrawingsCount symbol drawings!
 	</p>
 }
 else {
@@ -18,6 +18,6 @@ else {
 }
 
 
-@Html.ActionLink("Teach more", MVC.Teach.StartTeachingAll(), new { @class = "btn btn-primary" })
+@Html.ActionLink("Teach more", MVC.Teach.Index(), new { @class = "btn btn-primary" })
 
 
