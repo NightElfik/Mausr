@@ -108,6 +108,37 @@ namespace Mausr.Web {
 			}
 			return fullName.Substring(0, atPos);
 		}
+
+		public static HtmlString Link(string link) {
+			var sb = new StringBuilder();
+			Link(sb, link, null, link, null, false);
+			return new HtmlString(sb.ToString());
+		}
+
+		public static HtmlString Link(string text, string title, string link, string htmlClass, bool newWindow) {
+			var sb = new StringBuilder();
+			Link(sb, text, title, link, htmlClass, newWindow);
+			return new HtmlString(sb.ToString());
+		}
+
+		public static void Link(StringBuilder sb, string text, string title, string link, string htmlClass, bool newWindow) {
+			sb.Append("<a href=\"");
+			sb.Append(link);
+			if (title != null) {
+				sb.Append("\" title=\"");
+				sb.Append(title);
+			}
+			if (htmlClass != null) {
+				sb.Append("\" class=\"");
+				sb.Append(htmlClass);
+			}
+			if (newWindow) {
+				sb.Append("\" target=\"_blank");
+			}
+			sb.Append("\">");
+			sb.Append(text);
+			sb.Append("</a>");
+		}
 	}
 	
 
