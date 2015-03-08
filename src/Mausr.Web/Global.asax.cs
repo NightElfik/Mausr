@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
@@ -17,10 +18,12 @@ namespace Mausr.Web {
 	public class MvcApplication : HttpApplication {
 
 		protected void Application_Start() {
+			AppSettingsProvider appSettings = new AppSettingsProvider();						
+			loadPrivateData(appSettings.PrivateDir);
 
 			Database.SetInitializer(new MigrateDatabaseToLatestVersion<MausrDb, Mausr.Web.Migrations.Configuration>());
 
-			var resolver = buildDependencyResolver();
+			var resolver = buildDependencyResolver(appSettings);
 			DependencyResolver.SetResolver(resolver);
 
 			AreaRegistration.RegisterAllAreas();
@@ -28,8 +31,7 @@ namespace Mausr.Web {
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			var asp = resolver.GetService<AppSettingsProvider>();
-			checkFileSystem(asp);
+			checkFileSystem(appSettings);
 
 			Logger.LogInfo<MvcApplication>("App started.");
 		}
@@ -37,9 +39,17 @@ namespace Mausr.Web {
 		protected void Application_End() {
 			Logger.LogInfo<MvcApplication>("App ended.");
 		}
+		
 
+		private void loadPrivateData(string virtPath) {
+			string absPath = Server.MapPath(virtPath);
+			PrivateData.LoadFormDir(absPath);
+			Debug.Assert(!string.IsNullOrWhiteSpace(PrivateData.GoogleAnalyticsKey));
+			Debug.Assert(!string.IsNullOrWhiteSpace(PrivateData.ReCaptchaPrivate));
+			Debug.Assert(!string.IsNullOrWhiteSpace(PrivateData.ReCaptchaPublic));
+		}
 
-		private IDependencyResolver buildDependencyResolver() {
+		private IDependencyResolver buildDependencyResolver(AppSettingsProvider appSettings) {
 			
 			var builder = new ContainerBuilder();
 
@@ -64,7 +74,6 @@ namespace Mausr.Web {
 				//.As<Idb>()
 				.InstancePerRequest();
 
-			var appSettings = new AppSettingsProvider();
 			builder.Register(x => appSettings)
 				.As<AppSettingsProvider>()
 				.SingleInstance();
@@ -78,8 +87,8 @@ namespace Mausr.Web {
 			builder.Register(x => evaluator)
 				.As<CurrentEvaluator>()
 				.SingleInstance();
-
-			var captcha = new ReCaptcha(appSettings.RecaptchaPublic, appSettings.RecaptchaPrivate);
+			
+			var captcha = new ReCaptcha(PrivateData.ReCaptchaPublic, PrivateData.ReCaptchaPrivate);
 			builder.Register(x => captcha)
 				.As<ICaptcha>()
 				.SingleInstance();

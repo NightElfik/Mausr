@@ -9,6 +9,7 @@ namespace Mausr.Web.Infrastructure {
 		public const string SymbolDrawingsCacheDirKey = "SymbolDrawingsCacheDir";
 		public const string DrawingsCacheDirKey = "DrawingsCacheDir";
 		public const string NetTrainDataDirKey = "NetTrainDataDir";
+		public const string PrivateDirKey = "PrivateDir";
 
 		
 		private string p_recaptchaPublic = null;
@@ -89,6 +90,16 @@ namespace Mausr.Web.Infrastructure {
 					p_netTrainDataDirAbsolute = HttpContext.Current.Server.MapPath(NetTrainDataDirVirtual);
 				}
 				return p_netTrainDataDirAbsolute;
+			}
+		}
+		
+		private string p_privateDir = null;
+		public string PrivateDir {
+			get {
+				if (p_privateDir == null) {
+					p_privateDir = ConfigurationManager.AppSettings[PrivateDirKey];
+				}
+				return p_privateDir;
 			}
 		}
 

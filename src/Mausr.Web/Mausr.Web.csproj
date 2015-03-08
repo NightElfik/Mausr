@@ -392,6 +392,7 @@
     <Compile Include="PlotController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
+    <Compile Include="PrivateData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolesHelper.cs" />
     <Compile Include="SharedController.generated.cs">
@@ -456,6 +457,9 @@
     <Content Include="Fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\fontawesome-webfont.eot" />
     <Content Include="Fonts\FontAwesome.otf" />
+    <Content Include="Private\GoogleAnalyticsKey" />
+    <Content Include="Private\ReCaptchaPrivate" />
+    <Content Include="Private\ReCaptchaPublic" />
     <None Include="Properties\PublishProfiles\FileSystem.pubxml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
