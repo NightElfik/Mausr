@@ -1,4 +1,6 @@
 
+*.pdf
+
 # .NET rubbish
 *.suo
 *.vsmdi

@@ -1,9 +1,9 @@
-              Mausr
+Mausr
 =================================
 Marek's Unicode Symbol Recognizer
 ---------------------------------
 Mausr is a neural network library written from scratch and used for recognition of hand written unicode symbols.
-The library is quite general and written with emphasis on datastructures, extensibility, and performacne.
+The library is relatively general and written with emphasis on datastructures, and extensibility (and maybe a little of performacne, too :).
 
 The main reason behind this project was my personal interest in neural networks.
 I decided to create unicode symbol recognizer because I often find myslef googling for an unicode symbol and it takes too much time.
@@ -26,10 +26,10 @@ Main features of neural net library
   * Gradient descent with momentum, and
   * RProp- algorithm.
 * Standard back-propagation learning algorithm.
-  * Efficient vectorized and paralellized implementation.
+  * Efficient, vectorized, and paralellized implementation.
   * Regularization implemented to avoid overfitting.
 * Contains around 25 unit tests that ensure correctness of core components of training and evaluation algorithms.
-  * Also contains visual tests of optimization algorithms to ensure expected behavior.
+  * Also contains simple visual tests of optimization algorithms to ensure expected behavior.
 
 Main features of web interface
 -------------
