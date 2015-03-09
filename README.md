@@ -21,11 +21,12 @@ Main features of neural net library
 * Basic neural network layout with input layer, output layer, and any number of hidden layers.
 * Extensible neuron activation function, stadnard sigmoid function implemented.
 * Extensible net cost function, standard logistic regression cost function implemented.
-* Extensible gradient based optimization algorithms with visual and algorithmical tests, implemented three:
+* Extensible gradient based optimization algorithms with visual and algorithmical tests, implemented four:
   * Basic gradient descent,
   * Gradient descent with momentum, and
-  * RProp- algorithm.
-* Standard back-propagation learning algorithm.
+  * Standard RProp+ algorithm.
+  * Tweaked RProp- algorithm.
+* Back-propagation learning algorithm.
   * Efficient, vectorized, and paralellized implementation.
   * Regularization implemented to avoid overfitting.
 * Contains around 25 unit tests that ensure correctness of core components of training and evaluation algorithms.

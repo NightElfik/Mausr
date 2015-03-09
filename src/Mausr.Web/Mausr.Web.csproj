@@ -604,8 +604,8 @@
   </ProjectExtensions>
   <Target Name="BeforeBuild">
     <ItemGroup>
-      <Content Remove="Views\**\*.cshtml" />
-      <None Include="Views\**\*.cshtml" />
+      <Content Remove="**\Views\**\*.cshtml" />
+      <None Include="**\Views\**\*.cshtml" />
     </ItemGroup>
   </Target>
   <Target Name="AfterBuild">

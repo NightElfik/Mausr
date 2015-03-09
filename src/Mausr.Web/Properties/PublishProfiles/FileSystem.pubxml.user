@@ -13,16 +13,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2014 02:20:25</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Shared/Symbol_partial.cshtml">
-      <publishTime>12/20/2014 21:43:38</publishTime>
+      <publishTime>03/07/2015 23:14:32</publishTime>
+    </File>
+    <File Include="Areas/Administration/Views/SymbolDrawings/ApprovalProblems.cshtml">
+      <publishTime>03/07/2015 23:17:27</publishTime>
     </File>
     <File Include="Areas/Administration/Views/SymbolDrawings/Delete.cshtml">
       <publishTime>12/20/2014 22:55:45</publishTime>
     </File>
     <File Include="Areas/Administration/Views/SymbolDrawings/DoublePosts.cshtml">
-      <publishTime>12/20/2014 22:02:12</publishTime>
+      <publishTime>03/07/2015 22:41:11</publishTime>
     </File>
     <File Include="Areas/Administration/Views/SymbolDrawings/Index.cshtml">
-      <publishTime>12/20/2014 22:55:48</publishTime>
+      <publishTime>03/07/2015 22:45:22</publishTime>
     </File>
     <File Include="Areas/Administration/Views/Symbols/Collisions.cshtml">
       <publishTime>12/20/2014 22:55:12</publishTime>
@@ -103,10 +106,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/22/2014 21:30:56</publishTime>
     </File>
     <File Include="bin/Mausr.Core.dll">
-      <publishTime>01/15/2015 01:59:17</publishTime>
+      <publishTime>03/08/2015 12:42:49</publishTime>
     </File>
     <File Include="bin/Mausr.Web.dll">
-      <publishTime>01/18/2015 02:55:37</publishTime>
+      <publishTime>03/08/2015 22:48:13</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>11/17/2014 15:20:41</publishTime>
@@ -249,6 +252,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="packages.config">
       <publishTime>12/20/2014 22:39:27</publishTime>
     </File>
+    <File Include="Private/GoogleAnalyticsKey">
+      <publishTime>03/07/2015 23:32:32</publishTime>
+    </File>
+    <File Include="Private/ReCaptchaPrivate">
+      <publishTime>03/07/2015 23:33:00</publishTime>
+    </File>
+    <File Include="Private/ReCaptchaPublic">
+      <publishTime>03/07/2015 23:32:43</publishTime>
+    </File>
     <File Include="robots.txt">
       <publishTime>04/23/2012 08:02:26</publishTime>
     </File>
@@ -355,7 +367,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 15:20:37</publishTime>
     </File>
     <File Include="Views/Account/_ChangePasswordPartial.cshtml">
-      <publishTime>11/17/2014 15:20:37</publishTime>
+      <publishTime>12/20/2014 23:01:27</publishTime>
     </File>
     <File Include="Views/Account/_ExternalLoginsListPartial.cshtml">
       <publishTime>11/17/2014 15:20:37</publishTime>
@@ -364,19 +376,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 15:20:37</publishTime>
     </File>
     <File Include="Views/Account/_SetPasswordPartial.cshtml">
-      <publishTime>11/17/2014 15:20:37</publishTime>
+      <publishTime>12/20/2014 23:02:03</publishTime>
     </File>
     <File Include="Views/Drawings/Index.cshtml">
       <publishTime>12/09/2014 23:07:24</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
-      <publishTime>12/11/2014 23:29:53</publishTime>
+      <publishTime>03/08/2015 12:31:31</publishTime>
     </File>
     <File Include="Views/Home/Contact.cshtml">
       <publishTime>12/11/2014 02:04:02</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>12/10/2014 21:39:14</publishTime>
+      <publishTime>01/18/2015 02:08:30</publishTime>
+    </File>
+    <File Include="Views/Home/TrainDetails.cshtml">
+      <publishTime>12/21/2014 21:47:13</publishTime>
     </File>
     <File Include="Views/Manage/ChangePassword.cshtml">
       <publishTime>12/06/2014 23:49:17</publishTime>
@@ -394,7 +409,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/06/2014 22:56:45</publishTime>
     </File>
     <File Include="Views/Plot/Plot.cshtml">
-      <publishTime>12/06/2014 23:39:13</publishTime>
+      <publishTime>12/20/2014 18:37:53</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>11/17/2014 15:20:36</publishTime>
@@ -403,37 +418,43 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 15:20:37</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/11/2014 20:46:37</publishTime>
+      <publishTime>03/08/2015 12:29:33</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
-      <publishTime>12/11/2014 03:18:58</publishTime>
+      <publishTime>12/20/2014 23:26:03</publishTime>
     </File>
     <File Include="Views/SymbolDrawings/Index.cshtml">
-      <publishTime>12/11/2014 02:02:16</publishTime>
+      <publishTime>03/07/2015 22:30:06</publishTime>
     </File>
     <File Include="Views/Symbols/Index.cshtml">
-      <publishTime>12/11/2014 02:01:10</publishTime>
+      <publishTime>12/20/2014 23:18:38</publishTime>
+    </File>
+    <File Include="Views/Teach/ApproveSymbolDrawings.cshtml">
+      <publishTime>03/08/2015 11:42:18</publishTime>
     </File>
     <File Include="Views/Teach/Batch.cshtml">
-      <publishTime>12/09/2014 01:01:07</publishTime>
+      <publishTime>03/07/2015 12:06:53</publishTime>
     </File>
     <File Include="Views/Teach/Done.cshtml">
-      <publishTime>12/11/2014 15:52:36</publishTime>
+      <publishTime>03/07/2015 00:52:29</publishTime>
     </File>
     <File Include="Views/Teach/Index.cshtml">
-      <publishTime>12/11/2014 15:57:22</publishTime>
+      <publishTime>03/07/2015 12:26:09</publishTime>
+    </File>
+    <File Include="Views/Teach/PromoteDrawings.cshtml">
+      <publishTime>03/08/2015 11:41:52</publishTime>
     </File>
     <File Include="Views/Train/DeleteNet.cshtml">
       <publishTime>12/11/2014 20:44:13</publishTime>
     </File>
     <File Include="Views/Train/Details.cshtml">
-      <publishTime>12/11/2014 20:41:48</publishTime>
+      <publishTime>12/21/2014 00:06:24</publishTime>
     </File>
     <File Include="Views/Train/Index.cshtml">
       <publishTime>12/11/2014 20:43:40</publishTime>
     </File>
     <File Include="Views/Train/NetSettings.cshtml">
-      <publishTime>12/12/2014 01:43:18</publishTime>
+      <publishTime>12/20/2014 20:46:15</publishTime>
     </File>
     <File Include="Views/Train/TrainNewNet.cshtml">
       <publishTime>12/05/2014 00:49:08</publishTime>
@@ -445,7 +466,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/07/2014 00:19:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/18/2015 02:55:38</publishTime>
+      <publishTime>03/08/2015 12:42:56</publishTime>
     </File>
   </ItemGroup>
 </Project>
