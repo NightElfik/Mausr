@@ -24,8 +24,8 @@ Main features of neural net library
 * Extensible gradient based optimization algorithms with visual and algorithmical tests, implemented four:
   * Basic gradient descent,
   * Gradient descent with momentum, and
-  * Standard RProp+ algorithm.
-  * Tweaked RProp- algorithm.
+  * RProp+ algorithm.
+  * iRProp- algorithm.
 * Back-propagation learning algorithm.
   * Efficient, vectorized, and paralellized implementation.
   * Regularization implemented to avoid overfitting.
