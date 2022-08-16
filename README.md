@@ -3,7 +3,7 @@ Mausr
 Marek's Unicode Symbol Recognizer
 ---------------------------------
 Mausr is a neural network library written from scratch and used for recognition of hand written unicode symbols.
-The library is relatively general and written with emphasis on datastructures, and extensibility (and maybe a little of performacne, too :).
+The library is relatively general and written with emphasis on datastructures, and extensibility (and maybe a little of performance, too :).
 
 The main reason behind this project was my personal interest in neural networks.
 I decided to create unicode symbol recognizer because I often find myslef googling for an unicode symbol and it takes too much time.
